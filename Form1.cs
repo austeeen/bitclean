@@ -41,9 +41,10 @@ namespace bitmapproto
         {
             if (bmp == null) return;
 
-            Color floor = Color.FromArgb(255, 0, 255);
-            Color floorchange = Color.FromArgb(255, 255, 255);
+			// Color floor = Color.FromArgb(255, 0, 255);
+			// Color floorchange = Color.FromArgb(255, 255, 255);
 
+			/*
             int low       = coltoi(Color.FromArgb(0, 0, 255));
             int lowmed    = coltoi(Color.FromArgb(0, 255, 255));
             int med       = coltoi(Color.FromArgb(0, 255, 0));
@@ -67,13 +68,14 @@ namespace bitmapproto
                     
                     //Console.WriteLine(coltoi(bmp.GetPixel(x, y)));
                     //csv.WriteLine(x + "," + coltoi(bmp.GetPixel(x, y)));
-
                 }
             }
 
             //csv.Close();
+			*/
+			imageops img = new imageops(bmp);
 
-            pictureBox1.Image = bmp;
+			pictureBox1.Image = img.parseImage(bmp);
         }
 
         private void save_click(object sender, EventArgs e)
@@ -94,22 +96,6 @@ namespace bitmapproto
                 bmp.Save(saveFD.FileName);
             else
                 MessageBox.Show("File was not saved.", "File Not Saved", 0);
-        }
-
-        private int coltoi(Color pixel)
-        {
-            int numcolor = 0;
-            int greenShift = 510;
-
-            if (pixel.R == 255)
-                numcolor = pixel.R + (255 - pixel.G) + pixel.B + greenShift;
-            else if (pixel.G == 255)
-                numcolor = pixel.R + pixel.G + (255 - pixel.B);
-            else
-                numcolor = pixel.R + pixel.G + pixel.B - 255;
-
-            return numcolor;
-
         }
 
         public Bitmap bmp = null;

@@ -46,6 +46,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="bitclean\confidence.cs" />
+    <Compile Include="bitclean\edge.cs" />
+    <Compile Include="bitclean\filler.cs" />
+    <Compile Include="bitclean\imageops.cs" />
+    <Compile Include="bitclean\metatypes.cs" />
+    <Compile Include="bitclean\selection.cs" />
+    <Compile Include="bitclean\toolbox.cs" />
+    <Compile Include="bitclean\tree.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
