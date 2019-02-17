@@ -150,6 +150,7 @@ namespace bitmapproto
 			if (p == constants.WHITE)
 				numcolor = constants.INT_WHITE;
 
+			/*
 			//want to offset everything by 1, so color integer values run [1 -> 1021]
 			else if (p.R == 255)
 				numcolor = (short) (p.R + (255 - p.G) + p.B + constants.GREEN_SHIFT + 1);
@@ -157,6 +158,14 @@ namespace bitmapproto
 				numcolor = (short) (p.R + p.G + (255 - p.B) + 1);
 			else
 				numcolor = (short) (p.R + p.G + p.B + 1);
+			*/
+
+			else if (p.R == 255)
+				numcolor = (short) (p.R + (255 - p.G) + 510);
+			else if (p.G == 255)
+				numcolor = (short) (p.R + p.G + 255);
+			else
+				numcolor = (short)(p.G + (p.B - 255));
 
 			// if last line was written as:
 			// numcolor = (short) (p.R + p.G + p.B - 255 + 1);
