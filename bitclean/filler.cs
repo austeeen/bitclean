@@ -46,7 +46,10 @@ namespace bitmapproto
             int count = 0;
             for (int i = 0; i < buffersize; i++)
             {
-                if (buffer[i] + width < total && !p[buffer[i] + width].selected && p[buffer[i] + width].value >= constants.VALUE_THRESHOLD)
+				// check that we can look at the pixel underneath the current pixel
+				// and check that the pixel underneath the current is not selected
+				// and check that the pixel underneath the current is white
+                if (buffer[i] + width < total && !p[buffer[i] + width].selected && p[buffer[i] + width].value == constants.INT_WHITE)
                 {
                     start(buffer[i] + width);
                     List<path> whitePixels = getPath();

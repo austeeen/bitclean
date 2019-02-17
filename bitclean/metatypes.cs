@@ -11,11 +11,28 @@ using System.Drawing;
  * 2/11/2019
  */
 
-
 namespace bitmapproto
 {
-    //the .pgm file's basic data
-    struct data
+	static class constants
+	{
+		public const short VALUE_THRESHOLD = 0;                             // a useful threshold for pixel values (white)
+		public const int MAX_OBJECT_SIZE_ESTIMATE = 2700;                   // if an object is bigger than this ignore it -- optimization thing
+		public const int COLOR_CLEAR = 0;                                   // color to clear selections with
+		public const int BRUSH_SIZE = 16;                                   // brush size for trajectory path
+		public static readonly Color FLOOR = Color.FromArgb(255, 0, 255);   // this is magenta - what the floor looks like from cloud compare
+		public static readonly Color WHITE = Color.FromArgb(255, 255, 255); // white color - what we want to change the floor to
+		public const short INT_WHITE = 0;                                   // white color can be represented as 0 because color values run [1->1021]
+																			//  - this is helpful for average hue and average density functions
+		public const int GREEN_SHIFT = 510;
+	}
+
+	enum DIAGNOSTICS
+	{
+		ALL, NON_WHITE
+	};
+
+	//the .pgm file's basic data
+	public struct data
     {
         public int width, height;
         public int totalpixels;
@@ -27,19 +44,9 @@ namespace bitmapproto
         public bool selected;   //used for selection
         public bool found;      //used in filler
         public short value;     //converted color integer value
+		public byte r, g, b;
         public int id;          //ID [0->totalpixels]
     };
-    
-    static class constants
-    {
-        public const byte VALUE_THRESHOLD = 0;            //a useful threshold for pixel values (white)
-        public const int MAX_OBJECT_SIZE_ESTIMATE = 2700;   //if an object is bigger than this ignore it -- optimization thing
-        public const int COLOR_CLEAR = 0;              //color to clear selections with
-        public const int BRUSH_SIZE = 16;                //brush size for trajectory path
-		public static readonly Color FLOOR = Color.FromArgb(255, 0, 255);
-		public static readonly Color WHITE = Color.FromArgb(255, 255, 255);
-		public const short WHITE_COL_VAL = 1337;		//1337 is just a fun number greater than 1020 which is the max color int value
-	}
 
     //each pixel has eight neighbors
     class octan

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Drawing;
 
 /*
  * bitmapProto: bitclean/toolbox.cs
@@ -15,18 +16,14 @@ namespace bitmapproto
 {
     public class toolbox
     {
-        public toolbox(pixel[] p, int width, int height, int total)
+        public toolbox(pixel[] p, data dat)
         {
             pixels = p;
-            imageWidth = width;
-            totalPixels = total;
-            imageHeight = height;
-            brushMin = - (constants.BRUSH_SIZE / 2 - 1);
-            brushMax = constants.BRUSH_SIZE / 2;
+			imgdata = dat;
         }
 
         //the big boy, iterates through the pixels and drives algorithms
-        public void run(ProgressBar progressBar1)
+        public void run()
         {
             if (pixels == null)
             {
@@ -34,58 +31,79 @@ namespace bitmapproto
                 return;
             }
 
-            selection s = new selection(pixels, imageWidth, totalPixels);
-            for (int i = 0; i < totalPixels; i++)
+            selection s = new selection(pixels, imgdata.width, imgdata.totalpixels);
+            for (int i = 0; i < imgdata.totalpixels; i++)
             {
-                progressBar1.Value = i;
-
                 if (s.get(i))
                 {
                     buffer = s.Buffer;
                     perimeter = s.Perimeter;
-                    objectData dat = new objectData(getAverageValue(), buffer.Count, buffer.Count / s.getedges());
+					/*
+					objectData dat = new objectData(getAverageValue(), buffer.Count, buffer.Count / s.getedges());
                     conf c = confidence.getconfidence(dat);
                     dat.objconf = c;
                     objdat.Add(dat);
 
                     if (!c.isStructure)
                         colorbuffer(constants.COLOR_CLEAR);
-
+					*/
+					colorbuffer(constants.FLOOR);
                 }
                 s.clearbuffer();
                 buffer.Clear();
             }
         }
 
-        //colors a selection of pixels
-        private void colorbuffer(int color)
-        {
-            for (int i = 0; i < buffer.Count; i++)
-                pixels[buffer[i]].value = Convert.ToByte(color);
-        }
+		//sets the buffer to be colored with color 'c'
+		private void colorbuffer(Color c)
+		{
+			for (int i = 0; i < buffer.Count; i++)
+			{
+				pixels[buffer[i]].value = imageops.coltoi(c);
+				pixels[buffer[i]].r = c.R;
+				pixels[buffer[i]].g = c.G;
+				pixels[buffer[i]].b = c.B;
+			}
+		}
 
-        //colors the edges of a selection of pixels
-        private void coloredges(int color)
+		//sets the edges to be colored with color 'c'
+		private void coloredges(Color c)
         {
-            for (int i = 0; i < perimeter.Count; i++)
-                pixels[perimeter[i]].value = Convert.ToByte(color);
-        }
+			for (int i = 0; i < perimeter.Count; i++)
+			{
+				pixels[perimeter[i]].r = c.R;
+				pixels[perimeter[i]].g = c.G;
+				pixels[perimeter[i]].b = c.B;
+			}
+		}
 
-        private double getAverageValue()
+		// calculates average hue or color of the buffer
+        private double getAverageHue()
         {
             double avg = 0;
-            for (int i = 0; i < buffer.Count; i++)
-                avg += pixels[buffer[i]].value;
-            return avg / buffer.Count;
+			for (int i = 0; i < buffer.Count; i++)
+				avg += pixels[buffer[i]].value;
+			return avg / buffer.Count;
         }
 
-        public List<objectData> getObjectData()
+		// returns the percentage of non-white pixels in the buffer
+		private double getValueDensity()
+		{
+			double avg = 0;
+			for (int i = 0; i < buffer.Count; i++)
+				if (pixels[buffer[i]].value != 0) avg++;
+			return avg / buffer.Count;
+		}
+
+		public List<objectData> getObjectData()
         {
             return objdat;
         }
 
         private pixel[] pixels = null;
-        private readonly int imageWidth, totalPixels, imageHeight, brushMin, brushMax;
+
+		private readonly data imgdata;
+
         private List<int> buffer = new List<int>();
         private List<int> perimeter = new List<int>();
         private List<objectData> objdat = new List<objectData>();

@@ -35,13 +35,19 @@ namespace bitmapproto
 	        {
 		        iterate();
 
+				/*
 		        if (buffersize > 0 && buffersize < constants.MAX_OBJECT_SIZE_ESTIMATE)
 		        {
 			        fillpixels();
                     findedges();
 			        return true;
 		        }
-            }
+				*/
+
+				fillpixels();
+				findedges();
+				return true;
+			}
 	        return false;
         }
 
@@ -75,7 +81,7 @@ namespace bitmapproto
 
         private bool checkpixel(ref pixel p)
         {
-            if (p.value < constants.VALUE_THRESHOLD)
+            if (p.value != constants.INT_WHITE)
             {
                 if (!p.selected)
                 {

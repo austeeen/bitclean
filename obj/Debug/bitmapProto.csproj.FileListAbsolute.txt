@@ -7,3 +7,4 @@ C:\Users\100057822\source\repos\bitmapProto\bitmapProto\obj\Debug\bitmapProto.cs
 C:\Users\100057822\source\repos\bitmapProto\bitmapProto\obj\Debug\bitmapProto.csproj.CoreCompileInputs.cache
 C:\Users\100057822\source\repos\bitmapProto\bitmapProto\obj\Debug\bitmapProto.exe
 C:\Users\100057822\source\repos\bitmapProto\bitmapProto\obj\Debug\bitmapProto.pdb
+C:\Users\100057822\source\repos\bitmapProto\bitmapProto\obj\Debug\bitmapproto.Form1.resources

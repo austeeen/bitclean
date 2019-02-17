@@ -3,102 +3,140 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.IO;
 
+/*
+ * bitmapProto: Form1.cs
+ * Author: Austin Herman
+ * 2/13/2019
+ */
+
 namespace bitmapproto
 {
     public partial class Form1 : Form
     {
-        public Form1()
+		private imageops img = null;
+		private toolbox t = null;
+		public Bitmap bmp = null;
+		public string bmppath = "";
+
+		public Form1()
         {
             InitializeComponent();
         }
 
-        private void load_click(object sender, EventArgs e)
-        {
-            using (OpenFileDialog openFD = new OpenFileDialog())
-            {
-                // File dialog settings
-                openFD.Title = "Select an image file";
-                openFD.InitialDirectory = "C:\\Users\\100057822\\Desktop";
-                openFD.Filter = "bmp files (*.bmp)|*.bmp";
-                openFD.RestoreDirectory = true;
+		#region Tool Strip Drop Down
 
-                DialogResult result = openFD.ShowDialog();
+		/// <summary>
+		/// Tool Strip button implementations
+		/// </summary>
 
-                if (result == DialogResult.OK)
-                    bmppath = openFD.FileName;
+		//
+		// Tool strip - does not need to do anything
+		//
+		private void toolStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+		{
+			
+		}
+		#endregion
 
-                try {
-                    bmp = new Bitmap(Image.FromFile(bmppath));
-                    pictureBox1.Image = bmp;
-                }
-                catch(Exception)
-                { }
-               
-            }
-        }
+		#region File Drop Down Buttons
+		//
+		// File > Load
+		//
+		private void loadImageFile_Click(object sender, EventArgs e)
+		{
+			using (OpenFileDialog openFD = new OpenFileDialog())
+			{
+				// File dialog settings
+				openFD.Title = "Select an image file";
+				openFD.InitialDirectory = "C:\\Users\\100057822\\Desktop";
+				openFD.Filter = "bmp files (*.bmp)|*.bmp";
+				openFD.RestoreDirectory = true;
 
-        private void fun_click(object sender, EventArgs e)
-        {
-            if (bmp == null) return;
+				DialogResult result = openFD.ShowDialog();
 
-			// Color floor = Color.FromArgb(255, 0, 255);
-			// Color floorchange = Color.FromArgb(255, 255, 255);
+				if (result == DialogResult.OK)
+					bmppath = openFD.FileName;
 
-			/*
-            int low       = coltoi(Color.FromArgb(0, 0, 255));
-            int lowmed    = coltoi(Color.FromArgb(0, 255, 255));
-            int med       = coltoi(Color.FromArgb(0, 255, 0));
-            int medhigh   = coltoi(Color.FromArgb(255, 255, 0));
-            int high      = coltoi(Color.FromArgb(255, 0, 0));
+				try
+				{
+					bmp = new Bitmap(Image.FromFile(bmppath));
+					img = new imageops(bmp);
 
-            //string csvheader = "x, int";
-            //StreamWriter csv = new StreamWriter(Path.GetDirectoryName(bmppath) + "\\" + Path.GetFileNameWithoutExtension(bmppath) + ".csv");
+					pictureBox1.Image = img.parseImage(bmp);
 
-            //csv.WriteLine(csvheader);
+					t = new toolbox(img.getpixels(), img.getimagedata());
+				}
+				catch (Exception)
+				{
+					bmp = null;
+				}
+			}
+		}
+		//
+		// File > Save
+		//
+		private void saveImageFile_Click(object sender, EventArgs e)
+		{
+			// Get the file's save name
+			SaveFileDialog saveFD = new SaveFileDialog();
 
-            // Loop through the images pixels to reset color.
-            for (int y = 0; y < bmp.Height; y++)
-            {
-                for (int x = 0; x < bmp.Width; x++)
-                {
-                    Color pixel = bmp.GetPixel(x, y);
+			saveFD.Title = "Save the image file";
+			saveFD.Filter = "bmp files (*.bmp)|*.bmp";
 
-                    if (pixel == floor)
-                        bmp.SetPixel(x, y, floorchange);
-                    
-                    //Console.WriteLine(coltoi(bmp.GetPixel(x, y)));
-                    //csv.WriteLine(x + "," + coltoi(bmp.GetPixel(x, y)));
-                }
-            }
+			saveFD.FileName = Path.GetFileNameWithoutExtension(bmppath);
 
-            //csv.Close();
-			*/
-			imageops img = new imageops(bmp);
+			saveFD.InitialDirectory = Path.GetDirectoryName(bmppath);
+
+			DialogResult result = saveFD.ShowDialog();
+
+			if (result == DialogResult.OK)
+				bmp.Save(saveFD.FileName);
+			else
+				MessageBox.Show("File was not saved.", "File Not Saved", 0);
+		}
+		#endregion
+
+		#region Image Drop Down Buttons
+		//
+		// Image > Set Up
+		//
+		private void setUpImage_Click(object sender, EventArgs e)
+		{
+			if (bmp == null) return;
+
+			img = new imageops(bmp);
 
 			pictureBox1.Image = img.parseImage(bmp);
-        }
 
-        private void save_click(object sender, EventArgs e)
-        {
-            // Get the file's save name
-            SaveFileDialog saveFD = new SaveFileDialog();
+			t = new toolbox(img.getpixels(), img.getimagedata());
+		}
+		//
+		// Image > Bit Clean
+		//
+		private void bitCleanImage_Click(object sender, EventArgs e)
+		{
+			t.run();
+			img.pushpixelstoimage(bmp);
+			pictureBox1.Image = bmp;
+		}
+		#endregion
 
-            saveFD.Title = "Save the image file";
-            saveFD.Filter = "bmp files (*.bmp)|*.bmp";
+		#region Diagnostics Drop Down Buttons
+		//
+		// Diagnostics > Export All
+		//
+		private void exportAllDiagnostics_Click(object sender, EventArgs e)
+		{
+			img.exportdiagnostics(bmp, bmppath, DIAGNOSTICS.ALL);
+		}
+		//
+		// Diagnostics > Export Non-White
+		//
+		private void exportNonWhiteDiagnostics_Click(object sender, EventArgs e)
+		{
+			img.exportdiagnostics(bmp, bmppath, DIAGNOSTICS.NON_WHITE);
+		}
+		#endregion
 
-            saveFD.FileName = Path.GetFileNameWithoutExtension(bmppath);
-
-            saveFD.InitialDirectory = Path.GetDirectoryName(bmppath);
-
-            DialogResult result = saveFD.ShowDialog();
-
-            if (result == DialogResult.OK)
-                bmp.Save(saveFD.FileName);
-            else
-                MessageBox.Show("File was not saved.", "File Not Saved", 0);
-        }
-
-        public Bitmap bmp = null;
-        public string bmppath = "";
-    }
+	}
 }
