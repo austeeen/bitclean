@@ -5,12 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 
 /*
- * bitmapProto: bitclean/confidence.cs
+ * BitClean: bitclean/confidence.cs
  * Author: Austin Herman
  * 2/11/2019
  */
 
-namespace bitmapproto
+namespace BitClean
 {
     public static class confidence
     {

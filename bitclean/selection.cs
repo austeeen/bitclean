@@ -5,12 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 
 /*
- * bitmapProto: bitclean/image.cs
+ * bitmapProto: BitClean/image.cs
  * Author: Austin Herman
  * 2/11/2019
  */
 
-namespace bitmapproto
+namespace BitClean
 {
     public class selection
     {

@@ -9,12 +9,12 @@ using System.Windows.Forms;
 
 
 /*
- * bitmapProto: bitclean/image.cs
+ * bitmapProto: BitClean/image.cs
  * Author: Austin Herman
  * 2/11/2019
  */
 
-namespace bitmapproto
+namespace BitClean
 {
     class imageops
     {

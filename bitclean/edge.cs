@@ -5,12 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 
 /*
- * bitmapProto: bitclean/edge.cs
+ * bitmapProto: BitClean/edge.cs
  * Author: Austin Herman
  * 2/11/2019
  */
 
-namespace bitmapproto
+namespace BitClean
 {
     class edge
     {

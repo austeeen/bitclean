@@ -7,12 +7,12 @@ using System.Windows.Forms;
 using System.Drawing;
 
 /*
- * bitmapProto: bitclean/toolbox.cs
+ * bitmapProto: BitClean/toolbox.cs
  * Author: Austin Herman
  * 2/11/2019
  */
 
-namespace bitmapproto
+namespace BitClean
 {
     public class toolbox
     {

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.168
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bitmapProto", "bitmapProto.csproj", "{062D128B-9DE6-43F6-B4B1-762C156559E4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BitClean", "BitClean.csproj", "{0DA4BDF1-2239-459E-A69B-F66E10B64902}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{062D128B-9DE6-43F6-B4B1-762C156559E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{062D128B-9DE6-43F6-B4B1-762C156559E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{062D128B-9DE6-43F6-B4B1-762C156559E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{062D128B-9DE6-43F6-B4B1-762C156559E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0DA4BDF1-2239-459E-A69B-F66E10B64902}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0DA4BDF1-2239-459E-A69B-F66E10B64902}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0DA4BDF1-2239-459E-A69B-F66E10B64902}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0DA4BDF1-2239-459E-A69B-F66E10B64902}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {EAA76D6B-91E6-495C-B408-26F134C0023B}
+		SolutionGuid = {74329AA8-C9EB-4295-90E1-02C0287908A6}
 	EndGlobalSection
 EndGlobal

@@ -5,12 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 
 /*
- * bitmapProto: bitclean/filler.cs
+ * bitmapProto: BitClean/filler.cs
  * Author: Austin Herman
  * 2/11/2019
  */
 
-namespace bitmapproto
+namespace BitClean
 {
     class filler
     {

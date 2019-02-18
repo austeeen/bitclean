@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("bitmapProto")]
+[assembly: AssemblyTitle("BitClean")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("bitmapProto")]
+[assembly: AssemblyProduct("BitClean")]
 [assembly: AssemblyCopyright("Copyright ©  2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("062d128b-9de6-43f6-b4b1-762c156559e4")]
+[assembly: Guid("0da4bdf1-2239-459e-a69b-f66e10b64902")]
 
 // Version information for an assembly consists of the following four values:
 //
