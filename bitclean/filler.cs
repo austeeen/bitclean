@@ -40,15 +40,15 @@ namespace bitmapproto
 
         public int run(List<int> buffer, int buffersize, node buff)
         {
-            for (int i = 0; i < buffersize; i++)
-                feedBounds(buffer[i]);
+            for (int i = 0; i < buffersize; i++)	// *** add this to check pixel for speed
+                feedBounds(buffer[i]);	// feed in all pixels to find the object's boundaries
 
             int count = 0;
             for (int i = 0; i < buffersize; i++)
             {
 				// check that we can look at the pixel underneath the current pixel
-				// and check that the pixel underneath the current is not selected
-				// and check that the pixel underneath the current is white
+				// check that the pixel underneath the current is not selected
+				// check that the pixel underneath the current is white
                 if (buffer[i] + width < total && !p[buffer[i] + width].selected && p[buffer[i] + width].value == constants.INT_WHITE)
                 {
                     start(buffer[i] + width);
@@ -62,7 +62,7 @@ namespace bitmapproto
                             count++;
                         }
                     }
-                }
+                }	// end big if
             }
 
             return count;
@@ -90,7 +90,7 @@ namespace bitmapproto
         }
 
         public void start(int id)
-        {
+        {	// reset the path and bounds error flag
             curpath.Clear();
             pathSize = 0;
             boundsError = false;
@@ -135,110 +135,115 @@ namespace bitmapproto
             switch (pd.dir) //0 none, 1 up, 2 down, 3 left, 4 right
             {
                 case direction.up:
+                {
+                    if (pd.id - width > 0)
                     {
-                        if (pd.id - width > 0)
-                        {
-                            if (!p[pd.id - width].selected && !p[pd.id - width].found)
-                                addtoPath(direction.up, pd.id - width); //up
-                        }
-                        if (pd.id % width != 0)
-                        {
-                            if (!p[pd.id - 1].selected && !p[pd.id - 1].found)
-                                addtoPath(direction.left, pd.id - 1);   //left
-                        }
-                        if ((pd.id + 1) % width != 0)
-                        {
-                            if (!p[pd.id + 1].selected && !p[pd.id + 1].found)
-                                addtoPath(direction.right, pd.id + 1);  //right
-                        }
-                        break;
+                        if (!p[pd.id - width].selected)
+                            addtoPath(direction.up, pd.id - width); //up
                     }
+                    if (pd.id % width != 0)
+                    {
+                        if (!p[pd.id - 1].selected)
+                            addtoPath(direction.left, pd.id - 1);   //left
+                    }
+                    if ((pd.id + 1) % width != 0)
+                    {
+                        if (!p[pd.id + 1].selected)
+                            addtoPath(direction.right, pd.id + 1);  //right
+                    }
+                    break;
+                }
                 case direction.down:
+                {
+                    if (pd.id + width < total)
                     {
-                        if (pd.id + width < total)
-                        {
-                            if (!p[pd.id + width].selected && !p[pd.id + width].found)
-                                addtoPath(direction.down, pd.id + width);   //down
-                        }
-                        if (pd.id % width != 0)
-                        {
-                            if (!p[pd.id - 1].selected && !p[pd.id - 1].found)
-                                addtoPath(direction.left, pd.id - 1);   //left
-                        }
-                        if ((pd.id + 1) % width != 0)
-                        {
-                            if (!p[pd.id + 1].selected && !p[pd.id + 1].found)
-                                addtoPath(direction.right, pd.id + 1);  //right
-                        }
-                        break;
+                        if (!p[pd.id + width].selected)
+                            addtoPath(direction.down, pd.id + width);   //down
                     }
+                    if (pd.id % width != 0)
+                    {
+                        if (!p[pd.id - 1].selected)
+                            addtoPath(direction.left, pd.id - 1);   //left
+                    }
+                    if ((pd.id + 1) % width != 0)
+                    {
+                        if (!p[pd.id + 1].selected)
+                            addtoPath(direction.right, pd.id + 1);  //right
+                    }
+                    break;
+                }
                 case direction.left:
+                {
+                    if (pd.id - width > 0)
                     {
-                        if (pd.id - width > 0)
-                        {
-                            if (!p[pd.id - width].selected && !p[pd.id - width].found)
-                                addtoPath(direction.up, pd.id - width); //up
-                        }
-                        if (pd.id + width < total)
-                        {
-                            if (!p[pd.id + width].selected && !p[pd.id + width].found)
-                                addtoPath(direction.down, pd.id + width);   //down
-                        }
-                        if (pd.id % width != 0)
-                        {
-                            if (!p[pd.id - 1].selected && !p[pd.id - 1].found)
-                                addtoPath(direction.left, pd.id - 1);   //left
-                        }
-                        break;
+                        if (!p[pd.id - width].selected)
+                            addtoPath(direction.up, pd.id - width); //up
                     }
+                    if (pd.id + width < total)
+                    {
+                        if (!p[pd.id + width].selected)
+                            addtoPath(direction.down, pd.id + width);   //down
+                    }
+                    if (pd.id % width != 0)
+                    {
+                        if (!p[pd.id - 1].selected)
+                            addtoPath(direction.left, pd.id - 1);   //left
+                    }
+                    break;
+                }
                 case direction.right:
+                {
+                    if (pd.id - width > 0)
                     {
-                        if (pd.id - width > 0)
-                        {
-                            if (!p[pd.id - width].selected && !p[pd.id - width].found)
-                                addtoPath(direction.up, pd.id - width); //up
-                        }
-                        if (pd.id + width < total)
-                        {
-                            if (!p[pd.id + width].selected && !p[pd.id + width].found)
-                                addtoPath(direction.down, pd.id + width);   //down
-                        }
-                        if ((pd.id + 1) % width != 0)
-                        {
-                            if (!p[pd.id + 1].selected && !p[pd.id + 1].found)
-                                addtoPath(direction.right, pd.id + 1);  //right
-                        }
-                        break;
+                        if (!p[pd.id - width].selected)
+                            addtoPath(direction.up, pd.id - width); //up
                     }
+                    if (pd.id + width < total)
+                    {
+                        if (!p[pd.id + width].selected)
+                            addtoPath(direction.down, pd.id + width);   //down
+                    }
+                    if ((pd.id + 1) % width != 0)
+                    {
+                        if (!p[pd.id + 1].selected)
+                            addtoPath(direction.right, pd.id + 1);  //right
+                    }
+                    break;
+                }
                 case direction.none:
+                {
+                    if (pd.id - width > 0)
                     {
-                        if (pd.id - width > 0)
-                        {
-                            if (!p[pd.id - width].selected && !p[pd.id - width].found)
-                                addtoPath(direction.up, pd.id - width); //up
-                        }
-                        if (pd.id + width < total)
-                        {
-                            if (!p[pd.id + width].selected && !p[pd.id + width].found)
-                                addtoPath(direction.down, pd.id + width);   //down
-                        }
-                        if (pd.id % width != 0)
-                        {
-                            if (!p[pd.id - 1].selected && !p[pd.id - 1].found)
-                                addtoPath(direction.left, pd.id - 1);   //left
-                        }
-                        if ((pd.id + 1) % width != 0)
-                        {
-                            if (!p[pd.id + 1].selected && !p[pd.id + 1].found)
-                                addtoPath(direction.right, pd.id + 1);  //right
-                        }
-                        break;
+                        if (!p[pd.id - width].selected)
+                            addtoPath(direction.up, pd.id - width); //up
                     }
+                    if (pd.id + width < total)
+                    {
+                        if (!p[pd.id + width].selected)
+                            addtoPath(direction.down, pd.id + width);   //down
+                    }
+                    if (pd.id % width != 0)
+                    {
+                        if (!p[pd.id - 1].selected)
+                            addtoPath(direction.left, pd.id - 1);   //left
+                    }
+                    if ((pd.id + 1) % width != 0)
+                    {
+                        if (!p[pd.id + 1].selected)
+                            addtoPath(direction.right, pd.id + 1);  //right
+                    }
+                    break;
+                }
             }
         }
 
         private void clearPath()
         {
+			for(int i = 0; i < pathSize; i++) {
+				if (p[curpath[i].id].value != constants.INT_WHITE)
+					p[curpath[i].id].selected = false;
+			}
+
             curpath.Clear();
             pathSize = 0;
         }

@@ -48,7 +48,6 @@ namespace bitmapproto
 					pixels[i].g = p.G;
 					pixels[i].b = p.B;
 					pixels[i].selected = false;
-					pixels[i].found = false;
 
 					i++;
 				}
@@ -89,7 +88,7 @@ namespace bitmapproto
 					switch(userchoice)
 					{
 						case DIAGNOSTICS.ALL:		{ exportAllDiagnostics(bmp, saveFD.FileName); break; }
-						case DIAGNOSTICS.NON_WHITE: { exportAllDiagnostics(bmp, saveFD.FileName); break; }
+						case DIAGNOSTICS.NON_WHITE: { exportNonWhiteDiagnostics(bmp, saveFD.FileName); break; }
 					}
 				}
 			}
@@ -130,7 +129,7 @@ namespace bitmapproto
 				{
 					for (int x = 0; x < bmp.Width; x++)
 					{
-						if (coltoi(bmp.GetPixel(x, y)) != constants.INT_WHITE)
+						if (bmp.GetPixel(x, y) != constants.WHITE)
 							csv.WriteLine(i + "," + coltoi(bmp.GetPixel(x, y)) + "," + pixels[i].value);
 
 						i++;
@@ -161,11 +160,11 @@ namespace bitmapproto
 			*/
 
 			else if (p.R == 255)
-				numcolor = (short) (p.R + (255 - p.G) + 510);
+				numcolor = (short) (p.R + (255 - p.G) + 510 + 1);
 			else if (p.G == 255)
-				numcolor = (short) (p.R + p.G + 255);
+				numcolor = (short) (p.R + p.G + 255 + 1);
 			else
-				numcolor = (short)(p.G + (p.B - 255));
+				numcolor = (short)(p.G + (255 - p.B) + 1);
 
 			// if last line was written as:
 			// numcolor = (short) (p.R + p.G + p.B - 255 + 1);

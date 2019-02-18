@@ -23,7 +23,6 @@ namespace bitmapproto
 		public static readonly Color WHITE = Color.FromArgb(255, 255, 255); // white color - what we want to change the floor to
 		public const short INT_WHITE = 0;                                   // white color can be represented as 0 because color values run [1->1021]
 																			//  - this is helpful for average hue and average density functions
-		public const int GREEN_SHIFT = 510;
 	}
 
 	enum DIAGNOSTICS
@@ -42,7 +41,6 @@ namespace bitmapproto
     public struct pixel
     {
         public bool selected;   //used for selection
-        public bool found;      //used in filler
         public short value;     //converted color integer value
 		public byte r, g, b;
         public int id;          //ID [0->totalpixels]

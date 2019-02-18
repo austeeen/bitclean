@@ -31,7 +31,7 @@ namespace bitmapproto
 
         public bool get(int id)
         {
-	        if (checkpixel(ref p[id]))
+	        if (checkpixel(ref p[id])) // check the current pixel
 	        {
 		        iterate();
 
@@ -44,8 +44,8 @@ namespace bitmapproto
 		        }
 				*/
 
-				fillpixels();
-				findedges();
+				fillpixels();	// fill in any white pixels inside the selection
+				findedges();	// find edge pixels in selection
 				return true;
 			}
 	        return false;
@@ -54,7 +54,7 @@ namespace bitmapproto
         private void iterate()
         {
             for (int i = 0; i < buffersize; i++)
-                nextpixel(buffer[i]);
+                nextpixel(buffer[i]); // check neighbors for non-white
         }
 
         private void nextpixel(int id)
@@ -81,25 +81,27 @@ namespace bitmapproto
 
         private bool checkpixel(ref pixel p)
         {
-            if (p.value != constants.INT_WHITE)
+            if (p.value != constants.INT_WHITE) 
             {
                 if (!p.selected)
-                {
-                    buffer.Add(p.id);
+                {	// add pixel to buffer, make it selected, insert into buffer tree
+                    buffer.Add(p.id); 
                     p.selected = true;
                     buffersize++;
                     tree.insert(ref buff, p.id);
                     return true;
-                }
-            }
+				}// if not white and not selected
+			}
             return false;
         }
 
         private void fillpixels()
         {
-            filler fill = new filler(p, width, total);
-
-            buffersize += fill.run(buffer, buffersize, buff);
+            filler fill = new filler(p, width, total);  // create fill object
+			
+			// run fill algorithm 
+			// add any filled in pixels to the buffer and bump buffer size
+			buffersize += fill.run(buffer, buffersize, buff);
         }
 
         private void findedges()

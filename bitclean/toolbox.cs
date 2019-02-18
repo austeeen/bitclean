@@ -34,7 +34,7 @@ namespace bitmapproto
             selection s = new selection(pixels, imgdata.width, imgdata.totalpixels);
             for (int i = 0; i < imgdata.totalpixels; i++)
             {
-                if (s.get(i))
+                if (s.get(i)) // get the next object
                 {
                     buffer = s.Buffer;
                     perimeter = s.Perimeter;
