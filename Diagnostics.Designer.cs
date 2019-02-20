@@ -33,7 +33,8 @@
 			this.ConfidencePropertiesCheckList = new System.Windows.Forms.CheckedListBox();
 			this.PixelPropertiesLabel = new System.Windows.Forms.Label();
 			this.ConfidencePropertiesLabel = new System.Windows.Forms.Label();
-			this.ExportButton = new System.Windows.Forms.Button();
+			this.ExportPixelButton = new System.Windows.Forms.Button();
+			this.ExportConfidenceButton = new System.Windows.Forms.Button();
 			this.IncludeOptionsGroup.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -59,7 +60,7 @@
 			this.IncludeOptionsGroup.Dock = System.Windows.Forms.DockStyle.Top;
 			this.IncludeOptionsGroup.Location = new System.Drawing.Point(0, 0);
 			this.IncludeOptionsGroup.Name = "IncludeOptionsGroup";
-			this.IncludeOptionsGroup.Size = new System.Drawing.Size(178, 210);
+			this.IncludeOptionsGroup.Size = new System.Drawing.Size(306, 131);
 			this.IncludeOptionsGroup.TabIndex = 2;
 			this.IncludeOptionsGroup.TabStop = false;
 			this.IncludeOptionsGroup.Text = "Include Options:";
@@ -73,7 +74,7 @@
             "Average Hue",
             "Value Density",
             "Edge Ratio"});
-			this.ConfidencePropertiesCheckList.Location = new System.Drawing.Point(6, 124);
+			this.ConfidencePropertiesCheckList.Location = new System.Drawing.Point(138, 41);
 			this.ConfidencePropertiesCheckList.Name = "ConfidencePropertiesCheckList";
 			this.ConfidencePropertiesCheckList.Size = new System.Drawing.Size(120, 79);
 			this.ConfidencePropertiesCheckList.TabIndex = 3;
@@ -90,7 +91,7 @@
 			// ConfidencePropertiesLabel
 			// 
 			this.ConfidencePropertiesLabel.AutoSize = true;
-			this.ConfidencePropertiesLabel.Location = new System.Drawing.Point(6, 108);
+			this.ConfidencePropertiesLabel.Location = new System.Drawing.Point(135, 25);
 			this.ConfidencePropertiesLabel.Name = "ConfidencePropertiesLabel";
 			this.ConfidencePropertiesLabel.Size = new System.Drawing.Size(114, 13);
 			this.ConfidencePropertiesLabel.TabIndex = 1;
@@ -98,20 +99,31 @@
 			// 
 			// ExportButton
 			// 
-			this.ExportButton.Location = new System.Drawing.Point(49, 228);
-			this.ExportButton.Name = "ExportButton";
-			this.ExportButton.Size = new System.Drawing.Size(75, 23);
-			this.ExportButton.TabIndex = 3;
-			this.ExportButton.Text = "Export";
-			this.ExportButton.UseVisualStyleBackColor = true;
-			this.ExportButton.Click += new System.EventHandler(this.exportButton_Click);
+			this.ExportPixelButton.Location = new System.Drawing.Point(13, 137);
+			this.ExportPixelButton.Name = "ExportPixelButton";
+			this.ExportPixelButton.Size = new System.Drawing.Size(75, 39);
+			this.ExportPixelButton.TabIndex = 3;
+			this.ExportPixelButton.Text = "Export Pixel Properties";
+			this.ExportPixelButton.UseVisualStyleBackColor = true;
+			this.ExportPixelButton.Click += new System.EventHandler(this.exportPixelsButton_Click);
+			// 
+			// ExportConfidenceButton
+			// 
+			this.ExportConfidenceButton.Location = new System.Drawing.Point(139, 139);
+			this.ExportConfidenceButton.Name = "button1";
+			this.ExportConfidenceButton.Size = new System.Drawing.Size(110, 35);
+			this.ExportConfidenceButton.TabIndex = 4;
+			this.ExportConfidenceButton.Text = "Export Confidence Properties";
+			this.ExportConfidenceButton.UseVisualStyleBackColor = true;
+			this.ExportConfidenceButton.Click += new System.EventHandler(this.exportConfidenceButton_Click);
 			// 
 			// Diagnostics
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(178, 265);
-			this.Controls.Add(this.ExportButton);
+			this.ClientSize = new System.Drawing.Size(306, 190);
+			this.Controls.Add(this.ExportConfidenceButton);
+			this.Controls.Add(this.ExportPixelButton);
 			this.Controls.Add(this.IncludeOptionsGroup);
 			this.Name = "Diagnostics";
 			this.Text = "Diagnostics";
@@ -128,6 +140,7 @@
 		private System.Windows.Forms.Label ConfidencePropertiesLabel;
 		private System.Windows.Forms.CheckedListBox ConfidencePropertiesCheckList;
 		private System.Windows.Forms.Label PixelPropertiesLabel;
-		private System.Windows.Forms.Button ExportButton;
+		private System.Windows.Forms.Button ExportPixelButton;
+		private System.Windows.Forms.Button ExportConfidenceButton;
 	}
 }

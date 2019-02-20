@@ -17,6 +17,10 @@ namespace BitClean
 {
     public class imageops
     {
+		private data imgdata;
+		public string imgpath;
+		private pixel[] pixels = null;
+
 		public imageops(Bitmap bmp, string bmppath)
 		{
 			imgdata.height = bmp.Height;
@@ -71,58 +75,6 @@ namespace BitClean
 			}
 		}
 
-		public void exportdiagnostics(string header, diagnosticsProperties prop)
-		{
-			using (var saveFD = new SaveFileDialog())
-			{
-				saveFD.Title = "Save the diagostics csv file";
-				saveFD.Filter = "csv files (*.csv)|*.csv";
-
-				saveFD.FileName = Path.GetFileNameWithoutExtension(imgpath + "data");
-				saveFD.InitialDirectory = Path.GetDirectoryName(imgpath);
-
-				DialogResult result = saveFD.ShowDialog();
-
-				if (result == DialogResult.OK)
-				{
-					try
-					{
-						// MessageBox.Show("writing diagnostics...");
-
-						StreamWriter csv = new StreamWriter(saveFD.FileName);
-						csv.WriteLine(header);
-
-						for (int i = 0; i < imgdata.totalpixels; i ++)
-						{ 
-							pixel curPixel = pixels[i];
-							string RGBvals = pixels[i].r + " " + pixels[i].g + " " + pixels[i].b + ",";
-
-							if (!prop.includeWhite)
-							{
-								if (curPixel.value != constants.INT_WHITE) {
-									csv.Write(prop.indexes ? i + "," : "");
-									csv.Write(prop.integerValues ? pixels[i].value + "," : "");
-									csv.Write(prop.RGBValues ? RGBvals : "");
-									csv.Write("\n");
-								}
-							}
-							else {
-								csv.Write(prop.indexes ? i + "," : "");
-								csv.Write(prop.integerValues ? pixels[i].value + "," : "");
-								csv.Write(prop.RGBValues ? RGBvals : "");
-								csv.Write("\n");
-							}
-						}
-						// MessageBox.Show("done, wrote " + imgdata.totalpixels + " lines to: " + imgpath);
-
-						csv.Close();
-					}
-					catch (Exception)
-					{ }
-				}
-			}
-		}
-
 		public static short coltoi(Color p)
 		{
 			short numcolor = 0;
@@ -131,7 +83,7 @@ namespace BitClean
 				numcolor = constants.INT_WHITE;
 
 			/*
-			//want to offset everything by 1, so color integer values run [1 -> 1021]
+			// want to offset everything by 1, so color integer values run [1 -> 1021]
 			else if (p.R == 255)
 				numcolor = (short) (p.R + (255 - p.G) + p.B + constants.GREEN_SHIFT + 1);
 			else if (p.G == 255)
@@ -147,11 +99,12 @@ namespace BitClean
 			else
 				numcolor = (short)(p.G + (255 - p.B) + 1);
 
-			// if last line was written as:
-			// numcolor = (short) (p.R + p.G + p.B - 255 + 1);
-			// any color with green and red < 255 would result in 0...?
-
 			return numcolor;
+		}
+
+		public string getimgpath()
+		{
+			return imgpath;
 		}
 
 		public ref data getimagedata()
@@ -164,9 +117,5 @@ namespace BitClean
 			return pixels;
 		}
 
-		private data imgdata;
-		public string imgpath;
-        private pixel[] pixels = null;
-        private readonly string image_err = "::IMAGE::error : ";
     }
 }

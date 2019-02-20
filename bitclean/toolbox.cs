@@ -38,15 +38,16 @@ namespace BitClean
                 {
                     buffer = s.Buffer;
                     perimeter = s.Perimeter;
-					/*
-					objectData dat = new objectData(getAverageValue(), buffer.Count, buffer.Count / s.getedges());
-                    conf c = confidence.getconfidence(dat);
-                    dat.objconf = c;
-                    objdat.Add(dat);
+					
+					objectData dat = new objectData (
+						getAverageHue(), 
+						getValueDensity(), 
+						buffer.Count, 
+						buffer.Count / s.getedges()
+						);
 
-                    if (!c.isStructure)
-                        colorbuffer(constants.COLOR_CLEAR);
-					*/
+					objdat.Add(dat);
+
 					colorbuffer(constants.FLOOR);
                 }
                 s.clearbuffer();

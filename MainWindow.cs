@@ -19,10 +19,12 @@ namespace BitClean
 {
 	public partial class MainWindow : Form
 	{
-		private imageops img = null;
-		private toolbox t = null;
 		public Bitmap bmp = null;
 		public string bmppath = "";
+
+		private imageops img = null;
+		private toolbox t = null;
+		private bool imageloaded = false, imagecleaned = false;
 
 		public MainWindow()
 		{
@@ -105,7 +107,7 @@ namespace BitClean
 		//
 		private void exportDiagnostics_Click(object sender, EventArgs e)
 		{
-			Diagnostics diagnosticsWindow = new Diagnostics(img);
+			Diagnostics diagnosticsWindow = new Diagnostics(img.getimgpath(), imageloaded, imagecleaned, img.getpixels(), t.getObjectData());
 			diagnosticsWindow.Show();
 
 			// img.exportdiagnostics(bmp, bmppath, DIAGNOSTICS.ALL);

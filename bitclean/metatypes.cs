@@ -25,13 +25,22 @@ namespace BitClean
 																			//  - this is helpful for average hue and average density functions
 	}
 
-	public struct diagnosticsProperties
+	public struct pixelDiagnosticsProperties
 	{
 		public bool includeWhite;
 		public bool indexes;
 		public bool integerValues;
 		public bool RGBValues;
 	};
+	public struct confidenceDiagnosticsProperties
+	{
+		public bool objectdecision;
+		public bool totalsize;
+		public bool averagehue;
+		public bool valuedensity;
+		public bool edgeratio;
+	};
+
 
 	//the .pgm file's basic data
 	public struct data
@@ -79,15 +88,17 @@ namespace BitClean
 
     public class objectData
     {
-        public objectData(double av, int s, double e)
+        public objectData(double avghue, double density, int size, double edgeratio)
         {
-            avgval = av;
-            size = s;
-            edgeratio = e;
+			this.avghue = avghue;
+			this.density = density;
+			this.size = size;
+			this.edgeratio = edgeratio;
         }
 
-        public double avgval;
-        public int size;
+        public double avghue;
+		public double density;
+		public int size;
         public double edgeratio;
         public conf objconf;
     }

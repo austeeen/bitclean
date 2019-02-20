@@ -18,7 +18,7 @@ namespace BitClean
         {
             //avg, size, edge
             conf c = new conf();
-            value(c, d.avgval);
+            //value(c, d.avgval);
             size(c, d.size);
             edges(c, d.edgeratio);
             c.dust = c.d_edge + c.d_size + c.d_val;
