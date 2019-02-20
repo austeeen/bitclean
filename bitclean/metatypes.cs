@@ -25,9 +25,12 @@ namespace BitClean
 																			//  - this is helpful for average hue and average density functions
 	}
 
-	enum DIAGNOSTICS
+	public struct diagnosticsProperties
 	{
-		ALL, NON_WHITE
+		public bool includeWhite;
+		public bool indexes;
+		public bool integerValues;
+		public bool RGBValues;
 	};
 
 	//the .pgm file's basic data

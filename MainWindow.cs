@@ -51,7 +51,7 @@ namespace BitClean
 				try
 				{
 					bmp = new Bitmap(Image.FromFile(bmppath));
-					img = new imageops(bmp);
+					img = new imageops(bmp, bmppath);
 
 					pictureBox1.Image = img.parseImage(bmp);
 
@@ -89,19 +89,6 @@ namespace BitClean
 
 		#region Image Drop Down Buttons
 		//
-		// Image > Set Up
-		//
-		private void setUpImage_Click(object sender, EventArgs e)
-		{
-			if (bmp == null) return;
-
-			img = new imageops(bmp);
-
-			pictureBox1.Image = img.parseImage(bmp);
-
-			t = new toolbox(img.getpixels(), img.getimagedata());
-		}
-		//
 		// Image > Bit Clean
 		//
 		private void bitCleanImage_Click(object sender, EventArgs e)
@@ -118,7 +105,7 @@ namespace BitClean
 		//
 		private void exportDiagnostics_Click(object sender, EventArgs e)
 		{
-			Diagnostics diagnosticsWindow = new Diagnostics();
+			Diagnostics diagnosticsWindow = new Diagnostics(img);
 			diagnosticsWindow.Show();
 
 			// img.exportdiagnostics(bmp, bmppath, DIAGNOSTICS.ALL);
@@ -134,5 +121,6 @@ namespace BitClean
 		*/
 		#endregion
 
+		imageops getImageOpsObject() { return img; }
 	}
 }

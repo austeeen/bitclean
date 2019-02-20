@@ -18,3 +18,4 @@ C:\Users\100057822\Documents\GitHub\bitmapPrototype\obj\Debug\BitClean.csproj.Ge
 C:\Users\100057822\Documents\GitHub\bitmapPrototype\obj\Debug\BitClean.csproj.CoreCompileInputs.cache
 C:\Users\100057822\Documents\GitHub\bitmapPrototype\obj\Debug\BitClean.exe
 C:\Users\100057822\Documents\GitHub\bitmapPrototype\obj\Debug\BitClean.pdb
+C:\Users\100057822\Documents\GitHub\bitmapPrototype\obj\Debug\BitClean.Diagnostics.resources

@@ -7,7 +7,6 @@ using System.IO;
 using System.Drawing;
 using System.Windows.Forms;
 
-
 /*
  * bitmapProto: BitClean/image.cs
  * Author: Austin Herman
@@ -16,13 +15,14 @@ using System.Windows.Forms;
 
 namespace BitClean
 {
-    class imageops
+    public class imageops
     {
-		public imageops(Bitmap bmp)
+		public imageops(Bitmap bmp, string bmppath)
 		{
 			imgdata.height = bmp.Height;
 			imgdata.width = bmp.Width;
 			imgdata.totalpixels = bmp.Height * bmp.Width;
+			imgpath = bmppath;
 		}
 
 		// changes Magenta floor colored pixels from Cloud Compare into white
@@ -71,75 +71,56 @@ namespace BitClean
 			}
 		}
 
-		public void exportdiagnostics(Bitmap bmp, string bmppath, DIAGNOSTICS userchoice)
+		public void exportdiagnostics(string header, diagnosticsProperties prop)
 		{
 			using (var saveFD = new SaveFileDialog())
 			{
 				saveFD.Title = "Save the diagostics csv file";
 				saveFD.Filter = "csv files (*.csv)|*.csv";
 
-				saveFD.FileName = Path.GetFileNameWithoutExtension(bmppath + "data");
-				saveFD.InitialDirectory = Path.GetDirectoryName(bmppath);
+				saveFD.FileName = Path.GetFileNameWithoutExtension(imgpath + "data");
+				saveFD.InitialDirectory = Path.GetDirectoryName(imgpath);
 
 				DialogResult result = saveFD.ShowDialog();
 
 				if (result == DialogResult.OK)
 				{
-					switch(userchoice)
+					try
 					{
-						case DIAGNOSTICS.ALL:		{ exportAllDiagnostics(bmp, saveFD.FileName); break; }
-						case DIAGNOSTICS.NON_WHITE: { exportNonWhiteDiagnostics(bmp, saveFD.FileName); break; }
+						// MessageBox.Show("writing diagnostics...");
+
+						StreamWriter csv = new StreamWriter(saveFD.FileName);
+						csv.WriteLine(header);
+
+						for (int i = 0; i < imgdata.totalpixels; i ++)
+						{ 
+							pixel curPixel = pixels[i];
+							string RGBvals = pixels[i].r + " " + pixels[i].g + " " + pixels[i].b + ",";
+
+							if (!prop.includeWhite)
+							{
+								if (curPixel.value != constants.INT_WHITE) {
+									csv.Write(prop.indexes ? i + "," : "");
+									csv.Write(prop.integerValues ? pixels[i].value + "," : "");
+									csv.Write(prop.RGBValues ? RGBvals : "");
+									csv.Write("\n");
+								}
+							}
+							else {
+								csv.Write(prop.indexes ? i + "," : "");
+								csv.Write(prop.integerValues ? pixels[i].value + "," : "");
+								csv.Write(prop.RGBValues ? RGBvals : "");
+								csv.Write("\n");
+							}
+						}
+						// MessageBox.Show("done, wrote " + imgdata.totalpixels + " lines to: " + imgpath);
+
+						csv.Close();
 					}
+					catch (Exception)
+					{ }
 				}
 			}
-		}
-		
-		private void exportAllDiagnostics(Bitmap bmp, string path)
-		{
-			try
-			{
-				StreamWriter csv = new StreamWriter(path);
-				csv.WriteLine("index, bmp_color_value, pixel_array_value");
-
-				int i = 0;
-				for (int y = 0; y < bmp.Height; y++)
-				{
-					for (int x = 0; x < bmp.Width; x++)
-					{
-						csv.WriteLine(i + "," + coltoi(bmp.GetPixel(x, y)) + "," + pixels[i].value);
-						i++;
-					}
-				}
-
-				csv.Close();
-			}
-			catch (Exception)
-			{ }
-		}
-
-		private void exportNonWhiteDiagnostics(Bitmap bmp, string path)
-		{
-			try
-			{
-				StreamWriter csv = new StreamWriter(path);
-				csv.WriteLine("index, bmp_color_value, pixel_array_value");
-
-				int i = 0;
-				for (int y = 0; y < bmp.Height; y++)
-				{
-					for (int x = 0; x < bmp.Width; x++)
-					{
-						if (bmp.GetPixel(x, y) != constants.WHITE)
-							csv.WriteLine(i + "," + coltoi(bmp.GetPixel(x, y)) + "," + pixels[i].value);
-
-						i++;
-					}
-				}
-
-				csv.Close();
-			}
-			catch (Exception)
-			{ }
 		}
 
 		public static short coltoi(Color p)
@@ -184,6 +165,7 @@ namespace BitClean
 		}
 
 		private data imgdata;
+		public string imgpath;
         private pixel[] pixels = null;
         private readonly string image_err = "::IMAGE::error : ";
     }

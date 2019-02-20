@@ -34,7 +34,6 @@
 			this.loadImageMenuStripItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.saveImageMenuStripItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.imageMenuStripItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.setUpMenuStripItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.bitCleanMenuStripItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.diagnosticsMenuStripItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.exportMenuStripItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -57,9 +56,9 @@
 			this.menuStrip1.BackColor = System.Drawing.Color.MintCream;
 			this.menuStrip1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.fileMenuStripItem,
-			this.imageMenuStripItem,
-			this.diagnosticsMenuStripItem});
+            this.fileMenuStripItem,
+            this.imageMenuStripItem,
+            this.diagnosticsMenuStripItem});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
 			this.menuStrip1.Size = new System.Drawing.Size(800, 24);
@@ -69,8 +68,8 @@
 			// fileMenuStripItem
 			// 
 			this.fileMenuStripItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.loadImageMenuStripItem,
-			this.saveImageMenuStripItem});
+            this.loadImageMenuStripItem,
+            this.saveImageMenuStripItem});
 			this.fileMenuStripItem.Name = "fileMenuStripItem";
 			this.fileMenuStripItem.Size = new System.Drawing.Size(37, 20);
 			this.fileMenuStripItem.Text = "File";
@@ -92,42 +91,34 @@
 			// imageMenuStripItem
 			// 
 			this.imageMenuStripItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.setUpMenuStripItem,
-			this.bitCleanMenuStripItem});
+            this.bitCleanMenuStripItem});
 			this.imageMenuStripItem.Name = "imageMenuStripItem";
 			this.imageMenuStripItem.Size = new System.Drawing.Size(52, 20);
 			this.imageMenuStripItem.Text = "Image";
 			// 
-			// setUpMenuStripItem
-			// 
-			this.setUpMenuStripItem.Name = "setUpMenuStripItem";
-			this.setUpMenuStripItem.Size = new System.Drawing.Size(121, 22);
-			this.setUpMenuStripItem.Text = "Set Up";
-			this.setUpMenuStripItem.Click += new System.EventHandler(this.setUpImage_Click);
-			// 
 			// bitCleanMenuStripItem
 			// 
 			this.bitCleanMenuStripItem.Name = "bitCleanMenuStripItem";
-			this.bitCleanMenuStripItem.Size = new System.Drawing.Size(121, 22);
+			this.bitCleanMenuStripItem.Size = new System.Drawing.Size(180, 22);
 			this.bitCleanMenuStripItem.Text = "Bit Clean";
 			this.bitCleanMenuStripItem.Click += new System.EventHandler(this.bitCleanImage_Click);
 			// 
 			// diagnosticsMenuStripItem
 			// 
 			this.diagnosticsMenuStripItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.exportMenuStripItem});
+            this.exportMenuStripItem});
 			this.diagnosticsMenuStripItem.Name = "diagnosticsMenuStripItem";
 			this.diagnosticsMenuStripItem.Size = new System.Drawing.Size(80, 20);
 			this.diagnosticsMenuStripItem.Text = "Diagnostics";
 			// 
-			// exportAllMenuStripItem
+			// exportMenuStripItem
 			// 
-			this.exportMenuStripItem.Name = "exportAllMenuStripItem";
+			this.exportMenuStripItem.Name = "exportMenuStripItem";
 			this.exportMenuStripItem.Size = new System.Drawing.Size(180, 22);
 			this.exportMenuStripItem.Text = "Export Diagnostics...";
 			this.exportMenuStripItem.Click += new System.EventHandler(this.exportDiagnostics_Click);
 			// 
-			// Form1
+			// MainWindow
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -137,7 +128,7 @@
 			this.Controls.Add(this.pictureBox1);
 			this.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.MainMenuStrip = this.menuStrip1;
-			this.Name = "Form1";
+			this.Name = "MainWindow";
 			this.Text = "BitClean - Prototype";
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
 			this.menuStrip1.ResumeLayout(false);
@@ -156,7 +147,6 @@
 		private System.Windows.Forms.ToolStripMenuItem saveImageMenuStripItem;
 
 		private System.Windows.Forms.ToolStripMenuItem imageMenuStripItem;
-		private System.Windows.Forms.ToolStripMenuItem setUpMenuStripItem;
 		private System.Windows.Forms.ToolStripMenuItem bitCleanMenuStripItem;
 
 		private System.Windows.Forms.ToolStripMenuItem diagnosticsMenuStripItem;
