@@ -79,14 +79,14 @@
 			this.loadImageMenuStripItem.Name = "loadImageMenuStripItem";
 			this.loadImageMenuStripItem.Size = new System.Drawing.Size(136, 22);
 			this.loadImageMenuStripItem.Text = "Load Image";
-			this.loadImageMenuStripItem.Click += new System.EventHandler(this.loadImageFile_Click);
+			this.loadImageMenuStripItem.Click += new System.EventHandler(this.LoadImageFile_Click);
 			// 
 			// saveImageMenuStripItem
 			// 
 			this.saveImageMenuStripItem.Name = "saveImageMenuStripItem";
 			this.saveImageMenuStripItem.Size = new System.Drawing.Size(136, 22);
 			this.saveImageMenuStripItem.Text = "Save Image";
-			this.saveImageMenuStripItem.Click += new System.EventHandler(this.saveImageFile_Click);
+			this.saveImageMenuStripItem.Click += new System.EventHandler(this.SaveImageFile_Click);
 			// 
 			// imageMenuStripItem
 			// 
@@ -101,7 +101,7 @@
 			this.bitCleanMenuStripItem.Name = "bitCleanMenuStripItem";
 			this.bitCleanMenuStripItem.Size = new System.Drawing.Size(180, 22);
 			this.bitCleanMenuStripItem.Text = "Bit Clean";
-			this.bitCleanMenuStripItem.Click += new System.EventHandler(this.bitCleanImage_Click);
+			this.bitCleanMenuStripItem.Click += new System.EventHandler(this.BitCleanImage_Click);
 			// 
 			// diagnosticsMenuStripItem
 			// 
@@ -116,7 +116,7 @@
 			this.exportMenuStripItem.Name = "exportMenuStripItem";
 			this.exportMenuStripItem.Size = new System.Drawing.Size(180, 22);
 			this.exportMenuStripItem.Text = "Export Diagnostics...";
-			this.exportMenuStripItem.Click += new System.EventHandler(this.exportDiagnostics_Click);
+			this.exportMenuStripItem.Click += new System.EventHandler(this.ExportDiagnostics_Click);
 			// 
 			// MainWindow
 			// 

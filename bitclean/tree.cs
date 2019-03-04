@@ -12,16 +12,16 @@ using System.Threading.Tasks;
 
 namespace BitClean
 {
-    public static class tree
+    public static class Tree
     {
-        public static bool insert(ref node n, int id)
+        public static bool Insert(ref Node n, int id)
         {
             if (n == null)
             {
-                n = new node(id);
+                n = new Node(id);
                 return true;
             }
-            node r = n;
+			Node r = n;
             while (n != null)
             {
                 if (id < n.id)
@@ -30,7 +30,7 @@ namespace BitClean
                         n = n.left;
                     else
                     {
-                        n.left = new node(id);
+                        n.left = new Node(id);
                         n = r;
                         return true;
                     }
@@ -41,7 +41,7 @@ namespace BitClean
                         n = n.right;
                     else
                     {
-                        n.right = new node(id);
+                        n.right = new Node(id);
                         n = r;
                         return true;
                     }
@@ -55,10 +55,10 @@ namespace BitClean
             return false;
         }
 
-        public static int findNode(node n, int id)
+        public static int FindNode(Node n, int id)
         {
             if (n == null) return -1;
-            node r = n;
+			Node r = n;
             while (n != null)
             {
                 if (id == n.id)
@@ -73,14 +73,14 @@ namespace BitClean
             return -1;
         }
 
-        public static void buildTree(List<int> v, node r)
+        public static void BuildTree(List<int> v, Node r)
         {
-            List<tup> stack = new List<tup>();
+            List<Tup> stack = new List<Tup>();
             int m, s, e;
             m = (0 + v.Count - 1) / 2;
-            insert(ref r, v[m]);
-            tup right = new tup(m + 1, v.Count);
-            tup left = new tup(0, m);
+            Insert(ref r, v[m]);
+			Tup right = new Tup(m + 1, v.Count);
+			Tup left = new Tup(0, m);
             stack.Add(right);
             stack.Add(left);
             while (stack.Count > 0)
@@ -91,19 +91,19 @@ namespace BitClean
                 if (s < e)
                 {
                     m = (s + e) / 2;
-                    insert(ref r, v[m]);
-                    right.change(m + 1, v.Count);
-                    left.change(0, m);
+                    Insert(ref r, v[m]);
+                    right.Change(m + 1, v.Count);
+                    left.Change(0, m);
                     stack.Add(right);
                     stack.Add(left);
                 }
             }
         }
 
-        public static void getInOrder(node n, List<int> v)
+        public static void GetInOrder(Node n, List<int> v)
         {
-            node r = n;
-            List<node> s = new List<node>();
+			Node r = n;
+            List<Node> s = new List<Node>();
             while (n != null || s.Count > 0)
             {
                 while (n != null)

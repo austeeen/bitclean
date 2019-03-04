@@ -105,7 +105,7 @@
 			this.ExportPixelButton.TabIndex = 3;
 			this.ExportPixelButton.Text = "Export Pixel Properties";
 			this.ExportPixelButton.UseVisualStyleBackColor = true;
-			this.ExportPixelButton.Click += new System.EventHandler(this.exportPixelsButton_Click);
+			this.ExportPixelButton.Click += new System.EventHandler(this.ExportPixelsButton_Click);
 			// 
 			// ExportConfidenceButton
 			// 
@@ -115,7 +115,7 @@
 			this.ExportConfidenceButton.TabIndex = 4;
 			this.ExportConfidenceButton.Text = "Export Confidence Properties";
 			this.ExportConfidenceButton.UseVisualStyleBackColor = true;
-			this.ExportConfidenceButton.Click += new System.EventHandler(this.exportConfidenceButton_Click);
+			this.ExportConfidenceButton.Click += new System.EventHandler(this.ExportConfidenceButton_Click);
 			// 
 			// Diagnostics
 			// 

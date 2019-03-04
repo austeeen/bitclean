@@ -14,10 +14,10 @@ namespace BitClean
 	public partial class Diagnostics : Form
 	{
 		private string imgpath = null;
-		private pixel[] pixels;
-		private List<objectData> objectdata;
+		private Pixel[] pixels;
+		private List<ObjectData> objectdata;
 
-		public Diagnostics(string imgpath, bool imageloaded, bool imagecleaned, pixel[] pixels, List<objectData> objectdata)
+		public Diagnostics(string imgpath, bool imageloaded, bool imagecleaned, Pixel[] pixels, List<ObjectData> objectdata)
 		{
 			InitializeComponent();
 			this.imgpath = imgpath;
@@ -27,10 +27,10 @@ namespace BitClean
 			this.objectdata = objectdata;
 		}
 
-		private void exportPixelsButton_Click(object sender, EventArgs e)
+		private void ExportPixelsButton_Click(object sender, EventArgs e)
 		{
 			string header = "";
-			pixelDiagnosticsProperties properties;
+			PixelDiagnosticsProperties properties;
 			properties.includeWhite	 = false;
 			properties.integerValues = false;
 			properties.RGBValues	 = false;
@@ -58,13 +58,13 @@ namespace BitClean
 
 			// run same for object properties
 			if(header != "")
-				exportPixeldiagnostics(header, properties);
+				ExportPixeldiagnostics(header, properties);
 		}
 
-		private void exportConfidenceButton_Click(object sender, EventArgs e)
+		private void ExportConfidenceButton_Click(object sender, EventArgs e)
 		{
 			string header = "";
-			confidenceDiagnosticsProperties properties;
+			ConfidenceDiagnosticsProperties properties;
 			properties.objectdecision	= false;
 			properties.totalsize		= false;
 			properties.averagehue		= false;
@@ -94,10 +94,10 @@ namespace BitClean
 
 			// run same for object properties
 			if (header != "")
-				exportConfidencediagnostics(header, properties);
+				ExportConfidencediagnostics(header, properties);
 		}
 
-		public void exportPixeldiagnostics(string header, pixelDiagnosticsProperties prop)
+		public void ExportPixeldiagnostics(string header, PixelDiagnosticsProperties prop)
 		{
 			using (var saveFD = new SaveFileDialog())
 			{
@@ -118,16 +118,16 @@ namespace BitClean
 
 						for (int i = 0; i < pixels.Length; i++)
 						{
-							pixel curPixel = pixels[i];
+							Pixel curPixel = pixels[i];
 							string RGBvals = pixels[i].r + " " + pixels[i].g + " " + pixels[i].b + ",";
 
 							if (!prop.includeWhite)
 							{
-								if (curPixel.value != constants.INT_WHITE)
+								if (curPixel.value != Constants.INT_WHITE)
 								{
-									csv.Write(prop.indexes ? i + "," : "");
-									csv.Write(prop.integerValues ? pixels[i].value + "," : "");
-									csv.Write(prop.RGBValues ? RGBvals : "");
+									csv.Write(prop.indexes			? i					+ "," : "");
+									csv.Write(prop.integerValues	? pixels[i].value	+ "," : "");
+									csv.Write(prop.RGBValues		? RGBvals				: "");
 									csv.Write("\n");
 								}
 							}
@@ -147,7 +147,7 @@ namespace BitClean
 			}
 		}
 
-		public void exportConfidencediagnostics(string header, confidenceDiagnosticsProperties prop)
+		public void ExportConfidencediagnostics(string header, ConfidenceDiagnosticsProperties prop)
 		{
 			using (var saveFD = new SaveFileDialog())
 			{
@@ -167,7 +167,17 @@ namespace BitClean
 						csv.WriteLine(header);
 
 						//iterate through object data
-
+						for (int i = 0; i < objectdata.Count; i ++)
+						{
+							if (prop.objectdecision) {
+								csv.Write((objectdata[i].objconf.isStructure ? "s" : "d") + ",");
+							}
+							csv.Write(prop.totalsize		? objectdata[i].size		+ ","	: "");
+							csv.Write(prop.averagehue		? objectdata[i].avghue		+ ","	: "");
+							csv.Write(prop.valuedensity		? objectdata[i].density		+ ","	: "");
+							csv.Write(prop.edgeratio		? objectdata[i].edgeratio.ToString(): "");
+							csv.Write("\n");
+						}
 						csv.Close();
 					}
 					catch (Exception)

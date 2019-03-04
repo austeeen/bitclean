@@ -46,7 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="bitclean\confidence.cs" />
+    <Compile Include="bitclean\propertycalculations.cs" />
     <Compile Include="bitclean\edge.cs" />
     <Compile Include="bitclean\filler.cs" />
     <Compile Include="bitclean\imageops.cs" />

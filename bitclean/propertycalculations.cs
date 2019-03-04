@@ -5,22 +5,22 @@ using System.Text;
 using System.Threading.Tasks;
 
 /*
- * BitClean: bitclean/confidence.cs
+ * BitClean: bitclean/propertycalculations.cs
  * Author: Austin Herman
  * 2/11/2019
  */
 
 namespace BitClean
 {
-    public static class confidence
+    public static class PropertyCalculations
     {
-        public static conf getconfidence(objectData d)
+        public static Confidence GetConfidence(ObjectData d)
         {
-            //avg, size, edge
-            conf c = new conf();
-            //value(c, d.avgval);
-            size(c, d.size);
-            edges(c, d.edgeratio);
+			//avg, size, edge
+			Confidence c = new Confidence();
+            //Value(c, d.avgval);
+            Size(c, d.size);
+            Edges(c, d.edgeratio);
             c.dust = c.d_edge + c.d_size + c.d_val;
             c.structure = c.s_edge + c.s_size + c.s_val;
             if (c.dust > c.structure)
@@ -29,7 +29,7 @@ namespace BitClean
                 c.isStructure = true;
             return c;
         }
-        private static void edges(conf c, double d)
+        private static void Edges(Confidence c, double d)
         {
             if (d < 18.2) c.d_edge += 95.00;
             else if (d < 30.2) c.d_edge += 77.35;
@@ -47,7 +47,7 @@ namespace BitClean
             else c.s_edge += 95.00;
         }
 
-        private static void size(conf c, double d)
+        private static void Size(Confidence c, double d)
         {
             if (d < 30) c.d_size += 99.00;
             else if (d < 331) c.d_size += 45.68;
@@ -69,7 +69,7 @@ namespace BitClean
             c.s_size -= 25;
         }
 
-        private static void value(conf c, double d)
+        private static void Value(Confidence c, double d)
         {
             if (d < 30) c.d_val += 1.00;
             else if (d < 84) c.d_val += 8.41;

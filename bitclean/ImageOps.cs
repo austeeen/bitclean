@@ -15,13 +15,13 @@ using System.Windows.Forms;
 
 namespace BitClean
 {
-    public class imageops
+    public class ImageOps
     {
-		private data imgdata;
+		private Data imgdata;
 		public string imgpath;
-		private pixel[] pixels = null;
+		private Pixel[] pixels = null;
 
-		public imageops(Bitmap bmp, string bmppath)
+		public ImageOps(Bitmap bmp, string bmppath)
 		{
 			imgdata.height = bmp.Height;
 			imgdata.width = bmp.Width;
@@ -30,10 +30,10 @@ namespace BitClean
 		}
 
 		// changes Magenta floor colored pixels from Cloud Compare into white
-		public Bitmap parseImage(Bitmap bmp)
+		public Bitmap ParseImage(Bitmap bmp)
 		{
 			int i = 0;
-			pixels = new pixel[bmp.Width * bmp.Height];
+			pixels = new Pixel[bmp.Width * bmp.Height];
 
 			for (int y = 0; y < bmp.Height; y++)
 			{
@@ -41,13 +41,13 @@ namespace BitClean
 				{
 					Color p = bmp.GetPixel(x, y);
 
-					if (p == constants.FLOOR) {
-						bmp.SetPixel(x, y, constants.WHITE);
+					if (p == Constants.FLOOR) {
+						bmp.SetPixel(x, y, Constants.WHITE);
 						p = bmp.GetPixel(x, y);
 					}
 
 					pixels[i].id = i;
-					pixels[i].value = coltoi(p);
+					pixels[i].value = ColToInt(p);
 					pixels[i].r = p.R;
 					pixels[i].g = p.G;
 					pixels[i].b = p.B;
@@ -60,7 +60,7 @@ namespace BitClean
 			return bmp;
 		}
 
-		public void pushpixelstoimage(Bitmap bmp)
+		public void PushPixelsToImage(Bitmap bmp)
 		{
 			int i = 0;
 
@@ -75,22 +75,12 @@ namespace BitClean
 			}
 		}
 
-		public static short coltoi(Color p)
+		public static short ColToInt(Color p)
 		{
 			short numcolor = 0;
 
-			if (p == constants.WHITE)
-				numcolor = constants.INT_WHITE;
-
-			/*
-			// want to offset everything by 1, so color integer values run [1 -> 1021]
-			else if (p.R == 255)
-				numcolor = (short) (p.R + (255 - p.G) + p.B + constants.GREEN_SHIFT + 1);
-			else if (p.G == 255)
-				numcolor = (short) (p.R + p.G + (255 - p.B) + 1);
-			else
-				numcolor = (short) (p.R + p.G + p.B + 1);
-			*/
+			if (p == Constants.WHITE)
+				numcolor = Constants.INT_WHITE;
 
 			else if (p.R == 255)
 				numcolor = (short) (p.R + (255 - p.G) + 510 + 1);
@@ -102,17 +92,17 @@ namespace BitClean
 			return numcolor;
 		}
 
-		public string getimgpath()
+		public string GetImagePath()
 		{
 			return imgpath;
 		}
 
-		public ref data getimagedata()
+		public ref Data GetImageData()
         {
             return ref imgdata;
         }
 
-		public pixel[] getpixels()
+		public Pixel[] GetPixels()
 		{
 			return pixels;
 		}

@@ -13,7 +13,7 @@ using System.Drawing;
 
 namespace BitClean
 {
-	static class constants
+	static class Constants
 	{
 		public const short VALUE_THRESHOLD = 0;                             // a useful threshold for pixel values (white)
 		public const int MAX_OBJECT_SIZE_ESTIMATE = 2700;                   // if an object is bigger than this ignore it -- optimization thing
@@ -25,14 +25,14 @@ namespace BitClean
 																			//  - this is helpful for average hue and average density functions
 	}
 
-	public struct pixelDiagnosticsProperties
+	public struct PixelDiagnosticsProperties
 	{
 		public bool includeWhite;
 		public bool indexes;
 		public bool integerValues;
 		public bool RGBValues;
 	};
-	public struct confidenceDiagnosticsProperties
+	public struct ConfidenceDiagnosticsProperties
 	{
 		public bool objectdecision;
 		public bool totalsize;
@@ -43,14 +43,14 @@ namespace BitClean
 
 
 	//the .pgm file's basic data
-	public struct data
+	public struct Data
     {
         public int width, height;
         public int totalpixels;
     };
 
     //a basic pixel class
-    public struct pixel
+    public struct Pixel
     {
         public bool selected;   //used for selection
         public short value;     //converted color integer value
@@ -58,14 +58,19 @@ namespace BitClean
         public int id;          //ID [0->totalpixels]
     };
 
+	public struct Coordinate
+	{
+		public int x, y;
+	}
+
     //each pixel has eight neighbors
-    class octan
+    class Octan
     {
         public int tl = -1, t = -1, tr = -1,
                    l = -1,          r = -1,
                    bl = -1, b = -1, br = -1;
 
-        public octan()
+        public Octan()
         {
             tl = -1; t = -1; tr = -1;
             l = -1;          r = -1;
@@ -74,68 +79,69 @@ namespace BitClean
     };
 
     //edge and filler use this for navigation around the pixel map
-    enum direction
+    enum Direction
     {
         none, up, down, left, right
     };
 
-    class path
+    class Trail
     {
-        public direction dir = direction.none;
+        public Direction dir = Direction.none;
         public int id = -1;
-        public path(direction d, int i) { dir = d; id = i; }
+        public Trail(Direction d, int i) { dir = d; id = i; }
     };
 
-    public class objectData
-    {
-        public objectData(double avghue, double density, int size, double edgeratio)
-        {
-			this.avghue = avghue;
-			this.density = density;
-			this.size = size;
-			this.edgeratio = edgeratio;
-        }
+	public struct ObjectBounds
+	{
+		public int top, left, bottom, right;
+	}
 
-        public double avghue;
-		public double density;
-		public int size;
-        public double edgeratio;
-        public conf objconf;
+    public class ObjectData
+    {
+		public int tag;             // unique id associated with object
+		public double avghue;		// average integer color value of all pixels in selection
+		public double density;		// percentage of non-floor colored pixels occupying the selection
+		public int size;			// total size in pixels of selection
+		public double edgeratio;	// ratio of total size to calculated edges
+		public ObjectBounds bounds; // integer coordinate of top,left,bottom,right most pixels
+		public Coordinate position;	// x,y coordinate of top-left most pixel
+		public List<int> neighbors; // list of tags of other objects in the vicinity of this one
+        public Confidence objconf;	// confidence property
     }
 
-    public class conf
-    {
-        public double structure = 0.0, dust = 0.0,
-                        s_size = 0.0, d_size = 0.0,
+    public class Confidence
+	{
+        public double structure, dust,
+                        s_size, d_size,
                         s_edge = 0.0, d_edge = 0.0,
                         s_val = 0.0, d_val = 0.0;
         public bool isStructure;
     };
 
-    public class node
+    public class Node
     {
-        public node left, right;
+        public Node left, right;
         public int id;
-        public node() { left = null; right = null; id = -1; }
-        public node(int i) { left = null; right = null; id = i; }
+        public Node() { left = null; right = null; id = -1; }
+        public Node(int i) { left = null; right = null; id = i; }
     };
 
     //simply stores two integers in one structure
-    class tup
+    class Tup
     {
         public int s, e;
-        public tup(int st, int en) { s = st; e = en; }
-        public void change(int st, int en) { s = st; e = en; }
+        public Tup(int st, int en) { s = st; e = en; }
+        public void Change(int st, int en) { s = st; e = en; }
     };
 
-    public enum field
+    public enum Field
     {
         tl, t, tr,
         l,      r,
         bl, b, br
     };
 
-    public static class fieldvector
+    public static class FieldVector
     {
         public static readonly int[] verticalfield =
         {

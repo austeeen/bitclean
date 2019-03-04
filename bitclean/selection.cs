@@ -12,14 +12,14 @@ using System.Threading.Tasks;
 
 namespace BitClean
 {
-    public class selection
+    public class Selection
     {
-        selection()
+		Selection()
         {
             Console.Write(selection_err + "initialized without pixels\n");
         }
 
-        public selection(pixel[] pixels, int width, int total)
+        public Selection(Pixel[] pixels, int width, int total)
         {
             buffer = new List<int>();
             perimeter = new List<int>();
@@ -29,11 +29,11 @@ namespace BitClean
             buffersize = 0;
         }
 
-        public bool get(int id)
+        public bool Get(int id)
         {
-	        if (checkpixel(ref p[id])) // check the current pixel
+	        if (CheckPixel(ref p[id])) // check the current pixel
 	        {
-		        iterate();
+		        Iterate();
 
 				/*
 		        if (buffersize > 0 && buffersize < constants.MAX_OBJECT_SIZE_ESTIMATE)
@@ -44,95 +44,97 @@ namespace BitClean
 		        }
 				*/
 
-				fillpixels();	// fill in any white pixels inside the selection
-				findedges();	// find edge pixels in selection
+				FillPixels();	// fill in any white pixels inside the selection
+				FindEdges();	// find edge pixels in selection
 				return true;
 			}
 	        return false;
         }
 
-        private void iterate()
+        private void Iterate()
         {
             for (int i = 0; i < buffersize; i++)
-                nextpixel(buffer[i]); // check neighbors for non-white
+				NextPixel(buffer[i]); // check neighbors for non-white
         }
 
-        private void nextpixel(int id)
+        private void NextPixel(int id)
         {
             if ((id - width - 1) > 0)
             {
-                checkpixel(ref p[id - width - 1]);   //top left
-                checkpixel(ref p[id - width]);       //top center
-                checkpixel(ref p[id - width + 1]);   //top right
+                CheckPixel(ref p[id - width - 1]);   //top left
+				CheckPixel(ref p[id - width]);       //top center
+				CheckPixel(ref p[id - width + 1]);   //top right
             }
 
             if (id % width != 0)
-                checkpixel(ref p[id - 1]);   //center left
+				CheckPixel(ref p[id - 1]);   //center left
             if (id % (width + 1) != 0)
-                checkpixel(ref p[id + 1]);   //center right
+				CheckPixel(ref p[id + 1]);   //center right
 
             if ((id + width + 1) < total)
             {
-                checkpixel(ref p[id + width - 1]);   //bottom left
-                checkpixel(ref p[id + width]);       //bottom center
-                checkpixel(ref p[id + width + 1]);   //bottom right
+				CheckPixel(ref p[id + width - 1]);   //bottom left
+				CheckPixel(ref p[id + width]);       //bottom center
+				CheckPixel(ref p[id + width + 1]);   //bottom right
             }
         }
 
-        private bool checkpixel(ref pixel p)
+        private bool CheckPixel(ref Pixel p)
         {
-            if (p.value != constants.INT_WHITE) 
+            if (p.value != Constants.INT_WHITE) 
             {
                 if (!p.selected)
                 {	// add pixel to buffer, make it selected, insert into buffer tree
                     buffer.Add(p.id); 
                     p.selected = true;
                     buffersize++;
-                    tree.insert(ref buff, p.id);
+                    Tree.Insert(ref buff, p.id);
                     return true;
 				}// if not white and not selected
 			}
             return false;
         }
 
-        private void fillpixels()
+        private void FillPixels()
         {
-            filler fill = new filler(p, width, total);  // create fill object
+            Filler fill = new Filler(p, width, total);  // create fill object
 			
 			// run fill algorithm 
 			// add any filled in pixels to the buffer and bump buffer size
-			buffersize += fill.run(buffer, buffersize, buff);
+			buffersize += fill.Run(buffer, buffersize, buff);
+
+			objbounds = fill.GetBounds();
         }
 
-        private void findedges()
+        private void FindEdges()
         {
-            edge e = new edge(width, total);
-            e.detect(buffer, buff);
-            perimeter = e.getPerimiter();
-            numedges = e.getEdges();
+            Edge e = new Edge(width, total);
+            e.Detect(buffer, buff);
+            perimeter = e.GetPerimiter();
+            Edges = e.GetEdges();
         }
 
-        public void clearbuffer()
+        public void ClearBuffer()
         {
             buffer.Clear();
             buffersize = 0;
             buff = null;
         }
 
-        public int getedges()
-        {
-            return numedges;
-        }
+		public int Edges { get; private set; }
 
-        public ref List<int> Buffer => ref buffer;
+		public ref List<int> Buffer => ref buffer;
 
         public ref List<int> Perimeter => ref perimeter;
 
-        private readonly pixel[] p;
+		public ObjectBounds ObjBounds => objbounds;
+
+        private readonly Pixel[] p;
         private readonly int width, total;
+		private ObjectBounds objbounds;
         private List<int> buffer, perimeter;
-        private int buffersize, numedges;
-        private node buff;
+        private int buffersize;
+		private Node buff;
         private readonly string selection_err = "::SELECTION::error : ";
     }
 }

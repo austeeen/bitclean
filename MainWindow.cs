@@ -22,8 +22,8 @@ namespace BitClean
 		public Bitmap bmp = null;
 		public string bmppath = "";
 
-		private imageops img = null;
-		private toolbox t = null;
+		private ImageOps img = null;
+		private Toolbox t = null;
 		private bool imageloaded = false, imagecleaned = false;
 
 		public MainWindow()
@@ -35,7 +35,7 @@ namespace BitClean
 		//
 		// File > Load
 		//
-		private void loadImageFile_Click(object sender, EventArgs e)
+		private void LoadImageFile_Click(object sender, EventArgs e)
 		{
 			using (OpenFileDialog openFD = new OpenFileDialog())
 			{
@@ -53,14 +53,14 @@ namespace BitClean
 				try
 				{
 					bmp = new Bitmap(Image.FromFile(bmppath));
-					img = new imageops(bmp, bmppath);
+					img = new ImageOps(bmp, bmppath);
 
-					pictureBox1.Image = img.parseImage(bmp);
+					pictureBox1.Image = img.ParseImage(bmp);
 
-					t = new toolbox(img.getpixels(), img.getimagedata());
+					t = new Toolbox(img.GetPixels(), img.GetImageData());
+					imageloaded = true;
 				}
-				catch (Exception)
-				{
+				catch (Exception) {
 					bmp = null;
 				}
 			}
@@ -68,7 +68,7 @@ namespace BitClean
 		//
 		// File > Save
 		//
-		private void saveImageFile_Click(object sender, EventArgs e)
+		private void SaveImageFile_Click(object sender, EventArgs e)
 		{
 			// Get the file's save name
 			SaveFileDialog saveFD = new SaveFileDialog();
@@ -93,11 +93,12 @@ namespace BitClean
 		//
 		// Image > Bit Clean
 		//
-		private void bitCleanImage_Click(object sender, EventArgs e)
+		private void BitCleanImage_Click(object sender, EventArgs e)
 		{
-			t.run();
-			img.pushpixelstoimage(bmp);
+			t.Run();
+			img.PushPixelsToImage(bmp);
 			pictureBox1.Image = bmp;
+			imagecleaned = true;
 		}
 		#endregion
 
@@ -105,24 +106,14 @@ namespace BitClean
 		//
 		// Diagnostics > Export All
 		//
-		private void exportDiagnostics_Click(object sender, EventArgs e)
+		private void ExportDiagnostics_Click(object sender, EventArgs e)
 		{
-			Diagnostics diagnosticsWindow = new Diagnostics(img.getimgpath(), imageloaded, imagecleaned, img.getpixels(), t.getObjectData());
+			Diagnostics diagnosticsWindow = new Diagnostics(img.GetImagePath(), imageloaded, imagecleaned, img.GetPixels(), t.GetObjectData());
 			diagnosticsWindow.Show();
+		}
 
-			// img.exportdiagnostics(bmp, bmppath, DIAGNOSTICS.ALL);
-		}
-		/*
-		//
-		// Diagnostics > Export Non-White
-		//
-		private void exportNonWhiteDiagnostics_Click(object sender, EventArgs e)
-		{
-			img.exportdiagnostics(bmp, bmppath, DIAGNOSTICS.NON_WHITE);
-		}
-		*/
 		#endregion
 
-		imageops getImageOpsObject() { return img; }
+		ImageOps getImageOpsObject() { return img; }
 	}
 }

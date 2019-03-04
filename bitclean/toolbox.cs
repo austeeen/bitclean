@@ -14,16 +14,16 @@ using System.Drawing;
 
 namespace BitClean
 {
-    public class toolbox
+    public class Toolbox
     {
-        public toolbox(pixel[] p, data dat)
+        public Toolbox(Pixel[] p, Data dat)
         {
             pixels = p;
 			imgdata = dat;
         }
 
         //the big boy, iterates through the pixels and drives algorithms
-        public void run()
+        public void Run()
         {
             if (pixels == null)
             {
@@ -31,36 +31,54 @@ namespace BitClean
                 return;
             }
 
-            selection s = new selection(pixels, imgdata.width, imgdata.totalpixels);
+            Selection s = new Selection(pixels, imgdata.width, imgdata.totalpixels);
+			int tagCount = 0;
             for (int i = 0; i < imgdata.totalpixels; i++)
             {
-                if (s.get(i)) // get the next object
+                if (s.Get(i)) // get the next object
                 {
                     buffer = s.Buffer;
                     perimeter = s.Perimeter;
-					
-					objectData dat = new objectData (
-						getAverageHue(), 
-						getValueDensity(), 
-						buffer.Count, 
-						buffer.Count / s.getedges()
-						);
+
+					ObjectData dat = new ObjectData {
+						tag = tagCount,
+						avghue = GetAverageHue(),
+						density = GetValueDensity(),
+						size = buffer.Count,
+						edgeratio = buffer.Count / s.Edges,
+						bounds = s.ObjBounds,
+						position = new Coordinate {
+							x = buffer[0] % imgdata.width,
+							y = buffer[0] / imgdata.width
+						}
+					};
+
+					tagCount++;
+
+					Confidence c = new Confidence {
+						isStructure = false
+					};
+
+					dat.objconf = c;
 
 					objdat.Add(dat);
 
-					colorbuffer(constants.FLOOR);
+					//ColorBuffer(Constants.FLOOR);
                 }
-                s.clearbuffer();
+                s.ClearBuffer();
                 buffer.Clear();
             }
+
+			// find neighbors for each object
+			// calculate confidence
         }
 
 		//sets the buffer to be colored with color 'c'
-		private void colorbuffer(Color c)
+		private void ColorBuffer(Color c)
 		{
 			for (int i = 0; i < buffer.Count; i++)
 			{
-				pixels[buffer[i]].value = imageops.coltoi(c);
+				pixels[buffer[i]].value = ImageOps.ColToInt(c);
 				pixels[buffer[i]].r = c.R;
 				pixels[buffer[i]].g = c.G;
 				pixels[buffer[i]].b = c.B;
@@ -68,7 +86,7 @@ namespace BitClean
 		}
 
 		//sets the edges to be colored with color 'c'
-		private void coloredges(Color c)
+		private void ColorEdges(Color c)
         {
 			for (int i = 0; i < perimeter.Count; i++)
 			{
@@ -79,34 +97,34 @@ namespace BitClean
 		}
 
 		// calculates average hue or color of the buffer
-        private double getAverageHue()
+        private double GetAverageHue()
         {
             double avg = 0;
 			for (int i = 0; i < buffer.Count; i++)
-				avg += pixels[buffer[i]].value;
+				if (pixels[buffer[i]].value != Constants.INT_WHITE) avg += pixels[buffer[i]].value;
 			return avg / buffer.Count;
         }
 
 		// returns the percentage of non-white pixels in the buffer
-		private double getValueDensity()
+		private double GetValueDensity()
 		{
 			double avg = 0;
 			for (int i = 0; i < buffer.Count; i++)
-				if (pixels[buffer[i]].value != 0) avg++;
-			return avg / buffer.Count;
+				if (pixels[buffer[i]].value != Constants.INT_WHITE) avg++;
+			return avg / buffer.Count * 100;
 		}
 
-		public List<objectData> getObjectData()
+		public List<ObjectData> GetObjectData()
         {
             return objdat;
         }
 
-        private pixel[] pixels = null;
+        private Pixel[] pixels = null;
 
-		private readonly data imgdata;
+		private readonly Data imgdata;
 
         private List<int> buffer = new List<int>();
         private List<int> perimeter = new List<int>();
-        private List<objectData> objdat = new List<objectData>();
+        private List<ObjectData> objdat = new List<ObjectData>();
     }
 }

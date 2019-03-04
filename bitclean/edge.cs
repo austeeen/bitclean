@@ -12,14 +12,14 @@ using System.Threading.Tasks;
 
 namespace BitClean
 {
-    class edge
+    class Edge
     {
-        edge()
+		Edge()
         {
             Console.WriteLine(edge_warn + "edge initialized with no pixels\n");
         }
 
-        public edge(int w, int t)
+        public Edge(int w, int t)
         {
             sel = null;
             per = null;
@@ -31,102 +31,101 @@ namespace BitClean
             total = t;
         }
 
-        public void detect(List<int> mselection, node buff)
+        public void Detect(List<int> mselection, Node buff)
         {
             sel = buff;
             stack.Add(mselection[0]);
             perimeter.Add(mselection[0]);
-            tree.insert(ref per, mselection[0]);
+            Tree.Insert(ref per, mselection[0]);
             perimSize++;
             numEdges++;
-            iterateEdges();
+			IterateEdges();
 
             per = null;
             sel = null;
         }
 
-        private void iterateEdges()
+        private void IterateEdges()
         {
             while (stack.Count != 0)
             {
                 int id = stack[stack.Count - 1];
                 stack.RemoveAt(stack.Count - 1);
-                checkneighbors(getOctan(id), id);
+				CheckNeighbors(GetOctan(id), id);
             }
         }
 
-        private octan getOctan(int id)
+        private Octan GetOctan(int id)
         {
-            octan oct = new octan();
+			Octan oct = new Octan();
             if ((id - width) > 0)
             {
-                oct.tl = tree.findNode(sel, id - width - 1);
-                oct.t = tree.findNode(sel, id - width);
-                oct.tr = tree.findNode(sel, id - width + 1);
+                oct.tl = Tree.FindNode(sel, id - width - 1);
+                oct.t = Tree.FindNode(sel, id - width);
+                oct.tr = Tree.FindNode(sel, id - width + 1);
             }
 
             if (id % width != 0)
-                oct.l = tree.findNode(sel, id - 1);
+                oct.l = Tree.FindNode(sel, id - 1);
 
             if ((id + 1) % width != 0)
-                oct.r = tree.findNode(sel, id + 1);
+                oct.r = Tree.FindNode(sel, id + 1);
 
             if ((id + width) < total)
             {
-                oct.bl = tree.findNode(sel, id + width - 1);
-                oct.b = tree.findNode(sel, id + width);
-                oct.br = tree.findNode(sel, id + width + 1);
+                oct.bl = Tree.FindNode(sel, id + width - 1);
+                oct.b = Tree.FindNode(sel, id + width);
+                oct.br = Tree.FindNode(sel, id + width + 1);
             }
 
             return oct;
         }
-        private void checkneighbors(octan oct, int id)
+        private void CheckNeighbors(Octan oct, int id)
         {
             if ((id - width) > 0)
             { //read: "check if top left is an edge"
-                check(oct.tl, oct.t, oct.l, field.tl);
-                check(oct.t, oct.tl, oct.tr, field.t);
-                check(oct.tr, oct.t, oct.r, field.tr);
+				Check(oct.tl, oct.t, oct.l, Field.tl);
+				Check(oct.t, oct.tl, oct.tr, Field.t);
+				Check(oct.tr, oct.t, oct.r, Field.tr);
             }
 
             if (id % width != 0)
-                check(oct.l, oct.tl, oct.bl, field.l);
+				Check(oct.l, oct.tl, oct.bl, Field.l);
 
             if ((id + 1) % width != 0)
-                check(oct.r, oct.tr, oct.br, field.r);
+				Check(oct.r, oct.tr, oct.br, Field.r);
 
             if ((id + width) < total)
             {
-                check(oct.bl, oct.l, oct.b, field.bl);
-                check(oct.b, oct.bl, oct.br, field.b);
-                check(oct.br, oct.b, oct.r, field.br);
+				Check(oct.bl, oct.l, oct.b, Field.bl);
+				Check(oct.b, oct.bl, oct.br, Field.b);
+				Check(oct.br, oct.b, oct.r, Field.br);
             }
         }
 
-        private void check(int centerpixel, int neigh1, int neigh2, field dir)
+        private void Check(int centerpixel, int neigh1, int neigh2, Field dir)
         {
             if (centerpixel != -1 && !(neigh1 != -1 && neigh2 != -1))
             {
-                if (tree.insert(ref per, centerpixel))
+                if (Tree.Insert(ref per, centerpixel))
                 {
-                    addperimeterpixel(centerpixel);
-                    checkfield(dir);
+					AddPerimeterPixel(centerpixel);
+					CheckField(dir);
                 }
             }
         }
 
-        private void addperimeterpixel(int p)
+        private void AddPerimeterPixel(int p)
         {
             stack.Add(p);
             perimeter.Add(p);
             perimSize++;
         }
 
-        private void checkfield(field dir)
+        private void CheckField(Field dir)
         {
-            if (!fieldSet)
-            {
-                setField(dir);
+            if (!fieldSet) {
+				SetField(dir);
                 numEdges++;
             }
             else
@@ -136,53 +135,49 @@ namespace BitClean
                 {
                     tolerance = 0;
                     numEdges++;
-                    setField(dir);
+					SetField(dir);
                 }
             }
         }
 
-        private void setField(field dir)
+        private void SetField(Field dir)
         {
-            if (dir == field.t || dir == field.b)
-            {   //vertical
-                curfield = fieldvector.verticalfield;
+            if (dir == Field.t || dir == Field.b) {   //vertical
+                curfield = FieldVector.verticalfield;
                 fieldSet = true;
             }
 
-            else if (dir == field.l || dir == field.r)
-            {   //horizontal
-                curfield = fieldvector.horizontalfield;
+            else if (dir == Field.l || dir == Field.r) {   //horizontal
+                curfield = FieldVector.horizontalfield;
                 fieldSet = true;
             }
-            else if (dir == field.tl || dir == field.br)
-            {   //leftslant
-                curfield = fieldvector.leftslantfield;
+            else if (dir == Field.tl || dir == Field.br) {   //leftslant
+                curfield = FieldVector.leftslantfield;
                 fieldSet = true;
             }
-            else
-            {   //rightslant
-                curfield = fieldvector.rightslantfield;
+            else {   //rightslant
+                curfield = FieldVector.rightslantfield;
                 fieldSet = true;
             }
         }
 
-        public List<int> getPerimiter()
+        public List<int> GetPerimiter()
         {
             return perimeter;
         }
 
-        public int getSizeofPerimeter()
+        public int GetSizeofPerimeter()
         {
             return perimSize;
         }
 
-        public int getEdges()
+        public int GetEdges()
         {
             return numEdges;
         }
 
-        private node sel = new node();
-        private node per = new node();
+        private Node sel = new Node();
+        private Node per = new Node();
         private int[] curfield = new int[8];
         private bool fieldSet;
         private List<int> perimeter = new List<int>();
