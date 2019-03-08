@@ -24,11 +24,12 @@ namespace BitClean
 
 		private ImageOps img = null;
 		private Toolbox t = null;
-		private bool imageloaded = false, imagecleaned = false;
 
 		public MainWindow()
 		{
 			InitializeComponent();
+			diagnosticsMenuStripItem.Visible = false;
+			imageMenuStripItem.Visible = false;
 		}
 
 		#region File Drop Down Buttons
@@ -58,7 +59,7 @@ namespace BitClean
 					pictureBox1.Image = img.ParseImage(bmp);
 
 					t = new Toolbox(img.GetPixels(), img.GetImageData());
-					imageloaded = true;
+					imageMenuStripItem.Visible = true;
 				}
 				catch (Exception) {
 					bmp = null;
@@ -98,17 +99,89 @@ namespace BitClean
 			t.Run();
 			img.PushPixelsToImage(bmp);
 			pictureBox1.Image = bmp;
-			imagecleaned = true;
+			diagnosticsMenuStripItem.Visible = true;
+			MessageBox.Show("done.");
 		}
 		#endregion
 
 		#region Diagnostics Drop Down Buttons
 		//
-		// Diagnostics > Export All
+		// Diagnostics > Export to XML...
 		//
 		private void ExportDiagnostics_Click(object sender, EventArgs e)
 		{
-			Diagnostics diagnosticsWindow = new Diagnostics(img.GetImagePath(), imageloaded, imagecleaned, img.GetPixels(), t.GetObjectData());
+			string imgpath = img.GetImagePath();
+			List<ObjectData> objectdata = t.GetObjectData();
+
+			// write all data into xml file format
+			using (var saveFD = new SaveFileDialog())
+			{
+				saveFD.Title = "Save the diagostics xml file";
+				saveFD.Filter = "xml files (*.xml)|*.xml";
+
+				saveFD.FileName = Path.GetFileNameWithoutExtension(imgpath + "data");
+				saveFD.InitialDirectory = Path.GetDirectoryName(imgpath);
+
+				DialogResult result = saveFD.ShowDialog();
+
+				if (result == DialogResult.OK)
+				{
+					using (StreamWriter xml = new StreamWriter(saveFD.FileName))
+					{
+						// prologue
+						xml.WriteLine(XML.prologue);
+						xml.WriteLine(XML.root);
+
+						for (int i = 0; i < objectdata.Count; i++)
+						{
+							ObjectData obj = objectdata[i];
+							
+							// write header with tag/decision attributes
+							xml.WriteLine(XML.object_header + "tag=\"" + obj.tag + "\" decision=\"" + obj.objconf.decision + "\">");
+
+							// size, average hue, density, edge ratio
+							xml.WriteLine("\t" + XML.size + obj.size + XML.size_end);
+							xml.WriteLine("\t" + XML.avgHue + obj.avghue + XML.avgHue_end);
+							xml.WriteLine("\t" + XML.density + obj.density + XML.density_end);
+							xml.WriteLine("\t" + XML.edgeRatio + obj.edgeratio + XML.edgeRatio_end);
+
+							// object bounds
+							xml.WriteLine("\t" + XML.bounds);
+							xml.WriteLine("\t\t" + XML.top + obj.bounds.top + XML.top_end);
+							xml.WriteLine("\t\t" + XML.left + obj.bounds.left + XML.left_end);
+							xml.WriteLine("\t\t" + XML.bottom + obj.bounds.bottom + XML.bottom_end);
+							xml.WriteLine("\t\t" + XML.right + obj.bounds.right + XML.right_end);
+							xml.WriteLine("\t" + XML.bounds_end);
+
+							// object coordinates
+							xml.WriteLine("\t" + XML.coordinates);
+							xml.WriteLine("\t\t" + XML.x + obj.position.x + XML.x_end);
+							xml.WriteLine("\t\t" + XML.y + obj.position.y + XML.y_end);
+							xml.WriteLine("\t" + XML.coordinates_end);
+
+							// write each neighbor
+							xml.WriteLine("\t" + XML.neighbors);
+							for (int j = 0; j < obj.neighbors.Count; j++)
+								xml.WriteLine("\t\t" + XML.tag + obj.neighbors[j] + XML.tag_end);
+							xml.WriteLine("\t" + XML.neighbors_end);
+
+							xml.WriteLine(XML.object_header_end);
+						}
+
+						xml.WriteLine(XML.root_end);
+					}	
+				}
+				else
+					MessageBox.Show("export failed");
+			}
+
+		}
+		//
+		// Diagnostics > View Diagnostics Window
+		//
+		private void ViewDiagnostics_Click(object sender, EventArgs e)
+		{
+			Diagnostics diagnosticsWindow = new Diagnostics();
 			diagnosticsWindow.Show();
 		}
 

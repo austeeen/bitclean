@@ -74,17 +74,17 @@ namespace BitClean
 
             if ((id % width) > bounds.right) bounds.right = id % width;
 
-            if (id < bounds.top) bounds.top = id;
+            if ((id / width) < bounds.top) bounds.top = id / width;
 
-            if (id > bounds.bottom) bounds.bottom = id;
+            if ((id / width) > bounds.bottom) bounds.bottom = id / width;
         }
 
         private bool Inbounds(int id)
         {
             if (id % width <= bounds.left
             || id % width >= bounds.right
-            || id < bounds.top
-            || id > bounds.bottom)
+            || id / width < bounds.top
+            || id / width > bounds.bottom)
                 return false;
             return true;
         }

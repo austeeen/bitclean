@@ -33,17 +33,7 @@ namespace BitClean
         {
 	        if (CheckPixel(ref p[id])) // check the current pixel
 	        {
-		        Iterate();
-
-				/*
-		        if (buffersize > 0 && buffersize < constants.MAX_OBJECT_SIZE_ESTIMATE)
-		        {
-			        fillpixels();
-                    findedges();
-			        return true;
-		        }
-				*/
-
+		        Iterate();		// find the rest of the object
 				FillPixels();	// fill in any white pixels inside the selection
 				FindEdges();	// find edge pixels in selection
 				return true;
@@ -90,7 +80,7 @@ namespace BitClean
                     buffersize++;
                     Tree.Insert(ref buff, p.id);
                     return true;
-				}// if not white and not selected
+				} // if not white and not selected
 			}
             return false;
         }

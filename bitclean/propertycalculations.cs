@@ -18,15 +18,21 @@ namespace BitClean
         {
 			//avg, size, edge
 			Confidence c = new Confidence();
-            //Value(c, d.avgval);
+            Hue(c, d.avghue);
             Size(c, d.size);
             Edges(c, d.edgeratio);
             c.dust = c.d_edge + c.d_size + c.d_val;
             c.structure = c.s_edge + c.s_size + c.s_val;
-            if (c.dust > c.structure)
-                c.isStructure = false;
-            else
-                c.isStructure = true;
+
+			if (c.dust > c.structure) {
+				c.isStructure = false;
+				c.decision = "dust";
+			}
+			else {
+				c.isStructure = true;
+				c.decision = "structure";
+			}
+
             return c;
         }
         private static void Edges(Confidence c, double d)
@@ -69,7 +75,7 @@ namespace BitClean
             c.s_size -= 25;
         }
 
-        private static void Value(Confidence c, double d)
+        private static void Hue(Confidence c, double d)
         {
             if (d < 30) c.d_val += 1.00;
             else if (d < 84) c.d_val += 8.41;

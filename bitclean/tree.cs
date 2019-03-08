@@ -16,8 +16,7 @@ namespace BitClean
     {
         public static bool Insert(ref Node n, int id)
         {
-            if (n == null)
-            {
+            if (n == null) {
                 n = new Node(id);
                 return true;
             }
@@ -28,8 +27,7 @@ namespace BitClean
                 {
                     if (n.left != null)
                         n = n.left;
-                    else
-                    {
+                    else {
                         n.left = new Node(id);
                         n = r;
                         return true;
@@ -39,17 +37,14 @@ namespace BitClean
                 {
                     if (n.right != null)
                         n = n.right;
-                    else
-                    {
+                    else {
                         n.right = new Node(id);
                         n = r;
                         return true;
                     }
                 }
                 else
-                {
                     break;
-                }
             }
             n = r;
             return false;
@@ -61,8 +56,7 @@ namespace BitClean
 			Node r = n;
             while (n != null)
             {
-                if (id == n.id)
-                {
+                if (id == n.id) {
                     n = r;
                     return id;
                 }
@@ -106,8 +100,7 @@ namespace BitClean
             List<Node> s = new List<Node>();
             while (n != null || s.Count > 0)
             {
-                while (n != null)
-                {
+                while (n != null) {
                     s.Add(n);
                     n = n.left;
                 }

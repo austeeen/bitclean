@@ -28,119 +28,93 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.PixelPropertiesCheckList = new System.Windows.Forms.CheckedListBox();
-			this.IncludeOptionsGroup = new System.Windows.Forms.GroupBox();
-			this.ConfidencePropertiesCheckList = new System.Windows.Forms.CheckedListBox();
-			this.PixelPropertiesLabel = new System.Windows.Forms.Label();
-			this.ConfidencePropertiesLabel = new System.Windows.Forms.Label();
-			this.ExportPixelButton = new System.Windows.Forms.Button();
-			this.ExportConfidenceButton = new System.Windows.Forms.Button();
-			this.IncludeOptionsGroup.SuspendLayout();
+			System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+			System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+			System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+			this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.loadXMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.dataGridView1 = new System.Windows.Forms.DataGridView();
+			((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
+			this.menuStrip1.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
 			this.SuspendLayout();
 			// 
-			// PixelPropertiesCheckList
+			// chart1
 			// 
-			this.PixelPropertiesCheckList.FormattingEnabled = true;
-			this.PixelPropertiesCheckList.Items.AddRange(new object[] {
-            "White Pixels",
-            "Integer Values",
-            "RGB Values",
-            "Indexes"});
-			this.PixelPropertiesCheckList.Location = new System.Drawing.Point(6, 41);
-			this.PixelPropertiesCheckList.Name = "PixelPropertiesCheckList";
-			this.PixelPropertiesCheckList.Size = new System.Drawing.Size(113, 64);
-			this.PixelPropertiesCheckList.TabIndex = 0;
+			chartArea1.Name = "ChartArea1";
+			this.chart1.ChartAreas.Add(chartArea1);
+			legend1.Name = "Legend1";
+			this.chart1.Legends.Add(legend1);
+			this.chart1.Location = new System.Drawing.Point(17, 61);
+			this.chart1.Name = "chart1";
+			series1.ChartArea = "ChartArea1";
+			series1.Legend = "Legend1";
+			series1.Name = "Series1";
+			this.chart1.Series.Add(series1);
+			this.chart1.Size = new System.Drawing.Size(556, 536);
+			this.chart1.TabIndex = 5;
+			this.chart1.Text = "chart1";
 			// 
-			// IncludeOptionsGroup
+			// menuStrip1
 			// 
-			this.IncludeOptionsGroup.Controls.Add(this.ConfidencePropertiesCheckList);
-			this.IncludeOptionsGroup.Controls.Add(this.PixelPropertiesLabel);
-			this.IncludeOptionsGroup.Controls.Add(this.ConfidencePropertiesLabel);
-			this.IncludeOptionsGroup.Controls.Add(this.PixelPropertiesCheckList);
-			this.IncludeOptionsGroup.Dock = System.Windows.Forms.DockStyle.Top;
-			this.IncludeOptionsGroup.Location = new System.Drawing.Point(0, 0);
-			this.IncludeOptionsGroup.Name = "IncludeOptionsGroup";
-			this.IncludeOptionsGroup.Size = new System.Drawing.Size(306, 131);
-			this.IncludeOptionsGroup.TabIndex = 2;
-			this.IncludeOptionsGroup.TabStop = false;
-			this.IncludeOptionsGroup.Text = "Include Options:";
+			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem});
+			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+			this.menuStrip1.Name = "menuStrip1";
+			this.menuStrip1.Size = new System.Drawing.Size(1304, 24);
+			this.menuStrip1.TabIndex = 6;
+			this.menuStrip1.Text = "menuStrip1";
 			// 
-			// ConfidencePropertiesCheckList
+			// fileToolStripMenuItem
 			// 
-			this.ConfidencePropertiesCheckList.FormattingEnabled = true;
-			this.ConfidencePropertiesCheckList.Items.AddRange(new object[] {
-            "Structure or Dust",
-            "Total Size",
-            "Average Hue",
-            "Value Density",
-            "Edge Ratio"});
-			this.ConfidencePropertiesCheckList.Location = new System.Drawing.Point(138, 41);
-			this.ConfidencePropertiesCheckList.Name = "ConfidencePropertiesCheckList";
-			this.ConfidencePropertiesCheckList.Size = new System.Drawing.Size(120, 79);
-			this.ConfidencePropertiesCheckList.TabIndex = 3;
+			this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.loadXMLToolStripMenuItem});
+			this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+			this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+			this.fileToolStripMenuItem.Text = "File";
 			// 
-			// PixelPropertiesLabel
+			// loadXMLToolStripMenuItem
 			// 
-			this.PixelPropertiesLabel.AutoSize = true;
-			this.PixelPropertiesLabel.Location = new System.Drawing.Point(6, 25);
-			this.PixelPropertiesLabel.Name = "PixelPropertiesLabel";
-			this.PixelPropertiesLabel.Size = new System.Drawing.Size(82, 13);
-			this.PixelPropertiesLabel.TabIndex = 2;
-			this.PixelPropertiesLabel.Text = "Pixel Properties:";
+			this.loadXMLToolStripMenuItem.Name = "loadXMLToolStripMenuItem";
+			this.loadXMLToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+			this.loadXMLToolStripMenuItem.Text = "Load XML...";
+			this.loadXMLToolStripMenuItem.Click += new System.EventHandler(this.LoadXML_Click);
 			// 
-			// ConfidencePropertiesLabel
+			// dataGridView1
 			// 
-			this.ConfidencePropertiesLabel.AutoSize = true;
-			this.ConfidencePropertiesLabel.Location = new System.Drawing.Point(135, 25);
-			this.ConfidencePropertiesLabel.Name = "ConfidencePropertiesLabel";
-			this.ConfidencePropertiesLabel.Size = new System.Drawing.Size(114, 13);
-			this.ConfidencePropertiesLabel.TabIndex = 1;
-			this.ConfidencePropertiesLabel.Text = "Confidence Properties:";
-			// 
-			// ExportButton
-			// 
-			this.ExportPixelButton.Location = new System.Drawing.Point(13, 137);
-			this.ExportPixelButton.Name = "ExportPixelButton";
-			this.ExportPixelButton.Size = new System.Drawing.Size(75, 39);
-			this.ExportPixelButton.TabIndex = 3;
-			this.ExportPixelButton.Text = "Export Pixel Properties";
-			this.ExportPixelButton.UseVisualStyleBackColor = true;
-			this.ExportPixelButton.Click += new System.EventHandler(this.ExportPixelsButton_Click);
-			// 
-			// ExportConfidenceButton
-			// 
-			this.ExportConfidenceButton.Location = new System.Drawing.Point(139, 139);
-			this.ExportConfidenceButton.Name = "button1";
-			this.ExportConfidenceButton.Size = new System.Drawing.Size(110, 35);
-			this.ExportConfidenceButton.TabIndex = 4;
-			this.ExportConfidenceButton.Text = "Export Confidence Properties";
-			this.ExportConfidenceButton.UseVisualStyleBackColor = true;
-			this.ExportConfidenceButton.Click += new System.EventHandler(this.ExportConfidenceButton_Click);
+			this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			this.dataGridView1.Location = new System.Drawing.Point(588, 61);
+			this.dataGridView1.Name = "dataGridView1";
+			this.dataGridView1.Size = new System.Drawing.Size(704, 483);
+			this.dataGridView1.TabIndex = 7;
 			// 
 			// Diagnostics
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(306, 190);
-			this.Controls.Add(this.ExportConfidenceButton);
-			this.Controls.Add(this.ExportPixelButton);
-			this.Controls.Add(this.IncludeOptionsGroup);
+			this.ClientSize = new System.Drawing.Size(1304, 609);
+			this.Controls.Add(this.dataGridView1);
+			this.Controls.Add(this.chart1);
+			this.Controls.Add(this.menuStrip1);
+			this.MainMenuStrip = this.menuStrip1;
 			this.Name = "Diagnostics";
 			this.Text = "Diagnostics";
-			this.IncludeOptionsGroup.ResumeLayout(false);
-			this.IncludeOptionsGroup.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
+			this.menuStrip1.ResumeLayout(false);
+			this.menuStrip1.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
 
 		#endregion
-
-		private System.Windows.Forms.CheckedListBox PixelPropertiesCheckList;
-		private System.Windows.Forms.GroupBox IncludeOptionsGroup;
-		private System.Windows.Forms.Label ConfidencePropertiesLabel;
-		private System.Windows.Forms.CheckedListBox ConfidencePropertiesCheckList;
-		private System.Windows.Forms.Label PixelPropertiesLabel;
-		private System.Windows.Forms.Button ExportPixelButton;
-		private System.Windows.Forms.Button ExportConfidenceButton;
+		private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+		private System.Windows.Forms.MenuStrip menuStrip1;
+		private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem loadXMLToolStripMenuItem;
+		private System.Windows.Forms.DataGridView dataGridView1;
 	}
 }

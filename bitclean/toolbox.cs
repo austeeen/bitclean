@@ -40,37 +40,27 @@ namespace BitClean
                     buffer = s.Buffer;
                     perimeter = s.Perimeter;
 
-					ObjectData dat = new ObjectData {
-						tag = tagCount,
-						avghue = GetAverageHue(),
-						density = GetValueDensity(),
-						size = buffer.Count,
-						edgeratio = buffer.Count / s.Edges,
-						bounds = s.ObjBounds,
-						position = new Coordinate {
-							x = buffer[0] % imgdata.width,
-							y = buffer[0] / imgdata.width
-						}
-					};
+					ObjectData objectdata = GenerateObjectData(tagCount, s.Edges, s.ObjBounds);
 
 					tagCount++;
-
-					Confidence c = new Confidence {
-						isStructure = false
-					};
-
-					dat.objconf = c;
-
-					objdat.Add(dat);
-
-					//ColorBuffer(Constants.FLOOR);
+					objectdata.neighbors = new List<int>();
+					objdat.Add(objectdata);
                 }
                 s.ClearBuffer();
                 buffer.Clear();
             }
 
+			GlobalSystems global = new GlobalSystems();
+
 			// find neighbors for each object
+			global.GetNeighbors(objdat);
+
 			// calculate confidence
+			for (int i = 0; i < objdat.Count; i++) {
+				Confidence c = new Confidence();
+				c.decision = "dust";
+				objdat[i].objconf = c;
+			}
         }
 
 		//sets the buffer to be colored with color 'c'
@@ -97,11 +87,13 @@ namespace BitClean
 		}
 
 		// calculates average hue or color of the buffer
-        private double GetAverageHue()
-        {
-            double avg = 0;
-			for (int i = 0; i < buffer.Count; i++)
-				if (pixels[buffer[i]].value != Constants.INT_WHITE) avg += pixels[buffer[i]].value;
+		private double GetAverageHue()
+		{
+			double avg = 0;
+			for (int i = 0; i < buffer.Count; i++) {
+			if (pixels[buffer[i]].value != Constants.INT_WHITE)
+				avg += pixels[buffer[i]].value;
+			}
 			return avg / buffer.Count;
         }
 
@@ -109,9 +101,43 @@ namespace BitClean
 		private double GetValueDensity()
 		{
 			double avg = 0;
-			for (int i = 0; i < buffer.Count; i++)
-				if (pixels[buffer[i]].value != Constants.INT_WHITE) avg++;
+			for (int i = 0; i < buffer.Count; i++) {
+				if (pixels[buffer[i]].value != Constants.INT_WHITE)
+					avg++;
+			}
 			return avg / buffer.Count * 100;
+		}
+
+		private ObjectData GenerateObjectData(int tagCount, int edgeCount, ObjectBounds objBounds)
+		{
+			ObjectData objdata = new ObjectData
+			{
+				tag		= tagCount,
+				avghue	= GetAverageHue(),
+				density = GetValueDensity(),
+				size	= buffer.Count,
+				edgeratio = buffer.Count / edgeCount,
+				bounds	= objBounds,
+				position = new Coordinate {
+					x = buffer[0] % imgdata.width,
+					y = buffer[0] / imgdata.width
+				}
+			};
+
+			BoundingRectangle boundingRect = new BoundingRectangle();
+
+			// do not let bounding rect go beyonds image bounds
+			boundingRect.top	= ((objBounds.top - Constants.BOUNDING_RECT_OFFSET)	 < 0)	? 0 : objBounds.top		- Constants.BOUNDING_RECT_OFFSET;
+			boundingRect.left	= ((objBounds.left - Constants.BOUNDING_RECT_OFFSET) < 0)	? 0 : objBounds.left	- Constants.BOUNDING_RECT_OFFSET;
+			boundingRect.bottom = ((objBounds.bottom + Constants.BOUNDING_RECT_OFFSET)	> imgdata.height)	? imgdata.height : objBounds.bottom	+ Constants.BOUNDING_RECT_OFFSET;
+			boundingRect.right	= ((objBounds.right + Constants.BOUNDING_RECT_OFFSET)	> imgdata.width)	? imgdata.width	 : objBounds.right	+ Constants.BOUNDING_RECT_OFFSET;
+
+			boundingRect.width	= boundingRect.right - boundingRect.left;
+			boundingRect.height = boundingRect.bottom - boundingRect.top;
+
+			objdata.rect = boundingRect;
+
+			return objdata;
 		}
 
 		public List<ObjectData> GetObjectData()

@@ -4,6 +4,8 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Xml;
+using System.Xml.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -13,177 +15,52 @@ namespace BitClean
 {
 	public partial class Diagnostics : Form
 	{
-		private string imgpath = null;
-		private Pixel[] pixels;
-		private List<ObjectData> objectdata;
+		List<ChartObject> objectList = new List<ChartObject>();
 
-		public Diagnostics(string imgpath, bool imageloaded, bool imagecleaned, Pixel[] pixels, List<ObjectData> objectdata)
+		public Diagnostics()
 		{
 			InitializeComponent();
-			this.imgpath = imgpath;
-			PixelPropertiesCheckList.Visible = imageloaded;
-			ConfidencePropertiesCheckList.Visible = imagecleaned;
-			this.pixels = pixels;
-			this.objectdata = objectdata;
 		}
 
-		private void ExportPixelsButton_Click(object sender, EventArgs e)
+		private void LoadXML_Click(object sender, EventArgs e)
 		{
-			string header = "";
-			PixelDiagnosticsProperties properties;
-			properties.includeWhite	 = false;
-			properties.integerValues = false;
-			properties.RGBValues	 = false;
-			properties.indexes		 = false;
+			objectList = null;
 
-			if (PixelPropertiesCheckList.GetItemCheckState(0) == CheckState.Checked) {
-				// White Pixels
-				properties.includeWhite = true;
-			}
-			if (PixelPropertiesCheckList.GetItemCheckState(3) == CheckState.Checked) {
-				// Indexes
-				header += "indx,";
-				properties.indexes = true;
-			}
-			if (PixelPropertiesCheckList.GetItemCheckState(1) == CheckState.Checked) {
-				// Integer Values
-				header += "int val,";
-				properties.integerValues = true;
-			}
-			if (PixelPropertiesCheckList.GetItemCheckState(2) == CheckState.Checked) {
-				// RGB Values
-				header += "RGB val";
-				properties.RGBValues = true;
-			}
-
-			// run same for object properties
-			if(header != "")
-				ExportPixeldiagnostics(header, properties);
-		}
-
-		private void ExportConfidenceButton_Click(object sender, EventArgs e)
-		{
-			string header = "";
-			ConfidenceDiagnosticsProperties properties;
-			properties.objectdecision	= false;
-			properties.totalsize		= false;
-			properties.averagehue		= false;
-			properties.valuedensity		= false;
-			properties.edgeratio		= false;
-
-			if (ConfidencePropertiesCheckList.GetItemCheckState(0) == CheckState.Checked) { // structure or dust
-				header += "obj(s|d),";
-				properties.objectdecision = true;
-			}
-			if (ConfidencePropertiesCheckList.GetItemCheckState(3) == CheckState.Checked) { // total size
-				header += "size,";
-				properties.totalsize = true;
-			}
-			if (ConfidencePropertiesCheckList.GetItemCheckState(1) == CheckState.Checked) { // average hue
-				header += "avg_hue,";
-				properties.averagehue = true;
-			}
-			if (ConfidencePropertiesCheckList.GetItemCheckState(2) == CheckState.Checked) { // value density
-				header += "density,";
-				properties.valuedensity = true;
-			}
-			if (ConfidencePropertiesCheckList.GetItemCheckState(2) == CheckState.Checked) { // edge ratio
-				header += "edge,";
-				properties.edgeratio = true;
-			}
-
-			// run same for object properties
-			if (header != "")
-				ExportConfidencediagnostics(header, properties);
-		}
-
-		public void ExportPixeldiagnostics(string header, PixelDiagnosticsProperties prop)
-		{
-			using (var saveFD = new SaveFileDialog())
+			using (OpenFileDialog openFD = new OpenFileDialog())
 			{
-				saveFD.Title = "Save the diagostics csv file";
-				saveFD.Filter = "csv files (*.csv)|*.csv";
+				string xmlpath;
+				// File dialog settings
+				openFD.Title = "Select an XML file";
+				openFD.InitialDirectory = "C:\\Users\\100057822\\Desktop";
+				openFD.Filter = "xml files (*.xml)|*.xml";
+				openFD.RestoreDirectory = true;
 
-				saveFD.FileName = Path.GetFileNameWithoutExtension(imgpath + "data");
-				saveFD.InitialDirectory = Path.GetDirectoryName(imgpath);
-
-				DialogResult result = saveFD.ShowDialog();
+				DialogResult result = openFD.ShowDialog();
 
 				if (result == DialogResult.OK)
 				{
-					try
-					{
-						StreamWriter csv = new StreamWriter(saveFD.FileName);
-						csv.WriteLine(header);
+					xmlpath = openFD.FileName;
 
-						for (int i = 0; i < pixels.Length; i++)
+					objectList = (
+						from obj in XDocument.Load(xmlpath).Root.Elements("object")
+						select new ChartObject
 						{
-							Pixel curPixel = pixels[i];
-							string RGBvals = pixels[i].r + " " + pixels[i].g + " " + pixels[i].b + ",";
-
-							if (!prop.includeWhite)
-							{
-								if (curPixel.value != Constants.INT_WHITE)
-								{
-									csv.Write(prop.indexes			? i					+ "," : "");
-									csv.Write(prop.integerValues	? pixels[i].value	+ "," : "");
-									csv.Write(prop.RGBValues		? RGBvals				: "");
-									csv.Write("\n");
-								}
-							}
-							else
-							{
-								csv.Write(prop.indexes ? i + "," : "");
-								csv.Write(prop.integerValues ? pixels[i].value + "," : "");
-								csv.Write(prop.RGBValues ? RGBvals : "");
-								csv.Write("\n");
-							}
+							avghue = (double)obj.Element("avg_hue"),
+							density = (double)obj.Element("density"),
+							size = (int)obj.Element("size"),
+							edgeratio = (double)obj.Element("edgeratio"),
+							tag = (int)obj.Element("tag"),
+							neighbors = (
+								from tagnum in obj.Elements("neighbors")
+								select (int)tagnum.Element("tag")
+							).ToList()
 						}
-						csv.Close();
-					}
-					catch (Exception)
-					{ }
+					).ToList();
+
 				}
 			}
+
 		}
 
-		public void ExportConfidencediagnostics(string header, ConfidenceDiagnosticsProperties prop)
-		{
-			using (var saveFD = new SaveFileDialog())
-			{
-				saveFD.Title = "Save the diagostics csv file";
-				saveFD.Filter = "csv files (*.csv)|*.csv";
-
-				saveFD.FileName = Path.GetFileNameWithoutExtension(imgpath + "data");
-				saveFD.InitialDirectory = Path.GetDirectoryName(imgpath);
-
-				DialogResult result = saveFD.ShowDialog();
-
-				if (result == DialogResult.OK)
-				{
-					try
-					{
-						StreamWriter csv = new StreamWriter(saveFD.FileName);
-						csv.WriteLine(header);
-
-						//iterate through object data
-						for (int i = 0; i < objectdata.Count; i ++)
-						{
-							if (prop.objectdecision) {
-								csv.Write((objectdata[i].objconf.isStructure ? "s" : "d") + ",");
-							}
-							csv.Write(prop.totalsize		? objectdata[i].size		+ ","	: "");
-							csv.Write(prop.averagehue		? objectdata[i].avghue		+ ","	: "");
-							csv.Write(prop.valuedensity		? objectdata[i].density		+ ","	: "");
-							csv.Write(prop.edgeratio		? objectdata[i].edgeratio.ToString(): "");
-							csv.Write("\n");
-						}
-						csv.Close();
-					}
-					catch (Exception)
-					{ }
-				}
-			}
-		}
 	}
 }

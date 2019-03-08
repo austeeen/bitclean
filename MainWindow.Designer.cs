@@ -37,6 +37,7 @@
 			this.bitCleanMenuStripItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.diagnosticsMenuStripItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.exportMenuStripItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.viewDiagnosticsMenuStripItem = new System.Windows.Forms.ToolStripMenuItem();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
 			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
@@ -106,7 +107,8 @@
 			// diagnosticsMenuStripItem
 			// 
 			this.diagnosticsMenuStripItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.exportMenuStripItem});
+            this.exportMenuStripItem,
+            this.viewDiagnosticsMenuStripItem});
 			this.diagnosticsMenuStripItem.Name = "diagnosticsMenuStripItem";
 			this.diagnosticsMenuStripItem.Size = new System.Drawing.Size(80, 20);
 			this.diagnosticsMenuStripItem.Text = "Diagnostics";
@@ -115,8 +117,15 @@
 			// 
 			this.exportMenuStripItem.Name = "exportMenuStripItem";
 			this.exportMenuStripItem.Size = new System.Drawing.Size(180, 22);
-			this.exportMenuStripItem.Text = "Export Diagnostics...";
+			this.exportMenuStripItem.Text = "Export to XML...";
 			this.exportMenuStripItem.Click += new System.EventHandler(this.ExportDiagnostics_Click);
+			// 
+			// viewDiagnosticsMenuStripItem
+			// 
+			this.viewDiagnosticsMenuStripItem.Name = "viewDiagnosticsMenuStripItem";
+			this.viewDiagnosticsMenuStripItem.Size = new System.Drawing.Size(180, 22);
+			this.viewDiagnosticsMenuStripItem.Text = "View Diagnostics";
+			this.viewDiagnosticsMenuStripItem.Click += new System.EventHandler(this.ViewDiagnostics_Click);
 			// 
 			// MainWindow
 			// 
@@ -151,6 +160,7 @@
 
 		private System.Windows.Forms.ToolStripMenuItem diagnosticsMenuStripItem;
 		private System.Windows.Forms.ToolStripMenuItem exportMenuStripItem;
+		private System.Windows.Forms.ToolStripMenuItem viewDiagnosticsMenuStripItem;
 	}
 }
 

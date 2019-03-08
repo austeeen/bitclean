@@ -15,14 +15,15 @@ namespace BitClean
 {
 	static class Constants
 	{
-		public const short VALUE_THRESHOLD = 0;                             // a useful threshold for pixel values (white)
-		public const int MAX_OBJECT_SIZE_ESTIMATE = 2700;                   // if an object is bigger than this ignore it -- optimization thing
-		public const int COLOR_CLEAR = 0;                                   // color to clear selections with
-		public const int BRUSH_SIZE = 16;                                   // brush size for trajectory path
+		public const short VALUE_THRESHOLD = 0;				// a useful threshold for pixel values (white)
+		public const int MAX_OBJECT_SIZE_ESTIMATE = 2700;	// if an object is bigger than this ignore it -- optimization thing
+		public const int COLOR_CLEAR = 0;	// color to clear selections with
+		public const int BRUSH_SIZE = 16;	// brush size for trajectory path
 		public static readonly Color FLOOR = Color.FromArgb(255, 0, 255);   // this is magenta - what the floor looks like from cloud compare
 		public static readonly Color WHITE = Color.FromArgb(255, 255, 255); // white color - what we want to change the floor to
-		public const short INT_WHITE = 0;                                   // white color can be represented as 0 because color values run [1->1021]
-																			//  - this is helpful for average hue and average density functions
+		public const short INT_WHITE = 0;	// white color can be represented as 0 because color values run [1->1021]
+											//  - this is helpful for average hue and average density functions
+		public const int BOUNDING_RECT_OFFSET = 300;	// offset for the bounding rectangle used to find neighbors
 	}
 
 	public struct PixelDiagnosticsProperties
@@ -32,15 +33,6 @@ namespace BitClean
 		public bool integerValues;
 		public bool RGBValues;
 	};
-	public struct ConfidenceDiagnosticsProperties
-	{
-		public bool objectdecision;
-		public bool totalsize;
-		public bool averagehue;
-		public bool valuedensity;
-		public bool edgeratio;
-	};
-
 
 	//the .pgm file's basic data
 	public struct Data
@@ -95,30 +87,70 @@ namespace BitClean
 	{
 		public int top, left, bottom, right;
 	}
+	
+	public struct BoundingRectangle
+	{
+		public int top, left, bottom, right,
+					width, height;
+	}
 
-    public class ObjectData
+	public class Confidence
+	{
+		public double structure, dust,
+						s_size, d_size,
+						s_edge = 0.0, d_edge = 0.0,
+						s_val = 0.0, d_val = 0.0;
+		public bool isStructure = false;
+		public string decision = "";
+	};
+
+	public class ObjectData
     {
-		public int tag;             // unique id associated with object
 		public double avghue;		// average integer color value of all pixels in selection
 		public double density;		// percentage of non-floor colored pixels occupying the selection
 		public int size;			// total size in pixels of selection
-		public double edgeratio;	// ratio of total size to calculated edges
-		public ObjectBounds bounds; // integer coordinate of top,left,bottom,right most pixels
-		public Coordinate position;	// x,y coordinate of top-left most pixel
+		public double edgeratio;    // ratio of total size to calculated edges
+		public int tag;             // unique id associated with object
+		public ObjectBounds bounds;		// integer coordinate of top,left,bottom,right most pixels
+		public Coordinate position;		// x,y coordinate of top-left most pixel
+		public BoundingRectangle rect;	// bounding rectangle for checking neighbors (w + 300, h + 300)
 		public List<int> neighbors; // list of tags of other objects in the vicinity of this one
         public Confidence objconf;	// confidence property
     }
 
-    public class Confidence
+	static class XML	// contains xml namespaces for diagnostics
 	{
-        public double structure, dust,
-                        s_size, d_size,
-                        s_edge = 0.0, d_edge = 0.0,
-                        s_val = 0.0, d_val = 0.0;
-        public bool isStructure;
-    };
+		public const string prologue = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
+			root = "<objects>",			root_end = "</objects>",
+			object_header = "<object ", object_header_end = "</object>",
+			size = "<size>",			size_end = "</size>",
+			avgHue = "<avg_hue>",		avgHue_end = "</avg_hue>",
+			density = "<density>",		density_end = "</density>",
+			edgeRatio = "<edge_ratio>", edgeRatio_end = "</edge_ratio>",
+			bounds = "<bounds>",		bounds_end = "</bounds>",
+				top = "<top>",			top_end = "</top>",
+				left = "<left>",		left_end = "</left>",
+				bottom = "<bottom>",	bottom_end = "</bottom>",
+				right = "<right>",		right_end = "</right>",
+			coordinates = "<coordinates>", coordinates_end = "</coordinates>",
+				x = "<x>", x_end = "</x>",
+				y = "<y>", y_end = "</y>",
+			neighbors = "<neighbors>", neighbors_end = "</neighbors>",
+				tag = "<tag>", tag_end = "</tag>";
+	}
 
-    public class Node
+	public class ChartObject
+	{
+		public double avghue;       // average integer color value of all pixels in selection
+		public double density;      // percentage of non-floor colored pixels occupying the selection
+		public int size;            // total size in pixels of selection
+		public double edgeratio;    // ratio of total size to calculated edges
+		public int tag;             // unique id associated with object
+		public List<int> neighbors; // list of tags of other objects in the vicinity of this one
+		public Confidence objconf;  // confidence property 
+	}
+
+	public class Node
     {
         public Node left, right;
         public int id;
