@@ -19,3 +19,4 @@ C:\Users\100057822\Documents\GitHub\bitmapPrototype\obj\Debug\BitClean.csproj.Co
 C:\Users\100057822\Documents\GitHub\bitmapPrototype\obj\Debug\BitClean.exe
 C:\Users\100057822\Documents\GitHub\bitmapPrototype\obj\Debug\BitClean.pdb
 C:\Users\100057822\Documents\GitHub\bitmapPrototype\obj\Debug\BitClean.Diagnostics.resources
+C:\Users\100057822\Documents\GitHub\bitmapPrototype\obj\Debug\BitClean.ChartDisplay.resources

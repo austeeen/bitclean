@@ -37,14 +37,14 @@
 			this.bitCleanMenuStripItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.diagnosticsMenuStripItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.exportMenuStripItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.viewDiagnosticsMenuStripItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.plotsMenuStripItem = new System.Windows.Forms.ToolStripMenuItem();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
 			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// pictureBox1
 			// 
-			this.pictureBox1.BackColor = System.Drawing.Color.DarkSlateGray;
+			this.pictureBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
 			this.pictureBox1.Location = new System.Drawing.Point(0, 27);
 			this.pictureBox1.Name = "pictureBox1";
 			this.pictureBox1.Size = new System.Drawing.Size(800, 696);
@@ -54,7 +54,7 @@
 			// 
 			// menuStrip1
 			// 
-			this.menuStrip1.BackColor = System.Drawing.Color.MintCream;
+			this.menuStrip1.BackColor = System.Drawing.Color.White;
 			this.menuStrip1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileMenuStripItem,
@@ -100,7 +100,7 @@
 			// bitCleanMenuStripItem
 			// 
 			this.bitCleanMenuStripItem.Name = "bitCleanMenuStripItem";
-			this.bitCleanMenuStripItem.Size = new System.Drawing.Size(180, 22);
+			this.bitCleanMenuStripItem.Size = new System.Drawing.Size(121, 22);
 			this.bitCleanMenuStripItem.Text = "Bit Clean";
 			this.bitCleanMenuStripItem.Click += new System.EventHandler(this.BitCleanImage_Click);
 			// 
@@ -108,7 +108,7 @@
 			// 
 			this.diagnosticsMenuStripItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.exportMenuStripItem,
-            this.viewDiagnosticsMenuStripItem});
+            this.plotsMenuStripItem});
 			this.diagnosticsMenuStripItem.Name = "diagnosticsMenuStripItem";
 			this.diagnosticsMenuStripItem.Size = new System.Drawing.Size(80, 20);
 			this.diagnosticsMenuStripItem.Text = "Diagnostics";
@@ -116,16 +116,16 @@
 			// exportMenuStripItem
 			// 
 			this.exportMenuStripItem.Name = "exportMenuStripItem";
-			this.exportMenuStripItem.Size = new System.Drawing.Size(180, 22);
+			this.exportMenuStripItem.Size = new System.Drawing.Size(157, 22);
 			this.exportMenuStripItem.Text = "Export to XML...";
 			this.exportMenuStripItem.Click += new System.EventHandler(this.ExportDiagnostics_Click);
 			// 
-			// viewDiagnosticsMenuStripItem
+			// plotsMenuStripItem
 			// 
-			this.viewDiagnosticsMenuStripItem.Name = "viewDiagnosticsMenuStripItem";
-			this.viewDiagnosticsMenuStripItem.Size = new System.Drawing.Size(180, 22);
-			this.viewDiagnosticsMenuStripItem.Text = "View Diagnostics";
-			this.viewDiagnosticsMenuStripItem.Click += new System.EventHandler(this.ViewDiagnostics_Click);
+			this.plotsMenuStripItem.Name = "plotsMenuStripItem";
+			this.plotsMenuStripItem.Size = new System.Drawing.Size(157, 22);
+			this.plotsMenuStripItem.Text = "Plots";
+			this.plotsMenuStripItem.Click += new System.EventHandler(this.Plots_Click);
 			// 
 			// MainWindow
 			// 
@@ -160,7 +160,7 @@
 
 		private System.Windows.Forms.ToolStripMenuItem diagnosticsMenuStripItem;
 		private System.Windows.Forms.ToolStripMenuItem exportMenuStripItem;
-		private System.Windows.Forms.ToolStripMenuItem viewDiagnosticsMenuStripItem;
+		private System.Windows.Forms.ToolStripMenuItem plotsMenuStripItem;
 	}
 }
 

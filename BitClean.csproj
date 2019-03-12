@@ -56,6 +56,12 @@
     <Compile Include="bitclean\selection.cs" />
     <Compile Include="bitclean\toolbox.cs" />
     <Compile Include="bitclean\tree.cs" />
+    <Compile Include="ChartDisplay.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChartDisplay.Designer.cs">
+      <DependentUpon>ChartDisplay.cs</DependentUpon>
+    </Compile>
     <Compile Include="Diagnostics.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -70,6 +76,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="ChartDisplay.resx">
+      <DependentUpon>ChartDisplay.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Diagnostics.resx">
       <DependentUpon>Diagnostics.cs</DependentUpon>
     </EmbeddedResource>
@@ -101,6 +110,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\xmltest4.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\xmltest5.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

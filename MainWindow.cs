@@ -28,8 +28,14 @@ namespace BitClean
 		public MainWindow()
 		{
 			InitializeComponent();
-			diagnosticsMenuStripItem.Visible = false;
-			imageMenuStripItem.Visible = false;
+			StartUp();
+		}
+
+		public void StartUp()
+		{
+			saveImageMenuStripItem.Enabled	= false;
+			bitCleanMenuStripItem.Enabled	= false;
+			exportMenuStripItem.Enabled		= false;
 		}
 
 		#region File Drop Down Buttons
@@ -59,7 +65,8 @@ namespace BitClean
 					pictureBox1.Image = img.ParseImage(bmp);
 
 					t = new Toolbox(img.GetPixels(), img.GetImageData());
-					imageMenuStripItem.Visible = true;
+					bitCleanMenuStripItem.Enabled	= true;
+					saveImageMenuStripItem.Enabled	= true;
 				}
 				catch (Exception) {
 					bmp = null;
@@ -71,22 +78,28 @@ namespace BitClean
 		//
 		private void SaveImageFile_Click(object sender, EventArgs e)
 		{
-			// Get the file's save name
-			SaveFileDialog saveFD = new SaveFileDialog();
+			if (bmp != null)
+			{
 
-			saveFD.Title = "Save the image file";
-			saveFD.Filter = "bmp files (*.bmp)|*.bmp";
+				// Get the file's save name
+				SaveFileDialog saveFD = new SaveFileDialog();
 
-			saveFD.FileName = Path.GetFileNameWithoutExtension(bmppath);
+				saveFD.Title = "Save the image file";
+				saveFD.Filter = "bmp files (*.bmp)|*.bmp";
 
-			saveFD.InitialDirectory = Path.GetDirectoryName(bmppath);
+				saveFD.FileName = Path.GetFileNameWithoutExtension(bmppath);
 
-			DialogResult result = saveFD.ShowDialog();
+				saveFD.InitialDirectory = Path.GetDirectoryName(bmppath);
 
-			if (result == DialogResult.OK)
-				bmp.Save(saveFD.FileName);
+				DialogResult result = saveFD.ShowDialog();
+
+				if (result == DialogResult.OK)
+					bmp.Save(saveFD.FileName);
+				else
+					MessageBox.Show("File was not saved.", "File Not Saved", 0);
+			}
 			else
-				MessageBox.Show("File was not saved.", "File Not Saved", 0);
+				MessageBox.Show("no image loaded!");
 		}
 		#endregion
 
@@ -96,11 +109,17 @@ namespace BitClean
 		//
 		private void BitCleanImage_Click(object sender, EventArgs e)
 		{
-			t.Run();
-			img.PushPixelsToImage(bmp);
-			pictureBox1.Image = bmp;
-			diagnosticsMenuStripItem.Visible = true;
-			MessageBox.Show("done.");
+			if (img != null && t != null)
+			{
+				t.Run();
+				img.PushPixelsToImage(bmp);
+				pictureBox1.Image = bmp;
+				diagnosticsMenuStripItem.Visible = true;
+				MessageBox.Show("done");
+				exportMenuStripItem.Enabled = true;
+			}
+			else
+				MessageBox.Show("no image loaded!");
 		}
 		#endregion
 
@@ -179,7 +198,7 @@ namespace BitClean
 		//
 		// Diagnostics > View Diagnostics Window
 		//
-		private void ViewDiagnostics_Click(object sender, EventArgs e)
+		private void Plots_Click(object sender, EventArgs e)
 		{
 			Diagnostics diagnosticsWindow = new Diagnostics();
 			diagnosticsWindow.Show();

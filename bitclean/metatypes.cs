@@ -141,6 +141,7 @@ namespace BitClean
 
 	public class ChartObject
 	{
+		public string decision;
 		public double avghue;       // average integer color value of all pixels in selection
 		public double density;      // percentage of non-floor colored pixels occupying the selection
 		public int size;            // total size in pixels of selection
