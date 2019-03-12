@@ -23,24 +23,28 @@ namespace BitClean
         }
 
         //the big boy, iterates through the pixels and drives algorithms
-        public void Run()
+        public void Run(ToolStripProgressBar progress, StatusStrip statusStrip, ToolStripStatusLabel toolStripText)
         {
-            if (pixels == null)
-            {
+            if (pixels == null) {
                 MessageBox.Show("No Pixels Loaded", "no pixels", 0);
                 return;
             }
 
             Selection s = new Selection(pixels, imgdata.width, imgdata.totalpixels);
 			int tagCount = 0;
+
+			progress.Minimum = 0;
+			progress.Maximum = imgdata.totalpixels;
+
             for (int i = 0; i < imgdata.totalpixels; i++)
             {
-                if (s.Get(i)) // get the next object
+				progress.Value = i;
+				if (s.Get(i)) // get the next object
                 {
                     buffer = s.Buffer;
                     perimeter = s.Perimeter;
 
-					ObjectData objectdata = GenerateObjectData(tagCount, s.Edges, s.ObjBounds);
+					ObjectData objectdata = GenerateObjectData(tagCount, s.Edges, s.getBounds());
 
 					tagCount++;
 					objectdata.neighbors = new List<int>();
@@ -50,10 +54,13 @@ namespace BitClean
                 buffer.Clear();
             }
 
+			toolStripText.Text = ToolStripMessages.CONFIDENCE_LOADING;
+			statusStrip.Refresh();
+
 			GlobalSystems global = new GlobalSystems();
 
 			// find neighbors for each object
-			global.GetNeighbors(objdat);
+			global.GetNeighbors(objdat, progress);
 
 			// calculate confidence
 			for (int i = 0; i < objdat.Count; i++) {
@@ -108,7 +115,7 @@ namespace BitClean
 			return avg / buffer.Count * 100;
 		}
 
-		private ObjectData GenerateObjectData(int tagCount, int edgeCount, ObjectBounds objBounds)
+		private ObjectData GenerateObjectData(int tagCount, int edgeCount, BoundingRectangle objBounds)
 		{
 			ObjectData objdata = new ObjectData
 			{

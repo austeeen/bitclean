@@ -28,17 +28,11 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.loadXMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.dataGridView1 = new System.Windows.Forms.DataGridView();
-			this.obj_tag = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.obj_size = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.obj_avg_hue = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.obj_density = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.obj_edge_ratio = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.obj_neighbors = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.obj_neighbor_count = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.tagHorizontal = new System.Windows.Forms.RadioButton();
 			this.ChartOptions = new System.Windows.Forms.GroupBox();
 			this.GenerateButton = new System.Windows.Forms.Button();
@@ -55,14 +49,20 @@
 			this.densityHorizontal = new System.Windows.Forms.RadioButton();
 			this.avghueHorizontal = new System.Windows.Forms.RadioButton();
 			this.sizeHorizontal = new System.Windows.Forms.RadioButton();
+			this.obj_tag = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.obj_decision = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.obj_size = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.obj_avg_hue = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.obj_density = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.obj_edge_ratio = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.obj_neighbors = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.obj_neighbor_count = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.menuStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
 			this.ChartOptions.SuspendLayout();
 			this.VerticalAxis.SuspendLayout();
 			this.HorizontalAxis.SuspendLayout();
 			this.SuspendLayout();
-
-			#region menu
 			// 
 			// menuStrip1
 			// 
@@ -70,7 +70,7 @@
             this.fileToolStripMenuItem});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
-			this.menuStrip1.Size = new System.Drawing.Size(849, 24);
+			this.menuStrip1.Size = new System.Drawing.Size(996, 24);
 			this.menuStrip1.TabIndex = 6;
 			this.menuStrip1.Text = "menuStrip1";
 			// 
@@ -81,7 +81,6 @@
 			this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
 			this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
 			this.fileToolStripMenuItem.Text = "File";
-			#region file menu item
 			// 
 			// loadXMLToolStripMenuItem
 			// 
@@ -89,77 +88,51 @@
 			this.loadXMLToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
 			this.loadXMLToolStripMenuItem.Text = "Load XML...";
 			this.loadXMLToolStripMenuItem.Click += new System.EventHandler(this.LoadXML_Click);
-			#endregion
-			#endregion
-
-			#region data grid
 			// 
 			// dataGridView1
 			// 
+			this.dataGridView1.BackgroundColor = System.Drawing.SystemColors.ActiveCaption;
+			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Info;
+			dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
 			this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.obj_tag,
+            this.obj_decision,
             this.obj_size,
             this.obj_avg_hue,
             this.obj_density,
             this.obj_edge_ratio,
             this.obj_neighbors,
             this.obj_neighbor_count});
-			this.dataGridView1.Location = new System.Drawing.Point(0, 27);
+			this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Left;
+			this.dataGridView1.Location = new System.Drawing.Point(0, 24);
 			this.dataGridView1.Name = "dataGridView1";
-			this.dataGridView1.Size = new System.Drawing.Size(582, 483);
+			this.dataGridView1.Size = new System.Drawing.Size(749, 585);
 			this.dataGridView1.TabIndex = 7;
 			// 
-			// obj_tag
+			// tagHorizontal
 			// 
-			this.obj_tag.HeaderText = "tag";
-			this.obj_tag.Name = "obj_tag";
-			this.obj_tag.Width = 50;
-			// 
-			// obj_size
-			// 
-			this.obj_size.HeaderText = "size";
-			this.obj_size.Name = "obj_size";
-			this.obj_size.Width = 50;
-			// 
-			// obj_avg_hue
-			// 
-			this.obj_avg_hue.HeaderText = "average hue";
-			this.obj_avg_hue.Name = "obj_avg_hue";
-			// 
-			// obj_density
-			// 
-			this.obj_density.HeaderText = "density";
-			this.obj_density.Name = "obj_density";
-			this.obj_density.Width = 75;
-			// 
-			// obj_edge_ratio
-			// 
-			this.obj_edge_ratio.HeaderText = "edge ratio";
-			this.obj_edge_ratio.Name = "obj_edge_ratio";
-			this.obj_edge_ratio.Width = 80;
-			// 
-			// obj_neighbors
-			// 
-			this.obj_neighbors.HeaderText = "neighbors";
-			this.obj_neighbors.Name = "obj_neighbors";
-			this.obj_neighbors.Width = 80;
-			// 
-			// obj_neighbor_count
-			// 
-			this.obj_neighbor_count.HeaderText = "total neighbors";
-			this.obj_neighbor_count.Name = "obj_neighbor_count";
-			this.obj_neighbor_count.Width = 80;
-			#endregion
-
-			#region chart options
+			this.tagHorizontal.AutoSize = true;
+			this.tagHorizontal.Location = new System.Drawing.Point(6, 19);
+			this.tagHorizontal.Name = "tagHorizontal";
+			this.tagHorizontal.Size = new System.Drawing.Size(40, 17);
+			this.tagHorizontal.TabIndex = 8;
+			this.tagHorizontal.TabStop = true;
+			this.tagHorizontal.Text = "tag";
+			this.tagHorizontal.UseVisualStyleBackColor = true;
 			// 
 			// ChartOptions
 			// 
 			this.ChartOptions.Controls.Add(this.GenerateButton);
 			this.ChartOptions.Controls.Add(this.VerticalAxis);
 			this.ChartOptions.Controls.Add(this.HorizontalAxis);
-			this.ChartOptions.Location = new System.Drawing.Point(604, 50);
+			this.ChartOptions.Location = new System.Drawing.Point(755, 27);
 			this.ChartOptions.Name = "ChartOptions";
 			this.ChartOptions.Size = new System.Drawing.Size(229, 389);
 			this.ChartOptions.TabIndex = 9;
@@ -175,8 +148,6 @@
 			this.GenerateButton.Text = "Generate";
 			this.GenerateButton.UseVisualStyleBackColor = true;
 			this.GenerateButton.Click += new System.EventHandler(this.GenerateChart_Click);
-
-			#region vertical axis
 			// 
 			// VerticalAxis
 			// 
@@ -258,9 +229,6 @@
 			this.tagVertical.TabStop = true;
 			this.tagVertical.Text = "tag";
 			this.tagVertical.UseVisualStyleBackColor = true;
-			#endregion
-
-			#region horizontal axis
 			// 
 			// HorizontalAxis
 			// 
@@ -332,24 +300,58 @@
 			this.sizeHorizontal.Text = "size";
 			this.sizeHorizontal.UseVisualStyleBackColor = true;
 			// 
-			// tagHorizontal
+			// obj_tag
 			// 
-			this.tagHorizontal.AutoSize = true;
-			this.tagHorizontal.Location = new System.Drawing.Point(6, 19);
-			this.tagHorizontal.Name = "tagHorizontal";
-			this.tagHorizontal.Size = new System.Drawing.Size(40, 17);
-			this.tagHorizontal.TabIndex = 8;
-			this.tagHorizontal.TabStop = true;
-			this.tagHorizontal.Text = "tag";
-			this.tagHorizontal.UseVisualStyleBackColor = true;
-			#endregion
-			#endregion
+			this.obj_tag.HeaderText = "tag";
+			this.obj_tag.Name = "obj_tag";
+			this.obj_tag.Width = 50;
+			// 
+			// obj_decision
+			// 
+			this.obj_decision.HeaderText = "decision";
+			this.obj_decision.Name = "obj_decision";
+			this.obj_decision.Width = 60;
+			// 
+			// obj_size
+			// 
+			this.obj_size.HeaderText = "size";
+			this.obj_size.Name = "obj_size";
+			this.obj_size.Width = 50;
+			// 
+			// obj_avg_hue
+			// 
+			this.obj_avg_hue.HeaderText = "average hue";
+			this.obj_avg_hue.Name = "obj_avg_hue";
+			// 
+			// obj_density
+			// 
+			this.obj_density.HeaderText = "density";
+			this.obj_density.Name = "obj_density";
+			this.obj_density.Width = 75;
+			// 
+			// obj_edge_ratio
+			// 
+			this.obj_edge_ratio.HeaderText = "edge ratio";
+			this.obj_edge_ratio.Name = "obj_edge_ratio";
+			this.obj_edge_ratio.Width = 80;
+			// 
+			// obj_neighbors
+			// 
+			this.obj_neighbors.HeaderText = "neighbors";
+			this.obj_neighbors.Name = "obj_neighbors";
+			this.obj_neighbors.Width = 80;
+			// 
+			// obj_neighbor_count
+			// 
+			this.obj_neighbor_count.HeaderText = "total neighbors";
+			this.obj_neighbor_count.Name = "obj_neighbor_count";
+			this.obj_neighbor_count.Width = 80;
 			// 
 			// Diagnostics
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(849, 609);
+			this.ClientSize = new System.Drawing.Size(996, 609);
 			this.Controls.Add(this.ChartOptions);
 			this.Controls.Add(this.dataGridView1);
 			this.Controls.Add(this.menuStrip1);
@@ -374,13 +376,6 @@
 		private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem loadXMLToolStripMenuItem;
 		private System.Windows.Forms.DataGridView dataGridView1;
-		private System.Windows.Forms.DataGridViewTextBoxColumn obj_tag;
-		private System.Windows.Forms.DataGridViewTextBoxColumn obj_size;
-		private System.Windows.Forms.DataGridViewTextBoxColumn obj_avg_hue;
-		private System.Windows.Forms.DataGridViewTextBoxColumn obj_density;
-		private System.Windows.Forms.DataGridViewTextBoxColumn obj_edge_ratio;
-		private System.Windows.Forms.DataGridViewTextBoxColumn obj_neighbors;
-		private System.Windows.Forms.DataGridViewTextBoxColumn obj_neighbor_count;
 		private System.Windows.Forms.RadioButton tagHorizontal;
 		private System.Windows.Forms.GroupBox ChartOptions;
 		private System.Windows.Forms.GroupBox HorizontalAxis;
@@ -397,5 +392,13 @@
 		private System.Windows.Forms.RadioButton sizeVertical;
 		private System.Windows.Forms.RadioButton tagVertical;
 		private System.Windows.Forms.Button GenerateButton;
+		private System.Windows.Forms.DataGridViewTextBoxColumn obj_tag;
+		private System.Windows.Forms.DataGridViewTextBoxColumn obj_decision;
+		private System.Windows.Forms.DataGridViewTextBoxColumn obj_size;
+		private System.Windows.Forms.DataGridViewTextBoxColumn obj_avg_hue;
+		private System.Windows.Forms.DataGridViewTextBoxColumn obj_density;
+		private System.Windows.Forms.DataGridViewTextBoxColumn obj_edge_ratio;
+		private System.Windows.Forms.DataGridViewTextBoxColumn obj_neighbors;
+		private System.Windows.Forms.DataGridViewTextBoxColumn obj_neighbor_count;
 	}
 }

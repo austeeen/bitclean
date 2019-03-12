@@ -117,7 +117,18 @@ namespace BitClean
 
         public ref List<int> Perimeter => ref perimeter;
 
-		public ObjectBounds ObjBounds => objbounds;
+		public BoundingRectangle getBounds()
+		{
+			return new BoundingRectangle
+			{
+				top = objbounds.top,
+				left = objbounds.left,
+				bottom = objbounds.bottom,
+				right = objbounds.right,
+				width = objbounds.right - objbounds.left,
+				height = objbounds.bottom - objbounds.top
+			};
+		}
 
         private readonly Pixel[] p;
         private readonly int width, total;

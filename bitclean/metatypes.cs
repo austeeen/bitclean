@@ -23,7 +23,27 @@ namespace BitClean
 		public static readonly Color WHITE = Color.FromArgb(255, 255, 255); // white color - what we want to change the floor to
 		public const short INT_WHITE = 0;	// white color can be represented as 0 because color values run [1->1021]
 											//  - this is helpful for average hue and average density functions
-		public const int BOUNDING_RECT_OFFSET = 300;	// offset for the bounding rectangle used to find neighbors
+		public const int BOUNDING_RECT_OFFSET = 300;    // offset for the bounding rectangle used to find neighbors
+
+		public const string MY_START_PATH = "C:\\Users\\";
+		public const string META_DATA_PATH = "\\meta\\";
+		public const string META_PATHS = "paths.xml";
+	}
+
+	static class ToolStripMessages
+	{
+		public const string
+			DEFAULT_MESSAGE = "...",
+			IMAGE_LOADING = "image loading...",
+			IMAGE_LOADED = "image loaded",
+			IMAGE_LOAD_FAILED = "failed to load image",
+			IMAGE_SAVED = "image saved",
+			IMAGE_SAVE_FAILED = "failed to save image",
+			CLEANING_IMAGE = "cleaning image...",
+			CONFIDENCE_LOADING = "calculating confidences...",
+			IMAGE_CLEANED = "image cleaned",
+			XML_DATA_EXPORTED = "data exported to xml",
+			XML_EXPORT_FAILED = "failed to export data";
 	}
 
 	public struct PixelDiagnosticsProperties
@@ -111,14 +131,14 @@ namespace BitClean
 		public int size;			// total size in pixels of selection
 		public double edgeratio;    // ratio of total size to calculated edges
 		public int tag;             // unique id associated with object
-		public ObjectBounds bounds;		// integer coordinate of top,left,bottom,right most pixels
-		public Coordinate position;		// x,y coordinate of top-left most pixel
+		public Coordinate position;     // x,y coordinate of top-left most pixel
+		public BoundingRectangle bounds;        // integer coordinate of top,left,bottom,right most pixels
 		public BoundingRectangle rect;	// bounding rectangle for checking neighbors (w + 300, h + 300)
 		public List<int> neighbors; // list of tags of other objects in the vicinity of this one
         public Confidence objconf;	// confidence property
     }
 
-	static class XML	// contains xml namespaces for diagnostics
+	static class XMLDiagnostics	// contains xml namespaces for diagnostics
 	{
 		public const string prologue = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
 			root = "<objects>",			root_end = "</objects>",
@@ -137,6 +157,14 @@ namespace BitClean
 				y = "<y>", y_end = "</y>",
 			neighbors = "<neighbors>", neighbors_end = "</neighbors>",
 				tag = "<tag>", tag_end = "</tag>";
+	}
+
+	static class XMLMetaData
+	{
+		public const string prologue = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
+			root = "<file_path_common", root_end = "/>",
+			bmp_path = "bmp_image=\"",
+			xml_path = "\" xml_data=\"";
 	}
 
 	public class ChartObject

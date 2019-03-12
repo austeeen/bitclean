@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace BitClean
 {
@@ -10,9 +11,11 @@ namespace BitClean
 	{
 		public GlobalSystems() { }
 
-		public void GetNeighbors(List<ObjectData> objectList)
+		public void GetNeighbors(List<ObjectData> objectList, ToolStripProgressBar progress)
 		{
 			objectsByX = objectList;
+
+			progress.Maximum = objectsByX.Count;
 
 			// quicksort list by x
 			QuickSortByX(0, objectsByX.Count - 1);
@@ -20,10 +23,11 @@ namespace BitClean
 			// iterate through list
 			for(int i = 0; i < objectsByX.Count; i ++)
 			{
+				progress.Value = i;
 				// check object -> left
 				for (int j = i - 1; j >= 0; j--) {
 					// add any intersections to y List
-					if (XIntersection(objectsByX[i].rect, objectsByX[j].rect))
+					if (XIntersection(objectsByX[i].rect, objectsByX[j].bounds))
 						objectsByY.Add(objectsByX[j]);
 					else
 						break;
@@ -31,7 +35,7 @@ namespace BitClean
 				// check object -> right
 				for (int j = i + 1; j < objectsByX.Count; j++) {
 					// add any intersections to y List
-					if (XIntersection(objectsByX[i].rect, objectsByX[j].rect))
+					if (XIntersection(objectsByX[i].rect, objectsByX[j].bounds))
 						objectsByY.Add(objectsByX[j]);
 					else
 						break;
@@ -43,7 +47,7 @@ namespace BitClean
 				// iterate through y list
 				for(int k = 0; k < objectsByY.Count; k ++) {
 					// check y interstections, add tag to neighbors of i
-					if (YIntersection(objectsByX[i].rect, objectsByY[k].rect))
+					if (YIntersection(objectsByX[i].rect, objectsByY[k].bounds))
 						objectsByX[i].neighbors.Add(objectsByY[k].tag);
 					else
 						break;

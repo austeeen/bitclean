@@ -38,16 +38,21 @@
 			this.diagnosticsMenuStripItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.exportMenuStripItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.plotsMenuStripItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+			this.progressBar = new System.Windows.Forms.ToolStripProgressBar();
+			this.toolStripText = new System.Windows.Forms.ToolStripStatusLabel();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
 			this.menuStrip1.SuspendLayout();
+			this.statusStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// pictureBox1
 			// 
 			this.pictureBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-			this.pictureBox1.Location = new System.Drawing.Point(0, 27);
+			this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pictureBox1.Location = new System.Drawing.Point(0, 0);
 			this.pictureBox1.Name = "pictureBox1";
-			this.pictureBox1.Size = new System.Drawing.Size(800, 696);
+			this.pictureBox1.Size = new System.Drawing.Size(800, 723);
 			this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
 			this.pictureBox1.TabIndex = 1;
 			this.pictureBox1.TabStop = false;
@@ -127,12 +132,37 @@
 			this.plotsMenuStripItem.Text = "Plots";
 			this.plotsMenuStripItem.Click += new System.EventHandler(this.Plots_Click);
 			// 
+			// statusStrip1
+			// 
+			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.progressBar,
+            this.toolStripText});
+			this.statusStrip1.Location = new System.Drawing.Point(0, 701);
+			this.statusStrip1.Name = "statusStrip1";
+			this.statusStrip1.Size = new System.Drawing.Size(800, 22);
+			this.statusStrip1.TabIndex = 7;
+			this.statusStrip1.Text = "statusStrip1";
+			// 
+			// progressBar
+			// 
+			this.progressBar.Name = "progressBar";
+			this.progressBar.Size = new System.Drawing.Size(100, 16);
+			// 
+			// toolStripText
+			// 
+			this.toolStripText.BackColor = System.Drawing.Color.Transparent;
+			this.toolStripText.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.toolStripText.Name = "toolStripText";
+			this.toolStripText.Size = new System.Drawing.Size(16, 17);
+			this.toolStripText.Text = "...";
+			// 
 			// MainWindow
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.Black;
 			this.ClientSize = new System.Drawing.Size(800, 723);
+			this.Controls.Add(this.statusStrip1);
 			this.Controls.Add(this.menuStrip1);
 			this.Controls.Add(this.pictureBox1);
 			this.ForeColor = System.Drawing.SystemColors.ControlText;
@@ -142,6 +172,8 @@
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
+			this.statusStrip1.ResumeLayout(false);
+			this.statusStrip1.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -161,6 +193,9 @@
 		private System.Windows.Forms.ToolStripMenuItem diagnosticsMenuStripItem;
 		private System.Windows.Forms.ToolStripMenuItem exportMenuStripItem;
 		private System.Windows.Forms.ToolStripMenuItem plotsMenuStripItem;
+		private System.Windows.Forms.StatusStrip statusStrip1;
+		private System.Windows.Forms.ToolStripProgressBar progressBar;
+		private System.Windows.Forms.ToolStripStatusLabel toolStripText;
 	}
 }
 
