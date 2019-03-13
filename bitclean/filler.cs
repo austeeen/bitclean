@@ -27,7 +27,7 @@ namespace BitClean
 
         public Filler(Pixel[] pixels, int imageWidth, int totalPixels)
         {
-			bounds.top		= totalPixels;
+			bounds.top		= totalPixels / imageWidth + 1;
 			bounds.bottom	= -1;
 			bounds.left		= imageWidth;
 			bounds.right	= -1;
@@ -49,7 +49,9 @@ namespace BitClean
 				// Check that we can look at the pixel underneath the current pixel
 				// Check that the pixel underneath the current is not selected
 				// Check that the pixel underneath the current is white
-                if (buffer[i] + width < total && !p[buffer[i] + width].selected && p[buffer[i] + width].value == Constants.INT_WHITE)
+                if (buffer[i] + width < total 
+					&& !p[buffer[i] + width].selected 
+					&& p[buffer[i] + width].value == Constants.INT_WHITE)
                 {
                     Start(buffer[i] + width);
                     List<Trail> whitePixels = GetPath();
@@ -81,8 +83,8 @@ namespace BitClean
 
         private bool Inbounds(int id)
         {
-            if (id % width <= bounds.left
-            || id % width >= bounds.right
+            if (id % width < bounds.left
+            || id % width > bounds.right
             || id / width < bounds.top
             || id / width > bounds.bottom)
                 return false;
@@ -245,23 +247,6 @@ namespace BitClean
 
             curpath.Clear();
             pathSize = 0;
-        }
-
-        public void PrintBounds()
-        {
-            int x, y;
-            x = bounds.left % width;
-            y = bounds.left / width;
-            System.Console.WriteLine("\nl: %i(%i, %i),", bounds.left, x, y);
-            x = bounds.top % width;
-            y = bounds.top / width;
-            System.Console.WriteLine(" u: %i(%i, %i),", bounds.top, x, y);
-            x = bounds.right % width;
-            y = bounds.right / width;
-            System.Console.WriteLine(" r: %i(%i, %i),", bounds.right, x, y);
-            x = bounds.bottom % width;
-            y = bounds.bottom / width;
-            System.Console.WriteLine(" b: %i(%i, %i)\n", bounds.bottom, x, y);
         }
 
         public List<Trail> GetPath()

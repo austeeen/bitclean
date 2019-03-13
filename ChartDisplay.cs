@@ -20,24 +20,24 @@ namespace BitClean
 
 			points = data;
 
-			int iter = 0;
-
 			System.Windows.Forms.DataVisualization.Charting.Series dustSeries	= new System.Windows.Forms.DataVisualization.Charting.Series("dust");
 			System.Windows.Forms.DataVisualization.Charting.Series strucSeries	= new System.Windows.Forms.DataVisualization.Charting.Series("structure");
 			chart1.Series.Remove(chart1.Series[0]);
 
 			foreach (object[] point in points)
 			{
+				System.Windows.Forms.DataVisualization.Charting.DataPoint pt = new System.Windows.Forms.DataVisualization.Charting.DataPoint();
+
 				if (point[2].ToString() == "dust") {
-					dustSeries.Points.AddXY(point[0], point[1]);
-					dustSeries.Points[iter].ToolTip = string.Format("{0}: {1}, {2}", point[3], point[0], point[1]);
+					pt.SetValueXY(point[0], point[1]);
+					pt.ToolTip = string.Format("{0}: {1}, {2}", point[3], point[0], point[1]);
+					dustSeries.Points.Add(pt);	
 				}
 				else {
-					strucSeries.Points.AddXY(point[0], point[1]);
-					strucSeries.Points[iter].ToolTip = string.Format("{0}: {1}, {2}", point[3], point[0], point[1]);
+					pt.SetValueXY(point[0], point[1]);
+					pt.ToolTip = string.Format("{0}: {1}, {2}", point[3], point[0], point[1]);
+					strucSeries.Points.Add(pt);
 				}
-
-				iter++;
 			}
 
 			dustSeries.Color = Color.BlueViolet;

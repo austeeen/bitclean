@@ -81,11 +81,12 @@ namespace BitClean
 
 			if (p == Constants.WHITE)
 				numcolor = Constants.INT_WHITE;
-
+			else if (p == Constants.OBJ_TAG)
+				numcolor = Constants.INT_OBJ_TAG;
 			else if (p.R == 255)
-				numcolor = (short) (p.R + (255 - p.G) + 510 + 1);
+				numcolor = (short)(p.R + (255 - p.G) + 510 + 1);
 			else if (p.G == 255)
-				numcolor = (short) (p.R + p.G + 255 + 1);
+				numcolor = (short)(p.R + p.G + 255 + 1);
 			else
 				numcolor = (short)(p.G + (255 - p.B) + 1);
 

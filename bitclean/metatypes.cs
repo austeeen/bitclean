@@ -21,8 +21,10 @@ namespace BitClean
 		public const int BRUSH_SIZE = 16;	// brush size for trajectory path
 		public static readonly Color FLOOR = Color.FromArgb(255, 0, 255);   // this is magenta - what the floor looks like from cloud compare
 		public static readonly Color WHITE = Color.FromArgb(255, 255, 255); // white color - what we want to change the floor to
-		public const short INT_WHITE = 0;	// white color can be represented as 0 because color values run [1->1021]
+		public static readonly Color OBJ_TAG = Color.FromArgb(0, 0, 0);
+		public const short INT_WHITE = 0;   // white color can be represented as 0 because color values run [1->1021]
 											//  - this is helpful for average hue and average density functions
+		public const short INT_OBJ_TAG = 1300;
 		public const int BOUNDING_RECT_OFFSET = 300;    // offset for the bounding rectangle used to find neighbors
 
 		public const string MY_START_PATH = "C:\\Users\\";

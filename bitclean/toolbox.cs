@@ -48,6 +48,21 @@ namespace BitClean
 
 					tagCount++;
 					objectdata.neighbors = new List<int>();
+					Confidence c = new Confidence();
+
+					if (FindObjectTag())
+					{
+						c.decision = "object";
+						ColorBuffer(Color.FromArgb(204, 204, 204));
+					}
+					else
+					{
+						c.decision = "dust";
+					}
+						
+
+					objectdata.objconf = c;
+
 					objdat.Add(objectdata);
                 }
                 s.ClearBuffer();
@@ -63,11 +78,7 @@ namespace BitClean
 			global.GetNeighbors(objdat, progress);
 
 			// calculate confidence
-			for (int i = 0; i < objdat.Count; i++) {
-				Confidence c = new Confidence();
-				c.decision = "dust";
-				objdat[i].objconf = c;
-			}
+
         }
 
 		//sets the buffer to be colored with color 'c'
@@ -98,7 +109,7 @@ namespace BitClean
 		{
 			double avg = 0;
 			for (int i = 0; i < buffer.Count; i++) {
-			if (pixels[buffer[i]].value != Constants.INT_WHITE)
+			if (pixels[buffer[i]].value != Constants.INT_WHITE && pixels[buffer[i]].value != Constants.INT_OBJ_TAG)
 				avg += pixels[buffer[i]].value;
 			}
 			return avg / buffer.Count;
@@ -145,6 +156,16 @@ namespace BitClean
 			objdata.rect = boundingRect;
 
 			return objdata;
+		}
+
+		bool FindObjectTag()
+		{
+			for(int i = 0; i < buffer.Count; i++) {
+				if (pixels[buffer[i]].value == Constants.INT_OBJ_TAG)
+					return true;
+			}
+
+			return false;
 		}
 
 		public List<ObjectData> GetObjectData()
