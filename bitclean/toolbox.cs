@@ -51,15 +51,9 @@ namespace BitClean
 					Confidence c = new Confidence();
 
 					if (FindObjectTag())
-					{
 						c.decision = "object";
-						ColorBuffer(Color.FromArgb(204, 204, 204));
-					}
 					else
-					{
 						c.decision = "dust";
-					}
-						
 
 					objectdata.objconf = c;
 

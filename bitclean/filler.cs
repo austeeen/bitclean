@@ -27,7 +27,7 @@ namespace BitClean
 
         public Filler(Pixel[] pixels, int imageWidth, int totalPixels)
         {
-			bounds.top		= totalPixels / imageWidth + 1;
+			bounds.top		= totalPixels;
 			bounds.bottom	= -1;
 			bounds.left		= imageWidth;
 			bounds.right	= -1;
@@ -110,7 +110,7 @@ namespace BitClean
         {
             if (!Inbounds(id))
                 boundsError = true;
-            else
+            else if(p[id].value == Constants.INT_WHITE)
             {
 				Trail pd = new Trail(dir, id);
                 curpath.Add(pd);
@@ -137,18 +137,15 @@ namespace BitClean
             {
                 case Direction.up:
                 {
-                    if (pd.id - width > 0)
-                    {
+                    if (pd.id - width >= 0) {
                         if (!p[pd.id - width].selected)
                             AddToPath(Direction.up, pd.id - width); //up
                     }
-                    if (pd.id % width != 0)
-                    {
+                    if (pd.id % width != 0) {
                         if (!p[pd.id - 1].selected)
                             AddToPath(Direction.left, pd.id - 1);   //left
                     }
-                    if ((pd.id + 1) % width != 0)
-                    {
+                    if ((pd.id + 1) % width != 0) {
                         if (!p[pd.id + 1].selected)
                             AddToPath(Direction.right, pd.id + 1);  //right
                     }
@@ -156,18 +153,15 @@ namespace BitClean
                 }
                 case Direction.down:
                 {
-                    if (pd.id + width < total)
-                    {
+                    if (pd.id + width < total) {
                         if (!p[pd.id + width].selected)
                             AddToPath(Direction.down, pd.id + width);   //down
                     }
-                    if (pd.id % width != 0)
-                    {
+                    if (pd.id % width != 0) {
                         if (!p[pd.id - 1].selected)
                             AddToPath(Direction.left, pd.id - 1);   //left
                     }
-                    if ((pd.id + 1) % width != 0)
-                    {
+                    if ((pd.id + 1) % width != 0) {
                         if (!p[pd.id + 1].selected)
                             AddToPath(Direction.right, pd.id + 1);  //right
                     }
@@ -175,18 +169,15 @@ namespace BitClean
                 }
                 case Direction.left:
                 {
-                    if (pd.id - width > 0)
-                    {
+                    if (pd.id - width >= 0) {
                         if (!p[pd.id - width].selected)
                             AddToPath(Direction.up, pd.id - width); //up
                     }
-                    if (pd.id + width < total)
-                    {
+                    if (pd.id + width < total) {
                         if (!p[pd.id + width].selected)
                             AddToPath(Direction.down, pd.id + width);   //down
                     }
-                    if (pd.id % width != 0)
-                    {
+                    if (pd.id % width != 0) {
                         if (!p[pd.id - 1].selected)
                             AddToPath(Direction.left, pd.id - 1);   //left
                     }
@@ -194,18 +185,15 @@ namespace BitClean
                 }
                 case Direction.right:
                 {
-                    if (pd.id - width > 0)
-                    {
+                    if (pd.id - width >= 0) {
                         if (!p[pd.id - width].selected)
                             AddToPath(Direction.up, pd.id - width); //up
                     }
-                    if (pd.id + width < total)
-                    {
+                    if (pd.id + width < total) {
                         if (!p[pd.id + width].selected)
 							AddToPath(Direction.down, pd.id + width);   //down
                     }
-                    if ((pd.id + 1) % width != 0)
-                    {
+                    if ((pd.id + 1) % width != 0) {
                         if (!p[pd.id + 1].selected)
 							AddToPath(Direction.right, pd.id + 1);  //right
                     }
@@ -213,23 +201,19 @@ namespace BitClean
                 }
                 case Direction.none:
                 {
-                    if (pd.id - width > 0)
-                    {
+                    if (pd.id - width >= 0) {
                         if (!p[pd.id - width].selected)
 							AddToPath(Direction.up, pd.id - width); //up
                     }
-                    if (pd.id + width < total)
-                    {
+                    if (pd.id + width < total) {
                         if (!p[pd.id + width].selected)
 							AddToPath(Direction.down, pd.id + width);   //down
                     }
-                    if (pd.id % width != 0)
-                    {
+                    if (pd.id % width != 0) {
                         if (!p[pd.id - 1].selected)
                             AddToPath(Direction.left, pd.id - 1);   //left
                     }
-                    if ((pd.id + 1) % width != 0)
-                    {
+                    if ((pd.id + 1) % width != 0) {
                         if (!p[pd.id + 1].selected)
                             AddToPath(Direction.right, pd.id + 1);  //right
                     }
@@ -240,10 +224,8 @@ namespace BitClean
 
         private void ClearPath()
         {
-			for(int i = 0; i < pathSize; i++) {
-				if (p[curpath[i].id].value != Constants.INT_WHITE)
-					p[curpath[i].id].selected = false;
-			}
+			for(int i = 0; i < pathSize; i++)
+				p[curpath[i].id].selected = false;
 
             curpath.Clear();
             pathSize = 0;

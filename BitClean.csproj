@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="bitclean\brain.cs" />
     <Compile Include="bitclean\global.cs" />
     <Compile Include="bitclean\propertycalculations.cs" />
     <Compile Include="bitclean\edge.cs" />

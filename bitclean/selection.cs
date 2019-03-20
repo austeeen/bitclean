@@ -34,9 +34,11 @@ namespace BitClean
 	        if (CheckPixel(ref p[id])) // check the current pixel
 	        {
 		        Iterate();		// find the rest of the object
-				FillPixels();	// fill in any white pixels inside the selection
-				FindEdges();	// find edge pixels in selection
-				return true;
+				if(buffersize < Constants.MAX_OBJECT_SIZE_ESTIMATE) {
+					FillPixels();   // fill in any white pixels inside the selection
+					FindEdges();    // find edge pixels in selection
+					return true;
+				}
 			}
 	        return false;
         }

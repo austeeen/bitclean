@@ -16,7 +16,7 @@ namespace BitClean
 	static class Constants
 	{
 		public const short VALUE_THRESHOLD = 0;				// a useful threshold for pixel values (white)
-		public const int MAX_OBJECT_SIZE_ESTIMATE = 2700;	// if an object is bigger than this ignore it -- optimization thing
+		public const int MAX_OBJECT_SIZE_ESTIMATE = 10000;	// if an object is bigger than this ignore it -- optimization thing
 		public const int COLOR_CLEAR = 0;	// color to clear selections with
 		public const int BRUSH_SIZE = 16;	// brush size for trajectory path
 		public static readonly Color FLOOR = Color.FromArgb(255, 0, 255);   // this is magenta - what the floor looks like from cloud compare
@@ -59,8 +59,8 @@ namespace BitClean
 	//the .pgm file's basic data
 	public struct Data
     {
-        public int width, height;
-        public int totalpixels;
+        public int width, height;	// counted from 1
+        public int totalpixels;		// counted from 1
     };
 
     //a basic pixel class
@@ -69,7 +69,7 @@ namespace BitClean
         public bool selected;   //used for selection
         public short value;     //converted color integer value
 		public byte r, g, b;
-        public int id;          //ID [0->totalpixels]
+        public int id;          //ID [0->totalpixels - 1]
     };
 
 	public struct Coordinate
