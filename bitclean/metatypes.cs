@@ -181,6 +181,12 @@ namespace BitClean
 		public Confidence objconf;  // confidence property 
 	}
 
+	public class AttributeStatistics
+	{
+		public double max = -1.0, min = -1.0, avg = 0.0, mode = 0.0;
+
+	}
+
 	public class Node
     {
         public Node left, right;
