@@ -21,13 +21,11 @@ namespace BitClean
 	public partial class MainWindow : Form
 	{
 		public Bitmap bmp = null;
-		public string executablePath = "",
-					imgDirectory = "",
-					xmlDirectory = "",
-					bmppath = "";
+		public string bmppath = "";
 
 		private ImageOps img = null;
 		private Toolbox t = null;
+		private Manager xmlmanager = null;
 
 		public MainWindow()
 		{
@@ -42,15 +40,7 @@ namespace BitClean
 			exportMenuStripItem.Enabled		= false;
 			toolStripText.Text = ToolStripMessages.DEFAULT_MESSAGE;
 
-			executablePath = Path.GetDirectoryName(Application.ExecutablePath);
-
-			//populate from metadata file
-			XElement doc = XDocument.Load(executablePath + Constants.META_DATA_PATH + Constants.META_PATHS).Root;
-			imgDirectory = (string) doc.Attribute("bmp_image");
-			xmlDirectory = (string) doc.Attribute("xml_data");
-			
-			if (imgDirectory == "") imgDirectory = Constants.MY_START_PATH;
-			if (xmlDirectory == "") xmlDirectory = Constants.MY_START_PATH;
+			xmlmanager = new Manager();
 
 		}
 
@@ -64,7 +54,7 @@ namespace BitClean
 			{
 				// File dialog settings
 				openFD.Title = "Select an image file";
-				openFD.InitialDirectory = imgDirectory;
+				openFD.InitialDirectory = xmlmanager.ImageDirectory;
 				openFD.Filter = "bmp files (*.bmp)|*.bmp";
 				openFD.RestoreDirectory = true;
 
@@ -72,8 +62,7 @@ namespace BitClean
 
 				if (result == DialogResult.OK) {
 					bmppath = openFD.FileName;
-					imgDirectory = Path.GetDirectoryName(bmppath);
-					storeXMLDiagnosticsMetadata();
+					xmlmanager.SetImageDirectory(Path.GetDirectoryName(bmppath));
 				}
 
 				try
@@ -177,60 +166,69 @@ namespace BitClean
 				saveFD.Filter = "xml files (*.xml)|*.xml";
 
 				saveFD.FileName = Path.GetFileNameWithoutExtension(imgpath + "data");
-				saveFD.InitialDirectory = xmlDirectory;
+				saveFD.InitialDirectory = xmlmanager.XMLDirectory;
 
 				DialogResult result = saveFD.ShowDialog();
 
 				if (result == DialogResult.OK)
 				{
-					xmlDirectory = Path.GetDirectoryName(saveFD.FileName);
-					storeXMLDiagnosticsMetadata();
+					xmlmanager.SetXMLDirectory(Path.GetDirectoryName(saveFD.FileName));
 
-					using (StreamWriter xml = new StreamWriter(saveFD.FileName))
+					var xml = new XDocument();
+					var root = new XElement("objects");
+					xml.Add(root);
+
+					for (int i = 0; i < objectdata.Count; i++)
 					{
-						// prologue
-						xml.WriteLine(XMLDiagnostics.prologue);
-						xml.WriteLine(XMLDiagnostics.root);
+						ObjectData obj = objectdata[i];
 
-						for (int i = 0; i < objectdata.Count; i++)
-						{
-							ObjectData obj = objectdata[i];
-							
-							// write header with tag/decision attributes
-							xml.WriteLine(XMLDiagnostics.object_header + "tag=\"" + obj.tag + "\" decision=\"" + obj.objconf.decision + "\">");
+						var objectElement = new XElement("object");
+						objectElement.SetAttributeValue("tag", obj.tag);
+						objectElement.SetAttributeValue("decision", obj.objconf.decision);
 
-							// size, average hue, density, edge ratio
-							xml.WriteLine("\t" + XMLDiagnostics.size + obj.size + XMLDiagnostics.size_end);
-							xml.WriteLine("\t" + XMLDiagnostics.avgHue + obj.avghue + XMLDiagnostics.avgHue_end);
-							xml.WriteLine("\t" + XMLDiagnostics.density + obj.density + XMLDiagnostics.density_end);
-							xml.WriteLine("\t" + XMLDiagnostics.edgeRatio + obj.edgeratio + XMLDiagnostics.edgeRatio_end);
+						var sizeElement		= new XElement("size", obj.size);
+						var avgHueElement	= new XElement("avg_hue", obj.avghue);
+						var densityElement	= new XElement("density", obj.density);
+						var edgeRatioElement = new XElement("edge_ratio", obj.edgeratio);
 
-							// object bounds
-							xml.WriteLine("\t" + XMLDiagnostics.bounds);
-							xml.WriteLine("\t\t" + XMLDiagnostics.top + obj.bounds.top + XMLDiagnostics.top_end);
-							xml.WriteLine("\t\t" + XMLDiagnostics.left + obj.bounds.left + XMLDiagnostics.left_end);
-							xml.WriteLine("\t\t" + XMLDiagnostics.bottom + obj.bounds.bottom + XMLDiagnostics.bottom_end);
-							xml.WriteLine("\t\t" + XMLDiagnostics.right + obj.bounds.right + XMLDiagnostics.right_end);
-							xml.WriteLine("\t" + XMLDiagnostics.bounds_end);
+						var boundsElement	= new XElement("bounds");
+						var topElement		= new XElement("top", obj.bounds.top);
+						var leftElement		= new XElement("left", obj.bounds.left);
+						var bottomElement	= new XElement("bottom", obj.bounds.bottom);
+						var rightElement	= new XElement("right", obj.bounds.right);
+						boundsElement.Add(topElement);
+						boundsElement.Add(leftElement);
+						boundsElement.Add(bottomElement);
+						boundsElement.Add(rightElement);
 
-							// object coordinates
-							xml.WriteLine("\t" + XMLDiagnostics.coordinates);
-							xml.WriteLine("\t\t" + XMLDiagnostics.x + obj.position.x + XMLDiagnostics.x_end);
-							xml.WriteLine("\t\t" + XMLDiagnostics.y + obj.position.y + XMLDiagnostics.y_end);
-							xml.WriteLine("\t" + XMLDiagnostics.coordinates_end);
+						var coordinatesElement = new XElement("coordinates");
+						var xElement = new XElement("x", obj.position.x);
+						var yElement = new XElement("y", obj.position.y);
+						coordinatesElement.Add(xElement);
+						coordinatesElement.Add(yElement);
 
-							// write each neighbor
-							xml.WriteLine("\t" + XMLDiagnostics.neighbors);
-							for (int j = 0; j < obj.neighbors.Count; j++)
-								xml.WriteLine("\t\t" + XMLDiagnostics.tag + obj.neighbors[j] + XMLDiagnostics.tag_end);
-							xml.WriteLine("\t" + XMLDiagnostics.neighbors_end);
+						var neighborsElement = new XElement("neighbors");
+						neighborsElement.SetAttributeValue("total", obj.neighbors.Count);
 
-							xml.WriteLine(XMLDiagnostics.object_header_end);
+						for (int j = 0; j < obj.neighbors.Count; j++) {
+							var neighborTagElement = new XElement("tag", obj.neighbors[j]);
+							neighborsElement.Add(neighborTagElement);
 						}
 
-						xml.WriteLine(XMLDiagnostics.root_end);
-						toolStripText.Text = ToolStripMessages.XML_DATA_EXPORTED;
-					}	
+						objectElement.Add(sizeElement);
+						objectElement.Add(avgHueElement);
+						objectElement.Add(densityElement);
+						objectElement.Add(edgeRatioElement);
+						objectElement.Add(boundsElement);
+						objectElement.Add(coordinatesElement);
+						objectElement.Add(neighborsElement);
+
+						root.Add(objectElement);
+					}
+
+					xml.Save(saveFD.FileName);
+
+					toolStripText.Text = ToolStripMessages.XML_DATA_EXPORTED;
 				}
 				else {
 					toolStripText.Text = ToolStripMessages.XML_EXPORT_FAILED;
@@ -245,7 +243,7 @@ namespace BitClean
 		//
 		private void Plots_Click(object sender, EventArgs e)
 		{
-			Diagnostics diagnosticsWindow = new Diagnostics(xmlDirectory);
+			Diagnostics diagnosticsWindow = new Diagnostics(xmlmanager);
 			diagnosticsWindow.Show();
 		}
 
@@ -253,15 +251,5 @@ namespace BitClean
 
 		ImageOps getImageOpsObject() { return img; }
 
-		private void storeXMLDiagnosticsMetadata()
-		{
-			using (StreamWriter xml = new StreamWriter(executablePath + Constants.META_DATA_PATH + Constants.META_PATHS))
-			{
-				// prologue
-				xml.WriteLine(XMLMetaData.prologue);
-				// write header with file path attributes
-				xml.WriteLine(XMLMetaData.root + "\n\tbmp_image=\"" + imgDirectory + "\"\n\txml_data=\"" + xmlDirectory + "\"\n/>");
-			}
-		}
 	}
 }

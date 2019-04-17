@@ -50,10 +50,15 @@ namespace BitClean
 					objectdata.neighbors = new List<int>();
 					Confidence c = new Confidence();
 
-					if (FindObjectTag())
+					if (FindObjectTag()) {
 						c.decision = "object";
-					else
+						ColorBuffer(Color.Green);
+					}
+					else {
 						c.decision = "dust";
+						ColorBuffer(Color.Purple);
+					}
+						
 
 					objectdata.objconf = c;
 

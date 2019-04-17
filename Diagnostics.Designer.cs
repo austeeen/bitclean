@@ -28,7 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.loadXMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -87,6 +87,7 @@
 			this.labelTotalStatistics = new System.Windows.Forms.Label();
 			this.labelDustStatistics = new System.Windows.Forms.Label();
 			this.labelStructureStatistics = new System.Windows.Forms.Label();
+			this.funcOccur = new System.Windows.Forms.RadioButton();
 			this.menuStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.objectsDataGrid)).BeginInit();
 			this.ChartOptions.SuspendLayout();
@@ -127,14 +128,14 @@
 			// objectsDataGrid
 			// 
 			this.objectsDataGrid.BackgroundColor = System.Drawing.SystemColors.ActiveCaption;
-			dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Info;
-			dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-			dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-			dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.objectsDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+			dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Info;
+			dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
+			dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.objectsDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
 			this.objectsDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.objectsDataGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.obj_tag,
@@ -222,21 +223,22 @@
 			this.ChartOptions.Controls.Add(this.HorizontalAxis);
 			this.ChartOptions.Location = new System.Drawing.Point(705, 27);
 			this.ChartOptions.Name = "ChartOptions";
-			this.ChartOptions.Size = new System.Drawing.Size(229, 332);
+			this.ChartOptions.Size = new System.Drawing.Size(229, 373);
 			this.ChartOptions.TabIndex = 9;
 			this.ChartOptions.TabStop = false;
 			this.ChartOptions.Text = "Chart Options";
 			// 
 			// groupBox1
 			// 
+			this.groupBox1.Controls.Add(this.funcOccur);
 			this.groupBox1.Controls.Add(this.funcLogistic);
 			this.groupBox1.Controls.Add(this.funcNone);
 			this.groupBox1.Location = new System.Drawing.Point(8, 206);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(123, 67);
+			this.groupBox1.Size = new System.Drawing.Size(123, 88);
 			this.groupBox1.TabIndex = 15;
 			this.groupBox1.TabStop = false;
-			this.groupBox1.Text = "Activation Function";
+			this.groupBox1.Text = "Function Type";
 			// 
 			// funcLogistic
 			// 
@@ -266,7 +268,7 @@
 			this.displayGroup.Controls.Add(this.displayDust);
 			this.displayGroup.Location = new System.Drawing.Point(137, 206);
 			this.displayGroup.Name = "displayGroup";
-			this.displayGroup.Size = new System.Drawing.Size(78, 67);
+			this.displayGroup.Size = new System.Drawing.Size(81, 67);
 			this.displayGroup.TabIndex = 14;
 			this.displayGroup.TabStop = false;
 			this.displayGroup.Text = "Filter";
@@ -297,7 +299,7 @@
 			// 
 			// ThinkButton
 			// 
-			this.ThinkButton.Location = new System.Drawing.Point(91, 279);
+			this.ThinkButton.Location = new System.Drawing.Point(91, 324);
 			this.ThinkButton.Name = "ThinkButton";
 			this.ThinkButton.Size = new System.Drawing.Size(127, 43);
 			this.ThinkButton.TabIndex = 12;
@@ -307,7 +309,7 @@
 			// 
 			// GenerateButton
 			// 
-			this.GenerateButton.Location = new System.Drawing.Point(6, 279);
+			this.GenerateButton.Location = new System.Drawing.Point(6, 324);
 			this.GenerateButton.Name = "GenerateButton";
 			this.GenerateButton.Size = new System.Drawing.Size(78, 43);
 			this.GenerateButton.TabIndex = 11;
@@ -650,6 +652,17 @@
 			this.labelStructureStatistics.TabIndex = 15;
 			this.labelStructureStatistics.Text = "Structure Statistics";
 			// 
+			// funcOccur
+			// 
+			this.funcOccur.AutoSize = true;
+			this.funcOccur.Enabled = false;
+			this.funcOccur.Location = new System.Drawing.Point(6, 64);
+			this.funcOccur.Name = "funcOccur";
+			this.funcOccur.Size = new System.Drawing.Size(76, 17);
+			this.funcOccur.TabIndex = 16;
+			this.funcOccur.Text = "occurence";
+			this.funcOccur.UseVisualStyleBackColor = true;
+			// 
 			// Diagnostics
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -746,5 +759,6 @@
 		private System.Windows.Forms.DataGridViewTextBoxColumn obj_edge_ratio;
 		private System.Windows.Forms.DataGridViewTextBoxColumn obj_neighbor_count;
 		private System.Windows.Forms.DataGridViewTextBoxColumn brain_output;
+		private System.Windows.Forms.RadioButton funcOccur;
 	}
 }

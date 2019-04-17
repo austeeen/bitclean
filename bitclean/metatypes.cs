@@ -140,35 +140,6 @@ namespace BitClean
         public Confidence objconf;	// confidence property
     }
 
-	static class XMLDiagnostics	// contains xml namespaces for diagnostics
-	{
-		public const string prologue = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
-			root = "<objects>",			root_end = "</objects>",
-			object_header = "<object ", object_header_end = "</object>",
-			size = "<size>",			size_end = "</size>",
-			avgHue = "<avg_hue>",		avgHue_end = "</avg_hue>",
-			density = "<density>",		density_end = "</density>",
-			edgeRatio = "<edge_ratio>", edgeRatio_end = "</edge_ratio>",
-			bounds = "<bounds>",		bounds_end = "</bounds>",
-				top = "<top>",			top_end = "</top>",
-				left = "<left>",		left_end = "</left>",
-				bottom = "<bottom>",	bottom_end = "</bottom>",
-				right = "<right>",		right_end = "</right>",
-			coordinates = "<coordinates>", coordinates_end = "</coordinates>",
-				x = "<x>", x_end = "</x>",
-				y = "<y>", y_end = "</y>",
-			neighbors = "<neighbors>", neighbors_end = "</neighbors>",
-				tag = "<tag>", tag_end = "</tag>";
-	}
-
-	static class XMLMetaData
-	{
-		public const string prologue = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
-			root = "<file_path_common", root_end = "/>",
-			bmp_path = "bmp_image=\"",
-			xml_path = "\" xml_data=\"";
-	}
-
 	public class ChartObject
 	{
 		public string decision;
@@ -184,6 +155,16 @@ namespace BitClean
 	public class AttributeStatistics
 	{
 		public double max = -1.0, min = -1.0, avg = 0.0, mode = 0.0;
+
+		public AttributeStatistics() {}
+
+		public void Clear()
+		{
+			max = -1.0;
+			min = -1.0;
+			avg = 0.0;
+			mode = 0.0;
+		}
 
 	}
 

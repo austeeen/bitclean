@@ -13,25 +13,48 @@ namespace BitClean
 	public partial class ChartDisplay : Form
 	{
 		private List<object[]> points;
+		private List<double> yvals;
 		private ActivationFunction func;
+		private string xAxisLabel, yAxisLabel, functionChoice;
+		private bool dust, structure;
+
+		private System.Windows.Forms.DataVisualization.Charting.Series
+			dustSeries = null, strucSeries = null, occurenceSeries = null;
+
 
 		public ChartDisplay(List<object[]> data, string xAxisLabel, string yAxisLabel, bool dust, bool structure, string functionChoice)
 		{
 			InitializeComponent();
 
-			GetFunction(functionChoice);
-
 			points = data;
-
-			System.Windows.Forms.DataVisualization.Charting.Series dustSeries = null;
-			System.Windows.Forms.DataVisualization.Charting.Series strucSeries = null;
-
-			if (dust)
-				dustSeries	= new System.Windows.Forms.DataVisualization.Charting.Series("dust");
-			if(structure)
-				strucSeries	= new System.Windows.Forms.DataVisualization.Charting.Series("structure");
+			this.xAxisLabel = xAxisLabel;
+			this.yAxisLabel = yAxisLabel;
+			this.functionChoice = functionChoice;
+			this.dust = dust;
+			this.structure = structure;
 
 			chart1.Series.Remove(chart1.Series[0]);
+
+			if (functionChoice == "occurence")
+				ChartOccurence();
+			else
+				ChartScatter();
+
+
+			chart1.ChartAreas[0].AxisX.Title = xAxisLabel;
+			chart1.ChartAreas[0].AxisY.Title = yAxisLabel;
+
+		}
+
+		#region scatter plot
+		public void ChartScatter()
+		{
+			if (dust)
+				dustSeries = new System.Windows.Forms.DataVisualization.Charting.Series("dust");
+			if (structure)
+				strucSeries = new System.Windows.Forms.DataVisualization.Charting.Series("structure");
+
+			GetFunction(functionChoice);
 
 			foreach (object[] point in points)
 			{
@@ -39,18 +62,14 @@ namespace BitClean
 
 				double yval = func.Activate(Convert.ToDouble(point[1]));
 
+				pt.SetValueXY(point[0], yval);
+				pt.ToolTip = string.Format("{0}: {1}, {2}", point[3], point[0], yval);
+
 				if (point[2].ToString() == "dust" && dustSeries != null)
-				{
-					pt.SetValueXY(point[0], yval);
-					pt.ToolTip = string.Format("{0}: {1}, {2}", point[3], point[0], yval);
 					dustSeries.Points.Add(pt);
-				}
 				else if(strucSeries != null)
-				{
-					pt.SetValueXY(point[0], yval);
-					pt.ToolTip = string.Format("{0}: {1}, {2}", point[3], point[0], yval);
 					strucSeries.Points.Add(pt);
-				}
+
 			}
 
 			if(dustSeries != null)
@@ -67,18 +86,51 @@ namespace BitClean
 				chart1.Series.Add(strucSeries);
 			}
 
-
-			chart1.ChartAreas[0].AxisX.Title = xAxisLabel;
-			chart1.ChartAreas[0].AxisY.Title = yAxisLabel;
-
 		}
 
 		private void GetFunction(string choice)
 		{
 			if (choice == "logistic")
-				func = new Logistic(1000.0, 0.001, 1);
+				func = new Logistic(13, 0.0039, 1);
 			else
 				func = new Linear();
 		}
+		#endregion
+
+		#region occurence
+		private void ChartOccurence()
+		{
+			List<int> occurences = new List<int>();
+
+			for (int i = 0; i < points.Count; i++)
+			{
+				while (occurences.Count != Convert.ToInt32(points[i][1]))
+					occurences.Add(0);
+
+				occurences[Convert.ToInt32(points[i][1])]++;
+			}
+
+			occurenceSeries = new System.Windows.Forms.DataVisualization.Charting.Series("occurences");
+
+			for (int i = 0; i < occurences.Count; i++)
+			{
+				System.Windows.Forms.DataVisualization.Charting.DataPoint pt = new System.Windows.Forms.DataVisualization.Charting.DataPoint();
+
+				pt.SetValueXY(i, occurences[i]);
+				pt.ToolTip = string.Format("{0}, {1}", i, occurences[i]);
+
+				occurenceSeries.Points.Add(pt);
+
+			}
+
+			occurenceSeries.Color = Color.Tomato;
+			occurenceSeries.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Bar;
+			chart1.Series.Add(occurenceSeries);
+
+			xAxisLabel = yAxisLabel;
+			yAxisLabel = "occurences";
+
+		}
+		#endregion
 	}
 }

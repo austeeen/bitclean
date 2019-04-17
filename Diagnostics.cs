@@ -16,31 +16,31 @@ namespace BitClean
 {
 	public partial class Diagnostics : Form
 	{
-		string xmlStartDirectory = "";
+		Manager xmlManager = null;
 
 		List<ChartObject> objectList = new List<ChartObject>();
 		List<RadioButton> radioHoriztonal;
 		List<RadioButton> radioVertical;
 		List<RadioButton> radioFunction;
 
-		AttributeStatistics totalSizeStats = new AttributeStatistics();
-		AttributeStatistics totalDensityStats = new AttributeStatistics();
+		AttributeStatistics totalSizeStats		= new AttributeStatistics();
+		AttributeStatistics totalDensityStats	= new AttributeStatistics();
 		AttributeStatistics totalEdgeratioStats = new AttributeStatistics();
 		AttributeStatistics totalNeighborsStats = new AttributeStatistics();
 
-		AttributeStatistics dustSizeStats = new AttributeStatistics();
-		AttributeStatistics dustDensityStats = new AttributeStatistics();
-		AttributeStatistics dustEdgeratioStats = new AttributeStatistics();
-		AttributeStatistics dustNeighborsStats = new AttributeStatistics();
+		AttributeStatistics dustSizeStats		= new AttributeStatistics();
+		AttributeStatistics dustDensityStats	= new AttributeStatistics();
+		AttributeStatistics dustEdgeratioStats	= new AttributeStatistics();
+		AttributeStatistics dustNeighborsStats	= new AttributeStatistics();
 
-		AttributeStatistics structureSizeStats = new AttributeStatistics();
-		AttributeStatistics structureDensityStats = new AttributeStatistics();
+		AttributeStatistics structureSizeStats		= new AttributeStatistics();
+		AttributeStatistics structureDensityStats	= new AttributeStatistics();
 		AttributeStatistics structureEdgeratioStats = new AttributeStatistics();
 		AttributeStatistics structureNeighborsStats = new AttributeStatistics();
 
 		int dustCount = 0, structureCount = 0;
 
-		public Diagnostics(string xmlDirectory)
+		public Diagnostics(Manager xmlManager)
 		{
 			InitializeComponent();
 			radioHoriztonal = new List<RadioButton>() {
@@ -64,20 +64,24 @@ namespace BitClean
 			};
 			radioFunction = new List<RadioButton>() {
 				funcNone,
-				funcLogistic
+				funcLogistic,
+				funcOccur
 			};
 
-			xmlStartDirectory = xmlDirectory;
+			this.xmlManager = xmlManager;
 		}
 
 		private void LoadXML_Click(object sender, EventArgs e)
 		{
+			if (objectList.Count != 0) // datagrid not empty
+				ClearDataGrids();
+
 			using (OpenFileDialog openFD = new OpenFileDialog())
 			{
 				string xmlpath;
 				// File dialog settings
 				openFD.Title = "Select an XML file";
-				openFD.InitialDirectory = xmlStartDirectory;
+				openFD.InitialDirectory = xmlManager.XMLDirectory;
 				openFD.Filter = "xml files (*.xml)|*.xml";
 				openFD.RestoreDirectory = true;
 
@@ -86,15 +90,40 @@ namespace BitClean
 				if (result == DialogResult.OK)
 				{
 					xmlpath = openFD.FileName;
+					xmlManager.SetXMLDirectory(xmlpath);
 					GetXMLData(xmlpath);
 				}
 
-				if(objectList.Count > 0)
-				{
+				if(objectList.Count > 0) {
 					SetUpObjectsDataGrid();
 				}
 			}
 
+		}
+
+		private void ClearDataGrids()
+		{
+			objectList.Clear();
+
+			totalSizeStats.Clear();
+			totalDensityStats.Clear();
+			totalEdgeratioStats.Clear();
+			totalNeighborsStats.Clear();
+
+			dustSizeStats.Clear();
+			dustDensityStats.Clear();
+			dustEdgeratioStats.Clear();
+			dustNeighborsStats.Clear();
+
+			structureSizeStats.Clear();
+			structureDensityStats.Clear();
+			structureEdgeratioStats.Clear();
+			structureNeighborsStats.Clear();
+
+			objectsDataGrid.Rows.Clear();
+			totalStatisticsDataGrid.Rows.Clear();
+			dustStatisticsDataGrid.Rows.Clear();
+			structureStatisticsDataGrid.Rows.Clear();
 		}
 
 		private void GetXMLData(string path)
@@ -296,6 +325,5 @@ namespace BitClean
 				});
 			}
 		}
-
 	}
 }
