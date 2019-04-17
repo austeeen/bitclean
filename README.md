@@ -12,10 +12,10 @@ BitClean.00 - .zip
 Github -
 [link]
 
-# Help Page - 
+Help Page - 
 [link]
 
-# Documentation (not finished) -
+Documentation (not finished) -
 [link]
 
 # Questions?
