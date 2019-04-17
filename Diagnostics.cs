@@ -12,17 +12,27 @@ using System.Windows.Forms;
 using System.IO;
 using BitClean;
 
+/*
+ * bitclean: Diagnostics.cs
+ * Author: Austin Herman
+ * 3/11/2019
+ */
+
 namespace BitClean
 {
 	public partial class Diagnostics : Form
 	{
 		Manager xmlManager = null;
 
+		// list of objects to be displayed in the chart
 		List<ChartObject> objectList = new List<ChartObject>();
+
+		// list of radio buttons to choose from
 		List<RadioButton> radioHoriztonal;
 		List<RadioButton> radioVertical;
 		List<RadioButton> radioFunction;
 
+		// structs for object statistics
 		AttributeStatistics totalSizeStats		= new AttributeStatistics();
 		AttributeStatistics totalDensityStats	= new AttributeStatistics();
 		AttributeStatistics totalEdgeratioStats = new AttributeStatistics();
@@ -38,11 +48,15 @@ namespace BitClean
 		AttributeStatistics structureEdgeratioStats = new AttributeStatistics();
 		AttributeStatistics structureNeighborsStats = new AttributeStatistics();
 
+		// for calculating averages
 		int dustCount = 0, structureCount = 0;
 
+		// init and set up
 		public Diagnostics(Manager xmlManager)
 		{
 			InitializeComponent();
+
+			// populate horizontal choice radio button list
 			radioHoriztonal = new List<RadioButton>() {
 				totneighborHorizontal,
 				edgeratioHorizontal,
@@ -53,6 +67,7 @@ namespace BitClean
 				neuralHorizontal
 			};
 
+			// populate vetical choice radio button list
 			radioVertical = new List<RadioButton>() {
 				totneighborVertical,
 				edgeratioVertical,
@@ -62,12 +77,15 @@ namespace BitClean
 				tagVertical,
 				neuralVertical
 			};
+
+			// populate function choice radio button list
 			radioFunction = new List<RadioButton>() {
 				funcNone,
 				funcLogistic,
 				funcOccur
 			};
 
+			// set xml manager
 			this.xmlManager = xmlManager;
 		}
 
@@ -78,31 +96,28 @@ namespace BitClean
 
 			using (OpenFileDialog openFD = new OpenFileDialog())
 			{
-				string xmlpath;
 				// File dialog settings
 				openFD.Title = "Select an XML file";
 				openFD.InitialDirectory = xmlManager.XMLDirectory;
 				openFD.Filter = "xml files (*.xml)|*.xml";
 				openFD.RestoreDirectory = true;
 
-				DialogResult result = openFD.ShowDialog();
-
-				if (result == DialogResult.OK)
-				{
-					xmlpath = openFD.FileName;
-					xmlManager.SetXMLDirectory(xmlpath);
-					GetXMLData(xmlpath);
+				// if dialog returned ok, set XML directory and get data from xml sheet
+				if (openFD.ShowDialog() == DialogResult.OK) {
+					xmlManager.SetXMLDirectory(openFD.FileName);
+					GetXMLData(openFD.FileName);
 				}
 
-				if(objectList.Count > 0) {
+				// if data was loaded, set up data grid
+				if(objectList.Count > 0)
 					SetUpObjectsDataGrid();
-				}
 			}
 
 		}
 
 		private void ClearDataGrids()
 		{
+			// clear all data grids / data lists
 			objectList.Clear();
 
 			totalSizeStats.Clear();
@@ -128,10 +143,13 @@ namespace BitClean
 
 		private void GetXMLData(string path)
 		{
+			// load xml doc and set it's root
 			XElement doc = XDocument.Load(path).Root;
 
+			// iterate through each object in root
 			foreach (var obj in doc.Descendants("object"))
 			{
+				// create chart object and populate it's data with xml attributes
 				ChartObject chartObject = new ChartObject();
 
 				chartObject.tag = (int)obj.Attribute("tag");
@@ -146,22 +164,25 @@ namespace BitClean
 				foreach (var neighbor in obj.Descendants("tag"))
 					chartObject.neighbors.Add((int)neighbor);
 
+				// add chart object to object list
 				objectList.Add(chartObject);
 			}
 		}
 
 		private void SetUpObjectsDataGrid()
 		{
+			// add chart objects to chart display and get statistics on each chart object
 			foreach (ChartObject obj in objectList) {
 				objectsDataGrid.Rows.Add(obj.tag, obj.decision, obj.size, obj.avghue, obj.density, obj.edgeratio, obj.neighbors.Count, 0);
 				SetUpStatisticsDataGrid(obj);
 			}
-
+			// add the data statistics to the stats charts
 			AddStatisticsRows();
 		}
 
 		private void SetUpStatisticsDataGrid(ChartObject obj)
 		{
+			// if obj size|density|edgeratio|neighbors is min, set it so
 			if (obj.size < totalSizeStats.min || totalSizeStats.min == -1.0)
 				totalSizeStats.min = obj.size;
 			if (obj.density < totalDensityStats.min || totalDensityStats.min == -1.0)
@@ -171,6 +192,7 @@ namespace BitClean
 			if (obj.neighbors.Count < totalNeighborsStats.min || totalNeighborsStats.min == -1.0)
 				totalNeighborsStats.min = obj.neighbors.Count;
 
+			// if obj size|density|edgeratio|neighbors is max, set it so
 			if (obj.size > totalSizeStats.max || totalSizeStats.max == -1.0)
 				totalSizeStats.max = obj.size;
 			if (obj.density > totalDensityStats.max || totalDensityStats.max == -1.0)
@@ -180,11 +202,13 @@ namespace BitClean
 			if (obj.neighbors.Count > totalNeighborsStats.max || totalNeighborsStats.max == -1.0)
 				totalNeighborsStats.max = obj.neighbors.Count;
 
+			// add to average
 			totalSizeStats.avg += obj.size;
 			totalDensityStats.avg += obj.density;
 			totalEdgeratioStats.avg += obj.edgeratio;
 			totalNeighborsStats.avg += obj.neighbors.Count;
 
+			// if dust, update min/max/avg stats
 			if(obj.decision == "dust")
 			{
 				if (obj.size < dustSizeStats.min || dustSizeStats.min == -1.0)
@@ -213,7 +237,7 @@ namespace BitClean
 				dustCount++;
 			}
 			else
-			{
+			{ // update structure min/max/avg stats
 				if (obj.size < structureSizeStats.min || structureSizeStats.min == -1.0)
 					structureSizeStats.min = obj.size;
 				if (obj.density < structureDensityStats.min || structureDensityStats.min == -1.0)
@@ -244,21 +268,25 @@ namespace BitClean
 
 		private void AddStatisticsRows()
 		{
+			// add all objects stats
 			totalSizeStats.avg /= objectList.Count;
 			totalDensityStats.avg /= objectList.Count;
 			totalEdgeratioStats.avg /= objectList.Count;
 			totalNeighborsStats.avg /= objectList.Count;
 
+			// add dust stats
 			dustSizeStats.avg /= dustCount;
 			dustDensityStats.avg /= dustCount;
 			dustEdgeratioStats.avg /= dustCount;
 			dustNeighborsStats.avg /= dustCount;
 
+			// add structure stats
 			structureSizeStats.avg /= structureCount;
 			structureDensityStats.avg /= structureCount;
 			structureEdgeratioStats.avg /= structureCount;
 			structureNeighborsStats.avg /= structureCount;
 
+			// create rows
 			totalStatisticsDataGrid.Rows.Add("size", totalSizeStats.max, totalSizeStats.min, totalSizeStats.avg, totalSizeStats.mode);
 			totalStatisticsDataGrid.Rows.Add("density", totalDensityStats.max, totalDensityStats.min, totalDensityStats.avg, totalDensityStats.mode);
 			totalStatisticsDataGrid.Rows.Add("edge ratio", totalEdgeratioStats.max, totalEdgeratioStats.min, totalEdgeratioStats.avg, totalEdgeratioStats.mode);
@@ -279,10 +307,12 @@ namespace BitClean
 		{
 			int xColIndex = 0, yColIndex = 0;
 
+			// get radio button choice for xAxis (horizontal), yAxis (vertical), function choice
 			string horizontalChoice = radioHoriztonal.FirstOrDefault(r => r.Checked).Tag.ToString();
 			string verticalChoice	= radioVertical.FirstOrDefault(r => r.Checked).Tag.ToString();
 			string functionChoice	= radioFunction.FirstOrDefault(r => r.Checked).Text;
 
+			// relate the radio button choice to the column
 			foreach (DataGridViewColumn col in objectsDataGrid.Columns)
 			{
 				if (col.HeaderText == horizontalChoice)
@@ -291,12 +321,11 @@ namespace BitClean
 					yColIndex = col.Index;
 			}
 			
-
+			// create data points to be plotted
 			List<object[]> datapoints = new List<object[]>();
-
 			for (int i = 0; i < objectsDataGrid.Rows.Count - 1; i ++)
 			{
-				object[] point = 
+				object[] point = // get the x/y value, the decision, and the tag for the plot
 				{
 					objectsDataGrid.Rows[i].Cells[xColIndex].Value,
 					objectsDataGrid.Rows[i].Cells[yColIndex].Value,
@@ -307,16 +336,21 @@ namespace BitClean
 				datapoints.Add(point);
 			}	
 			
+			// create new chart window and display chart
 			ChartDisplay chart = new ChartDisplay(datapoints, horizontalChoice, verticalChoice, displayDust.Checked, displayStructure.Checked, functionChoice);
 			chart.Show();
 		}
 
+		// W.I.P.
 		private void Think_Click(object sender, EventArgs e)
 		{
+			// create brain with 4 attribute inputs
 			Brain brain = new Brain(4);
 
+			// for each data object
 			for (int i = 0; i < objectsDataGrid.Rows.Count - 1; i++)
 			{
+				// convert data into inputs, tell brain to "think" and return the outputted network value
 				objectsDataGrid.Rows[i].Cells[brain_output.Index].Value = brain.Think(new double[] {
 					Convert.ToDouble(objectsDataGrid.Rows[i].Cells[2].Value),
 					Convert.ToDouble(objectsDataGrid.Rows[i].Cells[3].Value),

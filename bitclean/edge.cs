@@ -5,9 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 /*
- * bitmapProto: BitClean/edge.cs
- * Author: Austin Herman
+ * bitclean: /bitclean/edge.cs
+ * author: Austin Herman
  * 2/11/2019
+ * deep algorithm for calculating how many edges are on the object (roughly)
  */
 
 namespace BitClean

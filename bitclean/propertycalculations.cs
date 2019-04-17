@@ -5,9 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 /*
- * BitClean: bitclean/propertycalculations.cs
- * Author: Austin Herman
+ * bitclean: /bitclean/propertycalculations.cs
+ * author: Austin Herman
  * 2/11/2019
+ * calculates confidence on whether object is structure or dust -- might delete later idk
  */
 
 namespace BitClean

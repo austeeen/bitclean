@@ -4,6 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+/*
+ * bitclean: /bitclean/brain.cs
+ * author: Austin Herman
+ * 3/20/2019
+ * pseudo neural network - IN PROGRESS
+ */
+
 namespace BitClean
 {
 	public class HyperParameters

@@ -11,37 +11,34 @@ using System.Windows.Forms;
 using System.IO;
 
 /*
- * Bitclean: MainWindow.cs
+ * bitclean: MainWindow.cs
  * Author: Austin Herman
  * 2/13/2019
+ * MainWindow holds the main routines for the mainpage of this application.
  */
 
 namespace BitClean
 {
 	public partial class MainWindow : Form
 	{
-		public Bitmap bmp = null;
-		public string bmppath = "";
-
-		private ImageOps img = null;
-		private Toolbox t = null;
-		private Manager xmlmanager = null;
+		public Bitmap bmp		= null;		// image represented as a bitmap
+		private Pixel[] pixels	= null;		// array of pixels in the image
+		private Toolbox tools	= null;		// contains algorithms for cleaning the image
+		private Manager filemanager = null;	// holds directory/filename information
 
 		public MainWindow()
-		{
+		{	// init
 			InitializeComponent();
 			StartUp();
 		}
 
 		public void StartUp()
-		{
+		{	// disable unusable menu items on start up, set default status message, initialize the file manager
 			saveImageMenuStripItem.Enabled	= false;
 			bitCleanMenuStripItem.Enabled	= false;
 			exportMenuStripItem.Enabled		= false;
 			toolStripText.Text = ToolStripMessages.DEFAULT_MESSAGE;
-
-			xmlmanager = new Manager();
-
+			filemanager = new Manager();
 		}
 
 		#region File Drop Down Buttons
@@ -52,35 +49,47 @@ namespace BitClean
 		{
 			using (OpenFileDialog openFD = new OpenFileDialog())
 			{
-				// File dialog settings
+				// set dialog settings
 				openFD.Title = "Select an image file";
-				openFD.InitialDirectory = xmlmanager.ImageDirectory;
+				openFD.InitialDirectory = filemanager.ImageDirectory;
 				openFD.Filter = "bmp files (*.bmp)|*.bmp";
 				openFD.RestoreDirectory = true;
 
-				DialogResult result = openFD.ShowDialog();
-
-				if (result == DialogResult.OK) {
-					bmppath = openFD.FileName;
-					xmlmanager.SetImageDirectory(Path.GetDirectoryName(bmppath));
+				// show dialog and it returned okay
+				if (openFD.ShowDialog() == DialogResult.OK)
+				{	
+					// set path/image directory information
+					filemanager.SetImageDirectory(Path.GetDirectoryName(openFD.FileName));
+					filemanager.ImagePath = openFD.FileName;
 				}
 
-				try
-				{
+				try {
+					// set status
 					toolStripText.Text = ToolStripMessages.IMAGE_LOADING;
 					statusStrip1.Refresh();
 
-					bmp = new Bitmap(Image.FromFile(bmppath));
-					img = new ImageOps(bmp, bmppath);
+					// load bmp
+					bmp = new Bitmap(Image.FromFile(filemanager.ImagePath));
 
-					pictureBox1.Image = img.ParseImage(bmp);
+					// switch magenta colored pixels (floor color from cloud compare) to white pixels,
+					// and populate pixel array
+					pictureBox1.Image = ImageOperations.ParseImage(bmp, ref pixels);
 
-					t = new Toolbox(img.GetPixels(), img.GetImageData());
+					// create toolbox for cleaning systems
+					tools = new Toolbox(pixels, new Data {
+											totalpixels = bmp.Height * bmp.Width,
+											height = bmp.Height,
+											width = bmp.Width } );
+					
+					// enable bitclean and save image menu items
 					bitCleanMenuStripItem.Enabled	= true;
 					saveImageMenuStripItem.Enabled	= true;
+					// disable export diagnostics until image is cleaned
+					exportMenuStripItem.Enabled =	 false;
 					toolStripText.Text = ToolStripMessages.IMAGE_LOADED;
+
 				}
-				catch (Exception) {
+				catch (Exception) { // run load image process
 					toolStripText.Text = ToolStripMessages.IMAGE_LOAD_FAILED;
 					bmp = null;
 				}
@@ -92,24 +101,23 @@ namespace BitClean
 		private void SaveImageFile_Click(object sender, EventArgs e)
 		{
 			if (bmp != null)
-			{
-				// Get the file's save name
+			{ 
 				SaveFileDialog saveFD = new SaveFileDialog();
 
+				// set up file dialog
 				saveFD.Title = "Save the image file";
 				saveFD.Filter = "bmp files (*.bmp)|*.bmp";
+				saveFD.FileName = Path.GetFileNameWithoutExtension(filemanager.ImagePath);
+				saveFD.InitialDirectory = Path.GetDirectoryName(filemanager.ImageDirectory);
 
-				saveFD.FileName = Path.GetFileNameWithoutExtension(bmppath);
-
-				saveFD.InitialDirectory = Path.GetDirectoryName(bmppath);
-
-				DialogResult result = saveFD.ShowDialog();
-
-				if (result == DialogResult.OK) {
+				// if dialog returned ok
+				if (saveFD.ShowDialog() == DialogResult.OK) {
+					// save bmp, set status
 					bmp.Save(saveFD.FileName);
 					toolStripText.Text = ToolStripMessages.IMAGE_SAVED;
 				}
 				else {
+					// dialog failed, set status
 					toolStripText.Text = ToolStripMessages.IMAGE_SAVE_FAILED;
 					MessageBox.Show("File was not saved.", "File Not Saved", 0);
 				}
@@ -128,20 +136,23 @@ namespace BitClean
 		//
 		private void BitCleanImage_Click(object sender, EventArgs e)
 		{
-			if (img != null && t != null)
+			if (tools != null)
 			{
+				// set status to cleaning
 				toolStripText.Text = ToolStripMessages.CLEANING_IMAGE;
 				statusStrip1.Refresh();
 
-				t.Run(progressBar, statusStrip1, toolStripText);
+				// run tools to clean
+				tools.Run(progressBar, statusStrip1, toolStripText);
 
-				img.PushPixelsToImage(bmp);
-
+				// update pixels and image display
+				ImageOperations.PushPixelsToImage(bmp, pixels);
 				pictureBox1.Image = bmp;
 
-				diagnosticsMenuStripItem.Visible = true;
+				// enable export diagnostics
 				exportMenuStripItem.Enabled = true;
 
+				// set status done
 				MessageBox.Show("done");
 				toolStripText.Text = ToolStripMessages.IMAGE_CLEANED;
 			}
@@ -152,40 +163,43 @@ namespace BitClean
 
 		#region Diagnostics Drop Down Buttons
 		//
-		// Diagnostics > Export to XMLDiagnostics...
+		// Diagnostics > Export to XMLDiagnostics
 		//
 		private void ExportDiagnostics_Click(object sender, EventArgs e)
 		{
-			string imgpath = img.GetImagePath();
-			List<ObjectData> objectdata = t.GetObjectData();
+			List<ObjectData> objectdata = tools.GetObjectData();
 
 			// write all data into xml file format
 			using (var saveFD = new SaveFileDialog())
 			{
+				// set up file dialog
 				saveFD.Title = "Save the diagostics xml file";
 				saveFD.Filter = "xml files (*.xml)|*.xml";
+				saveFD.FileName = Path.GetFileNameWithoutExtension(filemanager.ImagePath + "data");
+				saveFD.InitialDirectory = filemanager.XMLDirectory;
 
-				saveFD.FileName = Path.GetFileNameWithoutExtension(imgpath + "data");
-				saveFD.InitialDirectory = xmlmanager.XMLDirectory;
-
-				DialogResult result = saveFD.ShowDialog();
-
-				if (result == DialogResult.OK)
+				// dialog successful
+				if (saveFD.ShowDialog() == DialogResult.OK)
 				{
-					xmlmanager.SetXMLDirectory(Path.GetDirectoryName(saveFD.FileName));
+					// update file manager
+					filemanager.SetXMLDirectory(Path.GetDirectoryName(saveFD.FileName));
 
+					// create xml document, add objects root
 					var xml = new XDocument();
 					var root = new XElement("objects");
 					xml.Add(root);
 
+					// for each object found
 					for (int i = 0; i < objectdata.Count; i++)
 					{
 						ObjectData obj = objectdata[i];
 
+						// create object entry and it's attributes
 						var objectElement = new XElement("object");
 						objectElement.SetAttributeValue("tag", obj.tag);
 						objectElement.SetAttributeValue("decision", obj.objconf.decision);
 
+						// create object's attributes
 						var sizeElement		= new XElement("size", obj.size);
 						var avgHueElement	= new XElement("avg_hue", obj.avghue);
 						var densityElement	= new XElement("density", obj.density);
@@ -215,6 +229,7 @@ namespace BitClean
 							neighborsElement.Add(neighborTagElement);
 						}
 
+						// add attributes to the object
 						objectElement.Add(sizeElement);
 						objectElement.Add(avgHueElement);
 						objectElement.Add(densityElement);
@@ -223,11 +238,12 @@ namespace BitClean
 						objectElement.Add(coordinatesElement);
 						objectElement.Add(neighborsElement);
 
+						// add object to objects root node
 						root.Add(objectElement);
 					}
 
+					// save xml file, set status
 					xml.Save(saveFD.FileName);
-
 					toolStripText.Text = ToolStripMessages.XML_DATA_EXPORTED;
 				}
 				else {
@@ -243,13 +259,10 @@ namespace BitClean
 		//
 		private void Plots_Click(object sender, EventArgs e)
 		{
-			Diagnostics diagnosticsWindow = new Diagnostics(xmlmanager);
+			// create/show new diagnostics window
+			Diagnostics diagnosticsWindow = new Diagnostics(filemanager);
 			diagnosticsWindow.Show();
 		}
-
 		#endregion
-
-		ImageOps getImageOpsObject() { return img; }
-
 	}
 }

@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using System.Drawing;
 
 /*
- * bitmapProto: BitClean/toolbox.cs
- * Author: Austin Herman
+ * bitclean: /bitclean/toolbox.cs
+ * author: Austin Herman
  * 2/11/2019
  */
 

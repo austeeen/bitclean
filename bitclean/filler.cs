@@ -5,9 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 /*
- * bitmapProto: BitClean/filler.cs
- * Author: Austin Herman
+ * bitclean: /bitclean/filler.cs
+ * author: Austin Herman
  * 2/11/2019
+ * deep algorithm for filling in the object's untouched pixels
  */
 
 namespace BitClean

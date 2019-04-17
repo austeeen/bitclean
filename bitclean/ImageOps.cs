@@ -8,29 +8,18 @@ using System.Drawing;
 using System.Windows.Forms;
 
 /*
- * bitmapProto: BitClean/image.cs
- * Author: Austin Herman
+ * bitclean: /bitclean/ImageOperations.cs
+ * author: Austin Herman
  * 2/11/2019
+ * holds basic routines for various operations on the displayed image
  */
 
 namespace BitClean
 {
-    public class ImageOps
+    public static class ImageOperations
     {
-		private Data imgdata;
-		public string imgpath;
-		private Pixel[] pixels = null;
-
-		public ImageOps(Bitmap bmp, string bmppath)
-		{
-			imgdata.height = bmp.Height;
-			imgdata.width = bmp.Width;
-			imgdata.totalpixels = bmp.Height * bmp.Width;
-			imgpath = bmppath;
-		}
-
 		// changes Magenta floor colored pixels from Cloud Compare into white
-		public Bitmap ParseImage(Bitmap bmp)
+		public static Bitmap ParseImage(Bitmap bmp, ref Pixel[] pixels)
 		{
 			int i = 0;
 			pixels = new Pixel[bmp.Width * bmp.Height];
@@ -41,11 +30,13 @@ namespace BitClean
 				{
 					Color p = bmp.GetPixel(x, y);
 
+					// if the current pixel is the FLOOR (magenta) color, set it to white
 					if (p == Constants.FLOOR) {
 						bmp.SetPixel(x, y, Constants.WHITE);
 						p = bmp.GetPixel(x, y);
 					}
 
+					// store pixel info
 					pixels[i].id = i;
 					pixels[i].value = ColToInt(p);
 					pixels[i].r = p.R;
@@ -60,14 +51,12 @@ namespace BitClean
 			return bmp;
 		}
 
-		public void PushPixelsToImage(Bitmap bmp)
+		public static void PushPixelsToImage(Bitmap bmp, Pixel[] pixels)
 		{
+			// update bmp with pixels stored in pixel array
 			int i = 0;
-
-			for (int y = 0; y < bmp.Height; y++)
-			{
-				for (int x = 0; x < bmp.Width; x++)
-				{
+			for (int y = 0; y < bmp.Height; y++) {
+				for (int x = 0; x < bmp.Width; x++) {
 					Color toargb = Color.FromArgb(pixels[i].r, pixels[i].g, pixels[i].b);
 					bmp.SetPixel(x, y, toargb);
 					i++;
@@ -77,6 +66,8 @@ namespace BitClean
 
 		public static short ColToInt(Color p)
 		{
+			// convert the pixel color from (R,G,B) to a short
+			// scales as [(0,0,255) = 1] -> [(255,0,0) = 1021]
 			short numcolor = 0;
 
 			if (p == Constants.WHITE)
@@ -92,21 +83,5 @@ namespace BitClean
 
 			return numcolor;
 		}
-
-		public string GetImagePath()
-		{
-			return imgpath;
-		}
-
-		public ref Data GetImageData()
-        {
-            return ref imgdata;
-        }
-
-		public Pixel[] GetPixels()
-		{
-			return pixels;
-		}
-
     }
 }

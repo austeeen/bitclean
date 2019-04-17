@@ -5,9 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 /*
- * bitmapProto: BitClean/image.cs
- * Author: Austin Herman
+ * bitclean: /bitclean/image.cs
+ * author: Austin Herman
  * 2/11/2019
+ * deep algorithm for one touch object finding
  */
 
 namespace BitClean

@@ -5,6 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+/*
+ * bitclean: /bitclean/filler.cs
+ * author: Austin Herman
+ * 4/2/2019
+ * basic sorting / searching algorithms for finding useful data on the object relative to it's position in the image
+ */
+
 namespace BitClean
 {
 	class GlobalSystems

@@ -5,9 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 /*
- * bitmapProto: BitClean/tree.cs
- * Author: Austin Herman
+ * bitclean: /bitclean/tree.cs
+ * author: Austin Herman
  * 2/11/2019
+ * basic tree algorithms retrofitted to work with pixel id's
  */
 
 namespace BitClean
