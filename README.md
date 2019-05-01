@@ -14,7 +14,7 @@ BitClean.00 - .zip
 
 # Links
 Github -
-[link]
+https://github.com/austeeen/bitclean
 
 Help Page - 
 https://docs.google.com/document/d/1q4b8WioSc00W86cCN_1Ok-PimsCIFkfsp0_fJeaZMa8/edit?usp=sharing
@@ -24,7 +24,7 @@ https://docs.google.com/document/d/1ShRaxwMHd9Fb0YGFLPeZDN1oA3gW2t82tlNAYjFmXLc/
 
 # Questions?
 Contact me at:
-austin@badger-technologies
+austin@badger-technologies.com
 
 # Previous Versions:
 No previous versions as of yet.
