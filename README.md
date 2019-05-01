@@ -17,9 +17,9 @@ Github -
 [link]
 
 Help Page - 
-[link]
+https://docs.google.com/document/d/1q4b8WioSc00W86cCN_1Ok-PimsCIFkfsp0_fJeaZMa8/edit?usp=sharing
 
-Documentation (not finished) -
+Documentation -
 https://docs.google.com/document/d/1ShRaxwMHd9Fb0YGFLPeZDN1oA3gW2t82tlNAYjFmXLc/edit?usp=sharing
 
 # Questions?
