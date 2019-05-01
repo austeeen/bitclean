@@ -154,11 +154,10 @@ namespace BitClean
 
 				chartObject.tag = (int)obj.Attribute("tag");
 				chartObject.decision = (string)obj.Attribute("decision");
-
-				chartObject.size	= (int)obj.Element("size");
-				chartObject.avghue	= (double)obj.Element("avg_hue");
-				chartObject.density = (double)obj.Element("density");
-				chartObject.edgeratio = (double)obj.Element("edge_ratio");
+				chartObject.size = (int) obj.Element("size");
+				chartObject.avghue = (double) obj.Element("avg_hue");
+				chartObject.density = (double) obj.Element("density");
+				chartObject.edgeratio = (double) obj.Element("edge_ratio");
 
 				chartObject.neighbors = new List<int>();
 				foreach (var neighbor in obj.Descendants("tag"))
@@ -325,20 +324,39 @@ namespace BitClean
 			List<object[]> datapoints = new List<object[]>();
 			for (int i = 0; i < objectsDataGrid.Rows.Count - 1; i ++)
 			{
-				object[] point = // get the x/y value, the decision, and the tag for the plot
-				{
-					objectsDataGrid.Rows[i].Cells[xColIndex].Value,
-					objectsDataGrid.Rows[i].Cells[yColIndex].Value,
-					objectsDataGrid.Rows[i].Cells[obj_decision.Index].Value,
-					objectsDataGrid.Rows[i].Cells[obj_tag.Index].Value
-				};
+				object xval, yval, decision, tag;
 
-				datapoints.Add(point);
+				if (squareData.Checked && obj_tag.Index != xColIndex) // dont square a tag value
+					xval = Math.Pow(Convert.ToDouble(objectsDataGrid.Rows[i].Cells[xColIndex].Value), 2);
+				else
+					xval = objectsDataGrid.Rows[i].Cells[xColIndex].Value;
+
+				if (squareData.Checked && obj_tag.Index != yColIndex) // dont square a tag value
+					yval = Math.Pow(Convert.ToDouble(objectsDataGrid.Rows[i].Cells[yColIndex].Value), 2);
+				else
+					yval = objectsDataGrid.Rows[i].Cells[yColIndex].Value;
+
+
+				decision = objectsDataGrid.Rows[i].Cells[obj_decision.Index].Value;
+				tag = objectsDataGrid.Rows[i].Cells[obj_tag.Index].Value;
+
+				datapoints.Add(new object[] { xval, yval, decision, tag });
 			}	
 			
 			// create new chart window and display chart
 			ChartDisplay chart = new ChartDisplay(datapoints, horizontalChoice, verticalChoice, displayDust.Checked, displayStructure.Checked, functionChoice);
 			chart.Show();
+		}
+
+		private void ComputeParameters_Click(object sender, EventArgs e)
+		{
+			Sifter sifter = new Sifter(new AttributeStatistics[] { dustSizeStats, dustEdgeratioStats, dustDensityStats });
+
+			Logistic logisticFunc = new Logistic();
+
+			sifter.GenerateLogisticParameters(logisticFunc, dustSizeStats);
+
+			SizeParameterLabel.Text = "Size : a = " + Math.Round(logisticFunc.a, 4) + ", b = " + Math.Round(logisticFunc.b, 4) + ", c = " + Math.Round(logisticFunc.c, 4);
 		}
 
 		// W.I.P.

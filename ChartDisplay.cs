@@ -8,12 +8,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+/*
+ * bitclean: ChartDisplay.cs
+ * Author: Austin Herman
+ * 3/14/2019
+ */
+
 namespace BitClean
 {
 	public partial class ChartDisplay : Form
 	{
 		private List<object[]> points;
-		private List<double> yvals;
 		private ActivationFunction func;
 		private string xAxisLabel, yAxisLabel, functionChoice;
 		private bool dust, structure;

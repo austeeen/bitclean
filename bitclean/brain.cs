@@ -115,15 +115,17 @@ namespace BitClean
 				synapses[0].Add(new Synapse(inputlayer[n], neurons[1][n], weights[0][n]));
 			}
 
-			for(int l = 1; l < neurons.Count - 1; l ++) {
+			for(int l = 1; l < neurons.Count - 1; l ++)
+			{
 				synapses.Add(new List<Synapse>());
 				weights.Add(new List<int>());
-				for (int n = 0; n < neurons[l].Count; n++) {
+				for (int n = 0; n < neurons[l].Count; n++)
+				{
 					for(int nn = 0; nn < neurons[l + 1].Count; nn++) {
 						weights[l].Add(l);
 						synapses[l].Add(new Synapse(neurons[l][n], neurons[l + 1][nn], weights[l][nn]));
 					}
-				} 
+				}
 			}
 
 			weights.Add(new List<int>());
@@ -216,15 +218,28 @@ namespace BitClean
 
 	public class Linear : ActivationFunction
 	{
+		double slope, offset;
+
+		public Linear()
+		{
+			slope = 1;
+			offset = 0;
+		}
+		public Linear(double slope, double offset)
+		{
+			this.slope = slope;
+			this.offset = offset;
+		}
 		public override double Activate(int data)
 		{
-			return data;
+			return data * slope + offset;
 		}
 		public override double Activate(double data)
 		{
-			return data;
+			return data * slope + offset;
 		}
 	}
+
 	public class RectifiedLinear : ActivationFunction
 	{
 		public override double Activate(int data)
@@ -243,12 +258,27 @@ namespace BitClean
 
 	public class Logistic : ActivationFunction
 	{
+		public double a, b, c;
+
 		public Logistic(double a, double b, double c)
 		{
 			this.a = a;
 			this.b = b;
 			this.c = c;
 		}
+		public Logistic(LogisticParameters p)
+		{
+			a = p.a;
+			b = p.b;
+			c = p.c;
+		}
+		public Logistic()
+		{
+			a = 0;
+			b = 0;
+			c = 0;
+		}
+
 		public override double Activate(int data)
 		{
 			return c / (1 + a * Math.Exp(-data * b));
@@ -257,8 +287,6 @@ namespace BitClean
 		{
 			return c / (1 + a * Math.Exp(-data * b));
 		}
-
-		double a, b, c;
 	}
 
 	public class Heaviside : ActivationFunction

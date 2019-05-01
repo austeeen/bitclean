@@ -168,6 +168,11 @@ namespace BitClean
 
 	}
 
+	public struct LogisticParameters
+	{
+		public double a, b, c;
+	}
+
 	public class Node
     {
         public Node left, right;

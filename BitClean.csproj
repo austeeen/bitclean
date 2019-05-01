@@ -55,6 +55,7 @@
     <Compile Include="bitclean\imageops.cs" />
     <Compile Include="bitclean\metatypes.cs" />
     <Compile Include="bitclean\selection.cs" />
+    <Compile Include="bitclean\sifter.cs" />
     <Compile Include="bitclean\toolbox.cs" />
     <Compile Include="bitclean\tree.cs" />
     <Compile Include="ChartDisplay.cs">
