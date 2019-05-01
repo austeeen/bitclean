@@ -20,7 +20,7 @@ Help Page -
 [link]
 
 Documentation (not finished) -
-[link]
+https://docs.google.com/document/d/1ShRaxwMHd9Fb0YGFLPeZDN1oA3gW2t82tlNAYjFmXLc/edit?usp=sharing
 
 # Questions?
 Contact me at:
