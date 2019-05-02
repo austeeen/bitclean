@@ -36,7 +36,7 @@ namespace BitClean
 		{	// disable unusable menu items on start up, set default status message, initialize the file manager
 			saveImageMenuStripItem.Enabled	= false;
 			bitCleanMenuStripItem.Enabled	= false;
-			exportMenuStripItem.Enabled		= false;
+			exportMenuStripItem.Enabled	= false;
 			toolStripText.Text = ToolStripMessages.DEFAULT_MESSAGE;
 			filemanager = new Manager();
 		}
@@ -259,10 +259,18 @@ namespace BitClean
 		//
 		private void Plots_Click(object sender, EventArgs e)
 		{
-			// create/show new diagnostics window
-			Diagnostics diagnosticsWindow = new Diagnostics(filemanager);
-			diagnosticsWindow.Show();
-		}
+            try
+            {
+                // create/show new diagnostics window
+                Diagnostics diagnosticsWindow = new Diagnostics(filemanager);
+                diagnosticsWindow.Show();
+            }
+            catch(Exception excep)
+            {
+                Console.Write(excep.Message);
+            }
+
+        }
 		#endregion
 	}
 }

@@ -104,7 +104,7 @@ namespace BitClean
 
 				// if dialog returned ok, set XML directory and get data from xml sheet
 				if (openFD.ShowDialog() == DialogResult.OK) {
-					xmlManager.SetXMLDirectory(openFD.FileName);
+					xmlManager.SetXMLDirectory(Path.GetDirectoryName(openFD.FileName));
 					GetXMLData(openFD.FileName);
 				}
 
@@ -341,12 +341,17 @@ namespace BitClean
 				tag = objectsDataGrid.Rows[i].Cells[obj_tag.Index].Value;
 
 				datapoints.Add(new object[] { xval, yval, decision, tag });
-			}	
-			
-			// create new chart window and display chart
-			ChartDisplay chart = new ChartDisplay(datapoints, horizontalChoice, verticalChoice, displayDust.Checked, displayStructure.Checked, functionChoice);
-			chart.Show();
-		}
+            }
+
+            try {
+                // create new chart window and display chart
+                ChartDisplay chart = new ChartDisplay(datapoints, horizontalChoice, verticalChoice, displayDust.Checked, displayStructure.Checked, functionChoice);
+                chart.Show();
+            }
+            catch (Exception err) {
+                Console.Write(err.Source);
+            }
+        }
 
 		private void ComputeParameters_Click(object sender, EventArgs e)
 		{
