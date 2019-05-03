@@ -7,10 +7,12 @@ A diagnostics interface is available as well for analyzing data.
 
 # Stability
 Master - Currently stable on Windows 10
+
 Linux_Dev - Currently stable. Some features may not work. Check Issues for details.
 
 # Versions
 Check the master branch for the latest stable version for windows
+
 Linux_Dev branch may or may not be stable, but will be built for linux machines
 
 # Links
