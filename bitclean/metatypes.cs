@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Drawing;
 
 /*
@@ -30,6 +26,8 @@ namespace BitClean
 		public const string MY_START_PATH = "C:\\Users\\";
 		public const string META_DATA_PATH = "\\meta\\";
 		public const string META_PATHS = "paths.xml";
+
+        public const double EPSILON = 0.000001f;
 	}
 
 	static class ToolStripMessages
@@ -120,10 +118,10 @@ namespace BitClean
 	{
 		public double structure, dust,
 						s_size, d_size,
-						s_edge = 0.0, d_edge = 0.0,
-						s_val = 0.0, d_val = 0.0;
-		public bool isStructure = false;
-		public string decision = "";
+                        s_edge, d_edge,
+                        s_val, d_val;
+        public bool isStructure;
+        public string decision = "";
 	};
 
 	public class ObjectData
@@ -156,9 +154,7 @@ namespace BitClean
 	{
 		public double max = -1.0, min = -1.0, avg = 0.0, mode = 0.0;
 
-		public AttributeStatistics() {}
-
-		public void Clear()
+        public void Clear()
 		{
 			max = -1.0;
 			min = -1.0;

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-/*
+﻿/*
  * bitclean: /bitclean/propertycalculations.cs
  * author: Austin Herman
  * 2/11/2019

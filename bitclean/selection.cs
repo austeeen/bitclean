@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 /*
  * bitclean: /bitclean/image.cs
@@ -15,10 +12,15 @@ namespace BitClean
 {
     public class Selection
     {
-		Selection()
-        {
-            Console.Write(selection_err + "initialized without pixels\n");
-        }
+        private readonly Pixel[] p;
+        private readonly int width, total;
+        private ObjectBounds objbounds;
+        private List<int> buffer, perimeter;
+        private int buffersize;
+        private Node buff;
+        private readonly string selection_err = "::SELECTION::error : ";
+
+        Selection() { Console.Write(selection_err + "initialized without pixels\n"); }
 
         public Selection(Pixel[] pixels, int width, int total)
         {
@@ -72,16 +74,16 @@ namespace BitClean
             }
         }
 
-        private bool CheckPixel(ref Pixel p)
+        private bool CheckPixel(ref Pixel pixel)
         {
-            if (p.value != Constants.INT_WHITE) 
+            if (pixel.value != Constants.INT_WHITE) 
             {
-                if (!p.selected)
+                if (!pixel.selected)
                 {	// add pixel to buffer, make it selected, insert into buffer tree
-                    buffer.Add(p.id); 
-                    p.selected = true;
+                    buffer.Add(pixel.id);
+                    pixel.selected = true;
                     buffersize++;
-                    Tree.Insert(ref buff, p.id);
+                    Tree.Insert(ref buff, pixel.id);
                     return true;
 				} // if not white and not selected
 			}
@@ -120,25 +122,17 @@ namespace BitClean
 
         public ref List<int> Perimeter => ref perimeter;
 
-		public BoundingRectangle getBounds()
-		{
-			return new BoundingRectangle
-			{
-				top = objbounds.top,
-				left = objbounds.left,
-				bottom = objbounds.bottom,
-				right = objbounds.right,
-				width = objbounds.right - objbounds.left,
-				height = objbounds.bottom - objbounds.top
-			};
-		}
-
-        private readonly Pixel[] p;
-        private readonly int width, total;
-		private ObjectBounds objbounds;
-        private List<int> buffer, perimeter;
-        private int buffersize;
-		private Node buff;
-        private readonly string selection_err = "::SELECTION::error : ";
+        public BoundingRectangle GetBounds()
+        {
+            return new BoundingRectangle
+            {
+                top = objbounds.top,
+                left = objbounds.left,
+                bottom = objbounds.bottom,
+                right = objbounds.right,
+                width = objbounds.right - objbounds.left,
+                height = objbounds.bottom - objbounds.top
+            };
+        }
     }
 }

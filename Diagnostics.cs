@@ -1,16 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Xml;
 using System.Xml.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
-using BitClean;
 
 /*
  * bitclean: Diagnostics.cs
@@ -22,7 +15,7 @@ namespace BitClean
 {
 	public partial class Diagnostics : Form
 	{
-		Manager xmlManager = null;
+		Manager xmlManager;
 
 		// list of objects to be displayed in the chart
 		List<ChartObject> objectList = new List<ChartObject>();
@@ -57,7 +50,7 @@ namespace BitClean
 			InitializeComponent();
 
 			// populate horizontal choice radio button list
-			radioHoriztonal = new List<RadioButton>() {
+			radioHoriztonal = new List<RadioButton> {
 				totneighborHorizontal,
 				edgeratioHorizontal,
 				densityHorizontal,
@@ -68,7 +61,7 @@ namespace BitClean
 			};
 
 			// populate vetical choice radio button list
-			radioVertical = new List<RadioButton>() {
+			radioVertical = new List<RadioButton>{
 				totneighborVertical,
 				edgeratioVertical,
 				densityVertical,
@@ -79,7 +72,7 @@ namespace BitClean
 			};
 
 			// populate function choice radio button list
-			radioFunction = new List<RadioButton>() {
+			radioFunction = new List<RadioButton> {
 				funcNone,
 				funcLogistic,
 				funcOccur
@@ -149,18 +142,19 @@ namespace BitClean
 			// iterate through each object in root
 			foreach (var obj in doc.Descendants("object"))
 			{
-				// create chart object and populate it's data with xml attributes
-				ChartObject chartObject = new ChartObject();
+                // create chart object and populate it's data with xml attributes
+                ChartObject chartObject = new ChartObject
+                {
+                    tag = (int)obj.Attribute("tag"),
+                    decision = (string)obj.Attribute("decision"),
+                    size = (int)obj.Element("size"),
+                    avghue = (double)obj.Element("avg_hue"),
+                    density = (double)obj.Element("density"),
+                    edgeratio = (double)obj.Element("edge_ratio"),
 
-				chartObject.tag = (int)obj.Attribute("tag");
-				chartObject.decision = (string)obj.Attribute("decision");
-				chartObject.size = (int) obj.Element("size");
-				chartObject.avghue = (double) obj.Element("avg_hue");
-				chartObject.density = (double) obj.Element("density");
-				chartObject.edgeratio = (double) obj.Element("edge_ratio");
-
-				chartObject.neighbors = new List<int>();
-				foreach (var neighbor in obj.Descendants("tag"))
+                    neighbors = new List<int>()
+                };
+                foreach (var neighbor in obj.Descendants("tag"))
 					chartObject.neighbors.Add((int)neighbor);
 
 				// add chart object to object list
@@ -182,23 +176,23 @@ namespace BitClean
 		private void SetUpStatisticsDataGrid(ChartObject obj)
 		{
 			// if obj size|density|edgeratio|neighbors is min, set it so
-			if (obj.size < totalSizeStats.min || totalSizeStats.min == -1.0)
+			if (obj.size < totalSizeStats.min || Math.Abs(totalSizeStats.min - -1.0) < Constants.EPSILON)
 				totalSizeStats.min = obj.size;
-			if (obj.density < totalDensityStats.min || totalDensityStats.min == -1.0)
+			if (obj.density < totalDensityStats.min || Math.Abs(totalDensityStats.min - -1.0) < Constants.EPSILON)
 				totalDensityStats.min = obj.density;
-			if (obj.edgeratio < totalEdgeratioStats.min || totalEdgeratioStats.min == -1.0)
+			if (obj.edgeratio < totalEdgeratioStats.min || Math.Abs(totalEdgeratioStats.min - -1.0) < Constants.EPSILON)
 				totalEdgeratioStats.min = obj.edgeratio;
-			if (obj.neighbors.Count < totalNeighborsStats.min || totalNeighborsStats.min == -1.0)
+			if (obj.neighbors.Count < totalNeighborsStats.min || Math.Abs(totalNeighborsStats.min - -1.0) < Constants.EPSILON)
 				totalNeighborsStats.min = obj.neighbors.Count;
 
 			// if obj size|density|edgeratio|neighbors is max, set it so
-			if (obj.size > totalSizeStats.max || totalSizeStats.max == -1.0)
+			if (obj.size > totalSizeStats.max || Math.Abs(totalSizeStats.max - -1.0) < Constants.EPSILON)
 				totalSizeStats.max = obj.size;
-			if (obj.density > totalDensityStats.max || totalDensityStats.max == -1.0)
+			if (obj.density > totalDensityStats.max || Math.Abs(totalDensityStats.max - -1.0) < Constants.EPSILON)
 				totalDensityStats.max = obj.density;
-			if (obj.edgeratio > totalEdgeratioStats.max || totalEdgeratioStats.max == -1.0)
+			if (obj.edgeratio > totalEdgeratioStats.max || Math.Abs(totalEdgeratioStats.max - -1.0) < Constants.EPSILON)
 				totalEdgeratioStats.max = obj.edgeratio;
-			if (obj.neighbors.Count > totalNeighborsStats.max || totalNeighborsStats.max == -1.0)
+			if (obj.neighbors.Count > totalNeighborsStats.max || Math.Abs(totalNeighborsStats.max - -1.0) < Constants.EPSILON)
 				totalNeighborsStats.max = obj.neighbors.Count;
 
 			// add to average
@@ -210,22 +204,22 @@ namespace BitClean
 			// if dust, update min/max/avg stats
 			if(obj.decision == "dust")
 			{
-				if (obj.size < dustSizeStats.min || dustSizeStats.min == -1.0)
+				if (obj.size < dustSizeStats.min || Math.Abs(dustSizeStats.min - -1.0) < Constants.EPSILON)
 					dustSizeStats.min = obj.size;
-				if (obj.density < dustDensityStats.min || dustDensityStats.min == -1.0)
+				if (obj.density < dustDensityStats.min || Math.Abs(dustDensityStats.min - -1.0) < Constants.EPSILON)
 					dustDensityStats.min = obj.density;
-				if (obj.edgeratio < dustEdgeratioStats.min || dustEdgeratioStats.min == -1.0)
+				if (obj.edgeratio < dustEdgeratioStats.min || Math.Abs(dustEdgeratioStats.min - -1.0) < Constants.EPSILON)
 					dustEdgeratioStats.min = obj.edgeratio;
-				if (obj.neighbors.Count < dustNeighborsStats.min || dustNeighborsStats.min == -1.0)
+				if (obj.neighbors.Count < dustNeighborsStats.min || Math.Abs(dustNeighborsStats.min - -1.0) < Constants.EPSILON)
 					dustNeighborsStats.min = obj.neighbors.Count;
 
-				if (obj.size > dustSizeStats.max || dustSizeStats.max == -1.0)
+				if (obj.size > dustSizeStats.max || Math.Abs(dustSizeStats.max - -1.0) < Constants.EPSILON)
 					dustSizeStats.max = obj.size;
-				if (obj.density > dustDensityStats.max || dustDensityStats.max == -1.0)
+				if (obj.density > dustDensityStats.max || Math.Abs(dustDensityStats.max - -1.0) < Constants.EPSILON)
 					dustDensityStats.max = obj.density;
-				if (obj.edgeratio > dustEdgeratioStats.max || dustEdgeratioStats.max == -1.0)
+				if (obj.edgeratio > dustEdgeratioStats.max || Math.Abs(dustEdgeratioStats.max - -1.0) < Constants.EPSILON)
 					dustEdgeratioStats.max = obj.edgeratio;
-				if (obj.neighbors.Count > dustNeighborsStats.max || dustNeighborsStats.max == -1.0)
+				if (obj.neighbors.Count > dustNeighborsStats.max || Math.Abs(dustNeighborsStats.max - -1.0) < Constants.EPSILON)
 					dustNeighborsStats.max = obj.neighbors.Count;
 
 				dustSizeStats.avg += obj.size;
@@ -237,22 +231,22 @@ namespace BitClean
 			}
 			else
 			{ // update structure min/max/avg stats
-				if (obj.size < structureSizeStats.min || structureSizeStats.min == -1.0)
+				if (obj.size < structureSizeStats.min || Math.Abs(structureSizeStats.min - -1.0) < Constants.EPSILON)
 					structureSizeStats.min = obj.size;
-				if (obj.density < structureDensityStats.min || structureDensityStats.min == -1.0)
+				if (obj.density < structureDensityStats.min || Math.Abs(structureDensityStats.min - -1.0) < Constants.EPSILON)
 					structureDensityStats.min = obj.density;
-				if (obj.edgeratio < structureEdgeratioStats.min || structureEdgeratioStats.min == -1.0)
+				if (obj.edgeratio < structureEdgeratioStats.min || Math.Abs(structureEdgeratioStats.min - -1.0) < Constants.EPSILON)
 					structureEdgeratioStats.min = obj.edgeratio;
-				if (obj.neighbors.Count < structureNeighborsStats.min || structureNeighborsStats.min == -1.0)
+				if (obj.neighbors.Count < structureNeighborsStats.min || Math.Abs(structureNeighborsStats.min - -1.0) < Constants.EPSILON)
 					structureNeighborsStats.min = obj.neighbors.Count;
 
-				if (obj.size > structureSizeStats.max || structureSizeStats.max == -1.0)
+				if (obj.size > structureSizeStats.max || Math.Abs(structureSizeStats.max - -1.0) < Constants.EPSILON)
 					structureSizeStats.max = obj.size;
-				if (obj.density > structureDensityStats.max || structureDensityStats.max == -1.0)
+				if (obj.density > structureDensityStats.max || Math.Abs(structureDensityStats.max - -1.0) < Constants.EPSILON)
 					structureDensityStats.max = obj.density;
-				if (obj.edgeratio > structureEdgeratioStats.max || structureEdgeratioStats.max == -1.0)
+				if (obj.edgeratio > structureEdgeratioStats.max || Math.Abs(structureEdgeratioStats.max - -1.0) < Constants.EPSILON)
 					structureEdgeratioStats.max = obj.edgeratio;
-				if (obj.neighbors.Count > structureNeighborsStats.max || structureNeighborsStats.max == -1.0)
+				if (obj.neighbors.Count > structureNeighborsStats.max || Math.Abs(structureNeighborsStats.max - -1.0) < Constants.EPSILON)
 					structureNeighborsStats.max = obj.neighbors.Count;
 
 				structureSizeStats.avg += obj.size;

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Drawing;
 
@@ -17,7 +13,7 @@ namespace BitClean
 {
     public class Toolbox
     {
-		private Pixel[] pixels = null; // all pixels
+		private readonly Pixel[] pixels; // all pixels
 
 		private readonly Data imgdata; // basic image data
 
@@ -59,7 +55,7 @@ namespace BitClean
                     perimeter = s.Perimeter;
 
 					// using the buffer, get the object's properties
-					ObjectData objectdata = GenerateObjectData(tagCount, s.Edges, s.getBounds());
+					ObjectData objectdata = GenerateObjectData(tagCount, s.Edges, s.GetBounds());
 
 					// increment tag number
 					tagCount++;

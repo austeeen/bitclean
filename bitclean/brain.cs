@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 /*
  * bitclean: /bitclean/brain.cs
@@ -26,7 +23,7 @@ namespace BitClean
 		private List<List<Neuron>> neurons;
 		private List<List<Synapse>> synapses;
 		private List<List<int>> weights;
-		public int attributeCount = 0;
+		public int attributeCount;
 
 		public Brain(int numAtttributes)
 		{
@@ -91,10 +88,11 @@ namespace BitClean
 			for (int i = 0; i < attributeCount; i++)
 				inputlayer.Add(new Neuron(new Linear()));
 
-			neurons = new List<List<Neuron>>();
-			neurons.Add(inputlayer);
+            neurons = new List<List<Neuron>> {
+                inputlayer
+            };
 
-			for(int i = 1; i < attributeCount + 1; i++) {
+            for (int i = 1; i < attributeCount + 1; i++) {
 				neurons.Add(new List<Neuron>());
 				for (int j = attributeCount - i; j >= 0; j--)
 					neurons[i].Add(new Neuron(new Linear()));
@@ -145,14 +143,11 @@ namespace BitClean
 
 		// dendrite summation
 		private double sum;
-		private bool calculatedSum = false;
+		private bool calculatedSum;
 
 		private ActivationFunction func;
 
-		public Neuron(ActivationFunction func)
-		{
-			this.func = func;
-		}
+		public Neuron(ActivationFunction func) { this.func = func; }
 		
 		public void CalculateAxon()
 		{
@@ -177,19 +172,18 @@ namespace BitClean
 	{
 		private Neuron transmitter;
 		private Neuron receiver;
-		private int weight;
-		private bool squared = false;
+		private readonly int weight;
+		private readonly bool squared;
 
 		public Synapse(Neuron transmitter, Neuron receiver, int weight)
 		{
 			this.transmitter = transmitter;
 			this.receiver = receiver;
 			this.weight = weight;
-			if (weight == 0)
-				squared = true;
-		}
+            squared |= weight == 0; // if weight == 0, squared = true
+        }
 
-		public void Transmit()
+        public void Transmit()
 		{
 			transmitter.CalculateAxon();
 
@@ -218,9 +212,10 @@ namespace BitClean
 
 	public class Linear : ActivationFunction
 	{
-		double slope, offset;
+        private readonly double slope;
+        private readonly double offset;
 
-		public Linear()
+        public Linear()
 		{
 			slope = 1;
 			offset = 0;

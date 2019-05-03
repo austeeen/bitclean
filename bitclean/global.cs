@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Windows.Forms;
 
 /*
@@ -16,9 +12,10 @@ namespace BitClean
 {
 	class GlobalSystems
 	{
-		public GlobalSystems() { }
+        private List<ObjectData> objectsByX;
+        private List<ObjectData> objectsByY = new List<ObjectData>();
 
-		public void GetNeighbors(List<ObjectData> objectList, ToolStripProgressBar progress)
+        public void GetNeighbors(List<ObjectData> objectList, ToolStripProgressBar progress)
 		{
 			objectsByX = objectList;
 
@@ -76,9 +73,9 @@ namespace BitClean
 		private int PartitionByX(int low, int high)
 		{
 			int pivot = objectsByX[high].position.x;    // pivot 
-			int i = (low - 1);  // Index of smaller element 
+			int i = low - 1;  // Index of smaller element 
 
-			for (int j = low; j <= high - 1; j++)
+            for (int j = low; j <= high - 1; j++)
 			{
 				// If current element is smaller than or 
 				// equal to pivot 
@@ -133,9 +130,9 @@ namespace BitClean
 		private int PartitionByY(int low, int high)
 		{
 			int pivot = objectsByY[high].position.y;    // pivot 
-			int i = (low - 1);  // Index of smaller element 
+			int i = low - 1;  // Index of smaller element 
 
-			for (int j = low; j <= high - 1; j++)
+            for (int j = low; j <= high - 1; j++)
 			{
 				// If current element is smaller than or 
 				// equal to pivot 
@@ -177,9 +174,5 @@ namespace BitClean
 		}
 
 		#endregion
-
-		private List<ObjectData> objectsByX;
-		private List<ObjectData> objectsByY = new List<ObjectData>();
-
-	}
+    }
 }

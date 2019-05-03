@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Xml.Linq;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 
@@ -21,10 +16,10 @@ namespace BitClean
 {
 	public partial class MainWindow : Form
 	{
-		public Bitmap bmp		= null;		// image represented as a bitmap
-		private Pixel[] pixels	= null;		// array of pixels in the image
-		private Toolbox tools	= null;		// contains algorithms for cleaning the image
-		private Manager filemanager = null;	// holds directory/filename information
+		public Bitmap bmp;		// image represented as a bitmap
+		private Pixel[] pixels;		// array of pixels in the image
+		private Toolbox tools;		// contains algorithms for cleaning the image
+		private Manager filemanager;	// holds directory/filename information
 
 		public MainWindow()
 		{	// init
@@ -101,17 +96,19 @@ namespace BitClean
 		private void SaveImageFile_Click(object sender, EventArgs e)
 		{
 			if (bmp != null)
-			{ 
-				SaveFileDialog saveFD = new SaveFileDialog();
+            {
+                SaveFileDialog saveFD = new SaveFileDialog
+                {
 
-				// set up file dialog
-				saveFD.Title = "Save the image file";
-				saveFD.Filter = "bmp files (*.bmp)|*.bmp";
-				saveFD.FileName = Path.GetFileNameWithoutExtension(filemanager.ImagePath);
-				saveFD.InitialDirectory = Path.GetDirectoryName(filemanager.ImageDirectory);
+                    // set up file dialog
+                    Title = "Save the image file",
+                    Filter = "bmp files (*.bmp)|*.bmp",
+                    FileName = Path.GetFileNameWithoutExtension(filemanager.ImagePath),
+                    InitialDirectory = Path.GetDirectoryName(filemanager.ImageDirectory)
+                };
 
-				// if dialog returned ok
-				if (saveFD.ShowDialog() == DialogResult.OK) {
+                // if dialog returned ok
+                if (saveFD.ShowDialog() == DialogResult.OK) {
 					// save bmp, set status
 					bmp.Save(saveFD.FileName);
 					toolStripText.Text = ToolStripMessages.IMAGE_SAVED;
@@ -259,14 +256,12 @@ namespace BitClean
 		//
 		private void Plots_Click(object sender, EventArgs e)
 		{
-            try
-            {
+            try {
                 // create/show new diagnostics window
                 Diagnostics diagnosticsWindow = new Diagnostics(filemanager);
                 diagnosticsWindow.Show();
             }
-            catch(Exception excep)
-            {
+            catch(Exception excep) {
                 Console.Write(excep.Message);
             }
 

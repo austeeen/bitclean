@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 /*
  * bitclean: /bitclean/filler.cs
@@ -15,7 +11,15 @@ namespace BitClean
 {
     class Filler
     {
-		Filler()
+        private Pixel[] p;
+        private readonly int width, total;
+        private ObjectBounds bounds;
+        private List<Trail> curpath = new List<Trail>();
+        private int pathSize;
+        private bool boundsError;
+        private readonly string filler_warn = "::FILLER::warning : ";
+
+        Filler()
         {
             bounds.top		= -1;
             bounds.bottom	= -1;
@@ -232,22 +236,8 @@ namespace BitClean
             pathSize = 0;
         }
 
-        public List<Trail> GetPath()
-        {
-            return curpath;
-        }
+        public List<Trail> GetPath() { return curpath; }
 
-		public ObjectBounds GetBounds()
-		{
-			return bounds;
-		}
-
-        private Pixel[] p;
-        private readonly int width, total;
-		private ObjectBounds bounds;
-        private List<Trail> curpath = new List<Trail>();
-        private int pathSize;
-        private bool boundsError;
-        private readonly string filler_warn = "::FILLER::warning : ";
+		public ObjectBounds GetBounds() { return bounds; }
     }
 }

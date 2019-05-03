@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 /*
  * bitclean: /bitclean/edge.cs
@@ -15,10 +12,17 @@ namespace BitClean
 {
     class Edge
     {
-		Edge()
-        {
-            Console.WriteLine(edge_warn + "edge initialized with no pixels\n");
-        }
+        private Node sel = new Node();
+        private Node per = new Node();
+        private int[] curfield = new int[8];
+        private bool fieldSet;
+        private List<int> perimeter = new List<int>();
+        private List<int> stack = new List<int>();
+        private readonly int width, total;
+        private int numEdges, perimSize, tolerance;
+        private readonly string edge_warn = "::EDGE::warning : ";
+
+        Edge() { Console.WriteLine(edge_warn + "edge initialized with no pixels\n"); }
 
         public Edge(int w, int t)
         {
@@ -162,29 +166,10 @@ namespace BitClean
             }
         }
 
-        public List<int> GetPerimiter()
-        {
-            return perimeter;
-        }
+        public List<int> GetPerimiter() { return perimeter; }
 
-        public int GetSizeofPerimeter()
-        {
-            return perimSize;
-        }
+        public int GetSizeofPerimeter() { return perimSize; }
 
-        public int GetEdges()
-        {
-            return numEdges;
-        }
-
-        private Node sel = new Node();
-        private Node per = new Node();
-        private int[] curfield = new int[8];
-        private bool fieldSet;
-        private List<int> perimeter = new List<int>();
-        private List<int> stack = new List<int>();
-        private readonly int width, total;
-        private int numEdges, perimSize, tolerance;
-        private readonly string edge_warn = "::EDGE::warning : ";
+        public int GetEdges() { return numEdges; }
     }
 }

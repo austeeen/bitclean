@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 /*
  * bitclean: /bitclean/sifter.cs
@@ -16,17 +12,14 @@ namespace BitClean
 
 	class Sifter
 	{
-		private AttributeStatistics[] dustStats;
-		private Linear sizeLinear, edgeLinear, densityLinear;
-		private Logistic sizeLogistic, edgeLogistic, densityLogistic;
+		private readonly AttributeStatistics[] dustStats;
+        private Linear sizeLinear; // edgeLinear, densityLinear;
+        private Logistic sizeLogistic; // edgeLogistic, densityLogistic;
 
-		double tolerance = .001;
+        readonly double tolerance = .001;
 
 		//	[0] size | [1] edges | [2] density
-		public Sifter(AttributeStatistics[] dustStats)
-		{
-			this.dustStats = dustStats;
-		}
+		public Sifter(AttributeStatistics[] dustStats) { this.dustStats = dustStats; }
 
 		public int Sift(double[] data)
 		{
@@ -67,13 +60,11 @@ namespace BitClean
 				do
 				{   // approximate b parameter
 					calculated = func.Activate(stats.max);
-					if (calculated < .9)
-					{
+					if (calculated < .9) {
 						// increase func.b
 						func.b += Math.Abs(.9 - calculated) / 2;
 					}
-					else if (calculated > .9)
-					{
+					else if (calculated > .9) {
 						// decrease func.b
 						func.b -= Math.Abs(.9 - calculated) / 2;
 					}
@@ -83,13 +74,11 @@ namespace BitClean
 				do
 				{   // approximate k parameter to calculate a parameter
 					calculated = func.Activate(stats.avg);
-					if (calculated < 0)
-					{
+					if (calculated < 0) {
 						// increase k
 						k += Math.Abs(0 - calculated) / 2;
 					}
-					else if (calculated > 0)
-					{
+					else if (calculated > 0) {
 						// decrease k
 						k -= Math.Abs(0 - calculated) / 2;
 					}

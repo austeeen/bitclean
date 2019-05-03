@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 /*
@@ -24,7 +19,7 @@ namespace BitClean
 		private bool dust, structure;
 
 		private System.Windows.Forms.DataVisualization.Charting.Series
-			dustSeries = null, strucSeries = null, occurenceSeries = null;
+			dustSeries, strucSeries, occurenceSeries;
 
 
 		public ChartDisplay(List<object[]> data, string xAxisLabel, string yAxisLabel, bool dust, bool structure, string functionChoice)
