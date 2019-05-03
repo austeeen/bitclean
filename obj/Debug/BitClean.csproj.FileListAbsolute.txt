@@ -20,7 +20,9 @@ C:/Users/100057822/Documents/GitHub/bitmapPrototype/obj/Debug/BitClean.exe
 C:/Users/100057822/Documents/GitHub/bitmapPrototype/obj/Debug/BitClean.pdb
 C:/Users/100057822/Documents/GitHub/bitmapPrototype/obj/Debug/BitClean.Diagnostics.resources
 C:/Users/100057822/Documents/GitHub/bitmapPrototype/obj/Debug/BitClean.ChartDisplay.resources
-/home/austin/bitclean/obj/Debug/BitClean.csprojAssemblyReference.cache
+/home/austin/bitclean/bin/Debug/BitClean.exe.config
+/home/austin/bitclean/bin/Debug/BitClean.exe
+/home/austin/bitclean/bin/Debug/BitClean.pdb
 /home/austin/bitclean/obj/Debug/BitClean.ChartDisplay.resources
 /home/austin/bitclean/obj/Debug/BitClean.Diagnostics.resources
 /home/austin/bitclean/obj/Debug/BitClean.MainWindow.resources
@@ -29,6 +31,3 @@ C:/Users/100057822/Documents/GitHub/bitmapPrototype/obj/Debug/BitClean.ChartDisp
 /home/austin/bitclean/obj/Debug/BitClean.csproj.CoreCompileInputs.cache
 /home/austin/bitclean/obj/Debug/BitClean.exe
 /home/austin/bitclean/obj/Debug/BitClean.pdb
-/home/austin/bitclean/bin/Debug/BitClean.exe.config
-/home/austin/bitclean/bin/Debug/BitClean.exe
-/home/austin/bitclean/bin/Debug/BitClean.pdb

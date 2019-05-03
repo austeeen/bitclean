@@ -47,7 +47,7 @@ namespace BitClean
 				// set dialog settings
 				openFD.Title = "Select an image file";
 				openFD.InitialDirectory = filemanager.ImageDirectory;
-				openFD.Filter = "bmp files (*.bmp)|*.bmp";
+				openFD.Filter = "all files (*.*)|*.*";
 				openFD.RestoreDirectory = true;
 
 				// show dialog and it returned okay
@@ -63,8 +63,9 @@ namespace BitClean
 					toolStripText.Text = ToolStripMessages.IMAGE_LOADING;
 					statusStrip1.Refresh();
 
-					// load bmp
-					bmp = new Bitmap(Image.FromFile(filemanager.ImagePath));
+                    // load bmp
+                    bmp = new Bitmap(Image.FromFile(filemanager.ImagePath));
+                    // bmp = new Bitmap(filemanager.ImagePath, true);
 
 					// switch magenta colored pixels (floor color from cloud compare) to white pixels,
 					// and populate pixel array
@@ -84,12 +85,59 @@ namespace BitClean
 					toolStripText.Text = ToolStripMessages.IMAGE_LOADED;
 
 				}
-				catch (Exception) { // run load image process
+				catch (Exception excep) { // run load image process
 					toolStripText.Text = ToolStripMessages.IMAGE_LOAD_FAILED;
+                    Console.WriteLine(excep.Message);
+                    Console.WriteLine(excep.StackTrace);
 					bmp = null;
 				}
 			}
-		}
+
+            /* TESTING COLTOI
+            Bitmap testbmp = new Bitmap(765, 1);
+
+            int r = 0, g = 0, b = 255;
+
+            for (int y = 0; y < testbmp.Height; y++)
+            {
+                for (int x = 0; x < testbmp.Width; x++)
+                {
+                    Color c = Color.FromArgb(r, g, b);
+                    testbmp.SetPixel(x, y, c);
+                    Console.WriteLine("coltoi: {0}", ImageOperations.ColToInt(c));
+                   
+                    if(r == 0)
+                    {
+                        b--;
+                        g++;
+
+                        if(b < 0)
+                            b = 0;
+
+                        if (g > 255) { 
+                            g = 255;
+                            r = 1;
+                        }
+                    }
+                    else if(g == 255 && r < 255)
+                    {
+                        r++;
+                        if (r > 255)
+                            r = 255;
+                    }
+                    else if(r == 255)
+                    {
+                        g--;
+                        if (g < 0)
+                            g = 0;
+                    }
+                }
+            }
+
+            pictureBox1.Image = testbmp;
+            */           
+
+        }
 		//
 		// File > Save
 		//
@@ -139,11 +187,23 @@ namespace BitClean
 				toolStripText.Text = ToolStripMessages.CLEANING_IMAGE;
 				statusStrip1.Refresh();
 
+                System.Diagnostics.Stopwatch watch = new System.Diagnostics.Stopwatch();
+
+                watch.Start();
+
 				// run tools to clean
 				tools.Run(progressBar, statusStrip1, toolStripText);
 
-				// update pixels and image display
-				ImageOperations.PushPixelsToImage(bmp, pixels);
+                watch.Stop();
+
+                string elapsedTime = String.Format("{0:00}:{1:00}.{2:00}",
+                        watch.Elapsed.Minutes, watch.Elapsed.Seconds,
+                        watch.Elapsed.Milliseconds / 10);
+
+                Console.WriteLine("watch: " + elapsedTime);
+
+                // update pixels and image display
+                ImageOperations.PushPixelsToImage(bmp, pixels);
 				pictureBox1.Image = bmp;
 
 				// enable export diagnostics

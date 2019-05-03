@@ -1,4 +1,4 @@
-# bitclean
+# bitclean - for Linux (hopefully)
 
 bitclean is a windows forms application developed by Austin Herman, austin@badger-technologies.com.
 
@@ -6,11 +6,12 @@ This program imploys several algorithms to automatically detect and remove unwan
 A diagnostics interface is available as well for analyzing data.
 
 # Stability
-Currently stable on Windows 10. 
+Master - Currently stable on Windows 10
+Linux_Dev - Currently stable. Some features may not work. Check Issues for details.
 
-# Download the Latest Version
-BitClean.00 - .zip
-[link]
+# Versions
+Check the master branch for the latest stable version for windows
+Linux_Dev branch may or may not be stable, but will be built for linux machines
 
 # Links
 Github -
@@ -28,4 +29,4 @@ austin@badger-technologies.com
 
 # Previous Versions:
 No previous versions as of yet.
-This application is based on the algorithms written for SharpClean by Austin Herman.
+This application is based on the algorithms written for SharpClean by Austin Herman. 

@@ -1,7 +1,9 @@
 ﻿<Properties StartupConfiguration="{0DA4BDF1-2239-459E-A69B-F66E10B64902}|Default">
   <MonoDevelop.Ide.Workbench ActiveDocument="bitclean/toolbox.cs">
     <Files>
-      <File FileName="bitclean/toolbox.cs" Line="52" Column="18" />
+      <File FileName="MainWindow.cs" Line="201" Column="18" />
+      <File FileName="bitclean/toolbox.cs" Line="112" Column="17" />
+      <File FileName="bitclean/selection.cs" Line="35" Column="32" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">

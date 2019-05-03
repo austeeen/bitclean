@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Drawing;
+using System.Diagnostics;
+using System;
 
 /*
  * bitclean: /bitclean/toolbox.cs
@@ -35,7 +37,7 @@ namespace BitClean
                 return;
             }
 
-			// create a selection object
+            // create a selection object
             Selection s = new Selection(pixels, imgdata.width, imgdata.totalpixels);
 			int tagCount = 0;
 
@@ -43,14 +45,15 @@ namespace BitClean
 			progress.Minimum = 0;
 			progress.Maximum = imgdata.totalpixels;
 
-			// for each pixel in the image
+            // for each pixel in the image
             for (int i = 0; i < imgdata.totalpixels; i++)
             {
-				// update progress
-				progress.Value = i;
+                // update progress - LINUX VERSION WILL NOT USE THIS
+                // updating progress value slows the application down by roughly 3 minutes
+                // progress.Value = i;
 				if (s.Get(i)) // get the next object
                 {
-					// set the buffer/perimeter lists
+                    // set the buffer/perimeter lists
                     buffer = s.Buffer;
                     perimeter = s.Perimeter;
 
@@ -86,8 +89,8 @@ namespace BitClean
                 buffer.Clear();
             }
 
-			// update status
-			toolStripText.Text = ToolStripMessages.CONFIDENCE_LOADING;
+            // update status
+            toolStripText.Text = ToolStripMessages.CONFIDENCE_LOADING;
 			statusStrip.Refresh();
 
 			// start global property analysis

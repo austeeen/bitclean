@@ -28,16 +28,27 @@ namespace BitClean
 						bmp.SetPixel(x, y, Constants.WHITE);
 						p = bmp.GetPixel(x, y);
 					}
+                    /*pixels[i] = new Pixel
+                    {
+                        // store pixel info
+                        id = i,
+                        value = ColToInt(p),
+                        r = p.R,
+                        g = p.G,
+                        b = p.B,
+                        selected = false
+                    };*/
 
-					// store pixel info
-					pixels[i].id = i;
-					pixels[i].value = ColToInt(p);
-					pixels[i].r = p.R;
-					pixels[i].g = p.G;
-					pixels[i].b = p.B;
-					pixels[i].selected = false;
+                    pixels[i].id = i;
+                    pixels[i].value = ColToInt(p);
+                    pixels[i].r = p.R;
+                    pixels[i].g = p.G;
+                    pixels[i].b = p.B;
+                    pixels[i].selected = false;
 
-					i++;
+                    // System.Console.WriteLine("int:{0} - r:{1}, g:{2}, b:{3} at ({4},{5})", pixels[i].value, pixels[i].r, pixels[i].g, pixels[i].b, x, y);
+
+                    i++;
 				}
 			}
 
@@ -59,9 +70,10 @@ namespace BitClean
 
 		public static short ColToInt(Color p)
 		{
-			// convert the pixel color from (R,G,B) to a short
-			// scales as [(0,0,255) = 1] -> [(255,0,0) = 1021]
-			short numcolor = 0;
+            // convert the pixel color from (R,G,B) to a short
+            // scales as [(0,0,255) = 1] -> [(255,0,0) = 1021]
+            /*
+            short numcolor = 0;
 
 			if (p == Constants.WHITE)
 				numcolor = Constants.INT_WHITE;
@@ -75,6 +87,22 @@ namespace BitClean
 				numcolor = (short)(p.G + (255 - p.B) + 1);
 
 			return numcolor;
-		}
+			*/
+
+            short numcolor = 0;
+
+            if (p == Constants.WHITE)
+                numcolor = Constants.INT_WHITE;
+            else if (p == Constants.OBJ_TAG)
+                numcolor = Constants.INT_OBJ_TAG;
+            else if (p.R == 255)
+                numcolor = (short)(255 + (255 - p.G) + 255 + 1);
+            else if (p.B == 0)
+                numcolor = (short)(p.R + 255 + 1);
+            else
+                numcolor = (short)((255 - p.B) + 1);
+
+            return numcolor;
+        }
     }
 }
