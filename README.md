@@ -1,6 +1,6 @@
 # bitclean
 
-bitclean is a windows forms application developed by Austin Herman, austin@badger-technologies.com.
+bitclean is a windows forms application developed by Austin Herman, austin@badger-technologies.com for use by Badger Technologies.
 
 This program imploys several algorithms to automatically detect and remove unwanted clutter from dirty maps for the map cleaning process.
 A diagnostics interface is available as well for analyzing data.
