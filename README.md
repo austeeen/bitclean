@@ -1,15 +1,18 @@
-# bitclean
+# bitclean GTK#
+
+This is the GTK# version which will (hopefully) allow bitclean to be run and/or developed on any machine.
 
 bitclean is a windows forms application developed by Austin Herman, austin@badger-technologies.com for use by Badger Technologies.
 
 This program imploys several algorithms to automatically detect and remove unwanted clutter from dirty maps for the map cleaning process.
+
 A diagnostics interface is available as well for analyzing data.
 
 # Stability
-Currently stable on Windows 10. 
+This version has only been tested on a linux machine running Ubuntu 16
 
 # Download the Latest Version
-BitClean.00 - .zip
+BitCleanGTK#.0 - .zip
 [link]
 
 # Links
