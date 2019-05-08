@@ -65,7 +65,7 @@
         <child>
           <widget class="Gtk.MenuBar" id="menubar1">
             <property name="MemberName" />
-            <node name="__gtksharp_111_Stetic_Editor_ActionMenuBar" type="Menubar">
+            <node name="menubar1" type="Menubar">
               <node type="Menu" action="FileAction">
                 <node type="Menuitem" action="LoadImageAction" />
                 <node type="Menuitem" action="SaveImageAction" />
@@ -100,6 +100,74 @@
                     <property name="ShowScrollbars">True</property>
                   </widget>
                 </child>
+              </widget>
+            </child>
+          </widget>
+          <packing>
+            <property name="Position">1</property>
+            <property name="AutoSize">True</property>
+          </packing>
+        </child>
+      </widget>
+    </child>
+  </widget>
+  <widget class="Gtk.Window" id="bitclean.Diagnostics" design-size="548 356">
+    <action-group name="Default">
+      <action id="FileAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">File</property>
+        <property name="ShortLabel" translatable="yes">File</property>
+      </action>
+      <action id="LoadDataAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Load Data</property>
+        <property name="ShortLabel" translatable="yes">Load Data</property>
+        <signal name="Activated" handler="LoadXMLData" />
+      </action>
+      <action id="FileAction1">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">File</property>
+        <property name="ShortLabel" translatable="yes">File</property>
+      </action>
+      <action id="LoadDataAction1">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Load Data</property>
+        <property name="ShortLabel" translatable="yes">Load XML</property>
+        <signal name="Activated" handler="LoadXMLData" />
+      </action>
+    </action-group>
+    <property name="MemberName" />
+    <property name="Title" translatable="yes">Diagnostics</property>
+    <property name="WindowPosition">CenterOnParent</property>
+    <child>
+      <widget class="Gtk.VBox" id="vbox3">
+        <property name="MemberName" />
+        <property name="Spacing">6</property>
+        <child>
+          <widget class="Gtk.MenuBar" id="menubar2">
+            <property name="MemberName" />
+            <node name="__gtksharp_77_Stetic_Editor_ActionMenuBar" type="Menubar">
+              <node type="Menu" action="FileAction1">
+                <node type="Menuitem" action="LoadDataAction1" />
+              </node>
+            </node>
+          </widget>
+          <packing>
+            <property name="Position">0</property>
+            <property name="AutoSize">True</property>
+            <property name="Expand">False</property>
+            <property name="Fill">False</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="Gtk.ScrolledWindow" id="GtkScrolledWindow">
+            <property name="MemberName" />
+            <property name="ShadowType">In</property>
+            <child>
+              <widget class="Gtk.TreeView" id="datatree">
+                <property name="MemberName" />
+                <property name="CanFocus">True</property>
+                <property name="ShowScrollbars">True</property>
               </widget>
             </child>
           </widget>

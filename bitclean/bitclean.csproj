@@ -78,6 +78,8 @@
     <Compile Include="systems\sifter.cs" />
     <Compile Include="systems\toolbox.cs" />
     <Compile Include="systems\tree.cs" />
+    <Compile Include="Diagnostics.cs" />
+    <Compile Include="gtk-gui\bitclean.Diagnostics.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="systems\" />

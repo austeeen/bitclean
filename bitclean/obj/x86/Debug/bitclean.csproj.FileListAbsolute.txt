@@ -6,7 +6,6 @@
 /home/austin/Projects/bitclean/bitclean/obj/x86/Debug/bitclean.pdb
 /home/austin/bitclean/bitclean/bin/Debug/bitclean.exe
 /home/austin/bitclean/bitclean/bin/Debug/bitclean.pdb
-/home/austin/bitclean/bitclean/obj/x86/Debug/bitclean.csprojAssemblyReference.cache
 /home/austin/bitclean/bitclean/obj/x86/Debug/bitclean.csproj.CoreCompileInputs.cache
 /home/austin/bitclean/bitclean/obj/x86/Debug/bitclean.exe
 /home/austin/bitclean/bitclean/obj/x86/Debug/bitclean.pdb

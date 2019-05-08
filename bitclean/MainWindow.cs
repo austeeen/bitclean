@@ -246,6 +246,8 @@ public partial class MainWindow : Gtk.Window
     /// <param name="e">E.</param>
     protected void OpenDiagnostics(object sender, EventArgs e)
     {
+        bitclean.Diagnostics diagnostics = new bitclean.Diagnostics();
+        diagnostics.Show();
     }
 
 }

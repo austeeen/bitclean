@@ -1,15 +1,21 @@
 ﻿<Properties StartupConfiguration="{EE50866A-2AAE-4F81-93E0-AE40FC35D191}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="bitclean/MainWindow.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="bitclean/Diagnostics.cs">
     <Files>
-      <File FileName="bitclean/MainWindow.cs" Line="1" Column="1" />
+      <File FileName="bitclean/MainWindow.cs" Line="7" Column="1" />
+      <File FileName="bitclean/Diagnostics.cs" Line="34" Column="13" />
+      <File FileName="bitclean/systems/metatypes.cs" Line="141" Column="20" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="bitclean" expanded="True">
             <Node name="bitclean" expanded="True">
+              <Node name="UserInterface" expanded="True">
+                <Node name="MainWindow" expanded="True" />
+              </Node>
+              <Node name="Properties" expanded="True" />
               <Node name="systems" expanded="True" />
-              <Node name="MainWindow.cs" selected="True" />
+              <Node name="Diagnostics.cs" selected="True" />
             </Node>
           </Node>
         </State>
