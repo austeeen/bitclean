@@ -31,3 +31,4 @@ C:/Users/100057822/Documents/GitHub/bitmapPrototype/obj/Debug/BitClean.ChartDisp
 /home/austin/bitclean/obj/Debug/BitClean.csproj.CoreCompileInputs.cache
 /home/austin/bitclean/obj/Debug/BitClean.exe
 /home/austin/bitclean/obj/Debug/BitClean.pdb
+/home/austin/bitclean/obj/Debug/BitClean.csprojAssemblyReference.cache

@@ -1,21 +1,25 @@
 ﻿<Properties StartupConfiguration="{0DA4BDF1-2239-459E-A69B-F66E10B64902}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="bitclean/toolbox.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Diagnostics.cs">
     <Files>
-      <File FileName="MainWindow.cs" Line="201" Column="18" />
-      <File FileName="bitclean/toolbox.cs" Line="112" Column="17" />
-      <File FileName="bitclean/selection.cs" Line="35" Column="32" />
+      <File FileName="MainWindow.cs" Line="3" Column="22" />
+      <File FileName="bitclean/toolbox.cs" Line="52" Column="103" />
+      <File FileName="Diagnostics.cs" Line="349" Column="14" />
+      <File FileName="bitclean/sifter.cs" Line="57" Column="6" />
+      <File FileName="bitclean/brain.cs" Line="105" Column="37" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="BitClean" expanded="True">
             <Node name="BitClean" expanded="True">
-              <Node name="bitclean" expanded="True">
-                <Node name="toolbox.cs" selected="True" />
-              </Node>
+              <Node name="bitclean" expanded="True" />
+              <Node name="Diagnostics.cs" selected="True" />
             </Node>
           </Node>
         </State>
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>

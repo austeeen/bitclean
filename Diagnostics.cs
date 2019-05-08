@@ -343,7 +343,9 @@ namespace BitClean
                 chart.Show();
             }
             catch (Exception err) {
-                Console.Write(err.Source);
+                Console.WriteLine(err.Source);
+                Console.WriteLine(err.Message);
+                Console.WriteLine(err.StackTrace);
             }
         }
 

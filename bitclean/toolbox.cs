@@ -49,7 +49,7 @@ namespace BitClean
             for (int i = 0; i < imgdata.totalpixels; i++)
             {
                 // update progress - LINUX VERSION WILL NOT USE THIS
-                // updating progress value slows the application down by roughly 3 minutes
+                // updating progress value adds minutes to execution time where it should take seconds
                 // progress.Value = i;
 				if (s.Get(i)) // get the next object
                 {
