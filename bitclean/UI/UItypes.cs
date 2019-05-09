@@ -28,14 +28,13 @@ namespace bitclean
 
     public class AttributeStatistics
     {
-        public double max = -1.0, min = -1.0, avg = 0.0, mode = 0.0;
+        public double max = -1.0, min = -1.0, avg = 0.0;
 
         public void Clear()
         {
             max = -1.0;
             min = -1.0;
             avg = 0.0;
-            mode = 0.0;
         }
 
     }

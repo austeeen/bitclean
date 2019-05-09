@@ -58,9 +58,9 @@ namespace bitclean
             datatree.AppendColumn("Tag", new Gtk.CellRendererText(), "text", 0);
             datatree.AppendColumn("Decision", new Gtk.CellRendererText(), "text", 1);
             datatree.AppendColumn("Size", new Gtk.CellRendererText(), "text", 2);
-            datatree.AppendColumn("Avghue", new Gtk.CellRendererText(), "text", 3);
+            datatree.AppendColumn("Avg Hue", new Gtk.CellRendererText(), "text", 3);
             datatree.AppendColumn("Density", new Gtk.CellRendererText(), "text", 4);
-            datatree.AppendColumn("Edgeratio", new Gtk.CellRendererText(), "text", 5);
+            datatree.AppendColumn("Edge Ratio", new Gtk.CellRendererText(), "text", 5);
             datatree.AppendColumn("Neighbors", new Gtk.CellRendererText(), "text", 6);
             datatree.AppendColumn("Neural Output", new Gtk.CellRendererText(), "text", 7);
             datatree.Model = store;
@@ -201,6 +201,11 @@ namespace bitclean
         /// <param name="obj">Object.</param>
         private void StatsTreeViews(ChartObject obj)
         {
+            // clear stats
+            totalSizeStats.Clear();
+            dustSizeStats.Clear();
+            structureSizeStats.Clear();
+
             // if obj size|density|edgeratio|neighbors is min, set it so
             if (obj.size < totalSizeStats.min || Math.Abs(totalSizeStats.min - -1.0) < UIConstants.EPSILON)
                 totalSizeStats.min = obj.size;
@@ -363,15 +368,24 @@ namespace bitclean
         /// <param name="e">E.</param>
         protected void GenerateChart(object sender, EventArgs e)
         {
-            Console.WriteLine("**************************************");
-            Console.WriteLine("hAxis:{0}", configuration.horizontalChoice);
-            Console.WriteLine("vAxis:{0}", configuration.verticalChoice);
-            Console.WriteLine("function:{0}", configuration.function);
-            Console.WriteLine("squared:{0}", configuration.squared);
-            Console.WriteLine("dust:{0}", configuration.dust);
-            Console.WriteLine("structures:{0}", configuration.structures);
+            List<object[]> objectdata = new List<object[]>();
 
-            UI.Chart chart = new UI.Chart(objects, configuration);
+            // create data for data points
+            foreach (ChartObject chartObject in objects)
+            {
+                object[] data = {
+                    chartObject.tag,
+                    chartObject.decision,
+                    chartObject.size,
+                    chartObject.avghue,
+                    chartObject.density,
+                    chartObject.edgeratio,
+                    chartObject.neighbors.Count
+                };
+                objectdata.Add(data);
+            }
+
+            UI.Chart chart = new UI.Chart(objectdata, configuration, datatree.Columns);
             chart.Show();
 
         }

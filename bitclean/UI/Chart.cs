@@ -13,15 +13,18 @@ namespace bitclean.UI
     public partial class Chart : Window
     {
         ChartOptions configuration;
-        List<ChartObject> objects;
-        double[] xData, yData;
+        List<object[]> objects;
+        TreeViewColumn[] treeColumns;
+        int xChoiceIndx, yChoiceIndx, decisionIndx;
+        List<double[]> data;
 
-        public Chart(List<ChartObject> objects, ChartOptions configuration) : base(WindowType.Toplevel)
+        public Chart(List<object[]> objects, ChartOptions configuration, TreeViewColumn[] columns) : base(WindowType.Toplevel)
         {
             Build();
 
             this.objects = objects;
             this.configuration = configuration;
+            treeColumns = columns;
 
             //Set up data
 
@@ -31,15 +34,50 @@ namespace bitclean.UI
 
             // add plot surface to the window and show it
             testplot.Show();
-            this.Add(testplot);
-            this.ShowAll();
+            Add(testplot);
+            ShowAll();
         }
 
         private void SetUpData()
         {
-            // populate xaxis with filtered data
+            // relate radio button choice to tree view column
+            // and get decision column index for filtering data
+            for (int i = 0; i < treeColumns.Length; i ++) {
+                if (treeColumns[i].Title == configuration.horizontalChoice)
+                    xChoiceIndx = i;
+                if (treeColumns[i].Title == configuration.verticalChoice)
+                    yChoiceIndx = i;
+                if (treeColumns[i].Title == "Decision")
+                    decisionIndx = i;
+            }
 
-            // populate yaxis with filtered data
+            // populate xaxis/yaxis with filtered data
+            for (int i = 0; i < objects.Count; i ++)
+            {
+                if(configuration.dust) // check dust filter
+                {
+                    if (objects[i][decisionIndx].ToString() == "dust")
+                    {
+                        data.Add(new double[]
+                        {
+                            Convert.ToDouble(objects[i][xChoiceIndx]), // x data point
+                            Convert.ToDouble(objects[i][yChoiceIndx])  // y data point
+                        });
+                    }
+                }
+                if(configuration.structures) // check structure filter
+                {
+                    if (objects[i][decisionIndx].ToString() == "structure")
+                    {
+                        data.Add(new double[]
+                        {
+                            Convert.ToDouble(objects[i][xChoiceIndx]), // x data point
+                            Convert.ToDouble(objects[i][yChoiceIndx])  // y data point
+                        });
+                    }
+                }
+
+            }
 
             // preprocess data
 
