@@ -8,7 +8,7 @@ namespace bitclean
         public static void Main(string[] args)
         {
             Application.Init();
-            MainWindow win = new MainWindow();
+            UI.MainWindow win = new UI.MainWindow();
             win.Show();
             Application.Run();
         }

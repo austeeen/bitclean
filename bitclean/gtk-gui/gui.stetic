@@ -6,112 +6,7 @@
   <import>
     <widget-library name="../bin/Debug/bitclean.exe" internal="true" />
   </import>
-  <widget class="Gtk.Window" id="MainWindow" design-size="539 300">
-    <action-group name="Default">
-      <action id="FileAction">
-        <property name="Type">Action</property>
-        <property name="Label" translatable="yes">File</property>
-        <property name="ShortLabel" translatable="yes">File</property>
-      </action>
-      <action id="LoadImageAction">
-        <property name="Type">Action</property>
-        <property name="Label" translatable="yes">Load Image</property>
-        <property name="ShortLabel" translatable="yes">Load Image</property>
-        <signal name="Activated" handler="LoadImage" />
-      </action>
-      <action id="SaveImageAction">
-        <property name="Type">Action</property>
-        <property name="Label" translatable="yes">Save Image</property>
-        <property name="ShortLabel" translatable="yes">Save Image</property>
-        <signal name="Activated" handler="SaveImage" />
-      </action>
-      <action id="ImageAction">
-        <property name="Type">Action</property>
-        <property name="Label" translatable="yes">Image</property>
-        <property name="ShortLabel" translatable="yes">Image</property>
-      </action>
-      <action id="RunBitcleanAction">
-        <property name="Type">Action</property>
-        <property name="Label" translatable="yes">Run Bitclean</property>
-        <property name="ShortLabel" translatable="yes">Run Bitclean</property>
-        <signal name="Activated" handler="RunBitclean" />
-      </action>
-      <action id="DiagnosticsAction">
-        <property name="Type">Action</property>
-        <property name="Label" translatable="yes">Diagnostics</property>
-        <property name="ShortLabel" translatable="yes">Diagnostics</property>
-      </action>
-      <action id="ExportToXMLAction">
-        <property name="Type">Action</property>
-        <property name="Label" translatable="yes">Export to XML...</property>
-        <property name="ShortLabel" translatable="yes">Export to XML...</property>
-        <signal name="Activated" handler="ExportToXML" />
-      </action>
-      <action id="OpenDiagnosticsAction">
-        <property name="Type">Action</property>
-        <property name="Label" translatable="yes">Open Diagnostics</property>
-        <property name="ShortLabel" translatable="yes">Open Diagnostics</property>
-        <signal name="Activated" handler="OpenDiagnostics" />
-      </action>
-    </action-group>
-    <property name="MemberName" />
-    <property name="Title" translatable="yes">MainWindow</property>
-    <property name="WindowPosition">CenterOnParent</property>
-    <signal name="DeleteEvent" handler="OnDeleteEvent" />
-    <child>
-      <widget class="Gtk.VBox" id="vbox1">
-        <property name="MemberName" />
-        <property name="Spacing">6</property>
-        <child>
-          <widget class="Gtk.MenuBar" id="menubar1">
-            <property name="MemberName" />
-            <node name="menubar1" type="Menubar">
-              <node type="Menu" action="FileAction">
-                <node type="Menuitem" action="LoadImageAction" />
-                <node type="Menuitem" action="SaveImageAction" />
-              </node>
-              <node type="Menu" action="ImageAction">
-                <node type="Menuitem" action="RunBitcleanAction" />
-              </node>
-              <node type="Menu" action="DiagnosticsAction">
-                <node type="Menuitem" action="ExportToXMLAction" />
-                <node type="Menuitem" action="OpenDiagnosticsAction" />
-              </node>
-            </node>
-          </widget>
-          <packing>
-            <property name="Position">0</property>
-            <property name="AutoSize">True</property>
-            <property name="Expand">False</property>
-            <property name="Fill">False</property>
-          </packing>
-        </child>
-        <child>
-          <widget class="Gtk.ScrolledWindow" id="GtkScrolledWindow">
-            <property name="MemberName" />
-            <property name="ShadowType">In</property>
-            <child>
-              <widget class="Gtk.Viewport" id="GtkViewport">
-                <property name="MemberName" />
-                <property name="ShadowType">None</property>
-                <child>
-                  <widget class="Gtk.Image" id="displayedImage">
-                    <property name="MemberName" />
-                    <property name="ShowScrollbars">True</property>
-                  </widget>
-                </child>
-              </widget>
-            </child>
-          </widget>
-          <packing>
-            <property name="Position">1</property>
-            <property name="AutoSize">True</property>
-          </packing>
-        </child>
-      </widget>
-    </child>
-  </widget>
-  <widget class="Gtk.Window" id="bitclean.Diagnostics" design-size="548 356">
+  <widget class="Gtk.Window" id="bitclean.Diagnostics" design-size="1032 792">
     <action-group name="Default">
       <action id="FileAction">
         <property name="Type">Action</property>
@@ -135,6 +30,23 @@
         <property name="ShortLabel" translatable="yes">Load XML</property>
         <signal name="Activated" handler="LoadXMLData" />
       </action>
+      <action id="ChartsAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Charts</property>
+        <property name="ShortLabel" translatable="yes">Charts</property>
+      </action>
+      <action id="ConfigureAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Configure...</property>
+        <property name="ShortLabel" translatable="yes">Configure...</property>
+        <signal name="Activated" handler="ChartConfiguration" />
+      </action>
+      <action id="GenerateChartAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Generate Chart</property>
+        <property name="ShortLabel" translatable="yes">Generate Chart</property>
+        <signal name="Activated" handler="GenerateChart" />
+      </action>
     </action-group>
     <property name="MemberName" />
     <property name="Title" translatable="yes">Diagnostics</property>
@@ -146,9 +58,13 @@
         <child>
           <widget class="Gtk.MenuBar" id="menubar2">
             <property name="MemberName" />
-            <node name="__gtksharp_77_Stetic_Editor_ActionMenuBar" type="Menubar">
+            <node name="menubar2" type="Menubar">
               <node type="Menu" action="FileAction1">
                 <node type="Menuitem" action="LoadDataAction1" />
+              </node>
+              <node type="Menu" action="ChartsAction">
+                <node type="Menuitem" action="ConfigureAction" />
+                <node type="Menuitem" action="GenerateChartAction" />
               </node>
             </node>
           </widget>
@@ -160,15 +76,87 @@
           </packing>
         </child>
         <child>
-          <widget class="Gtk.ScrolledWindow" id="GtkScrolledWindow">
+          <widget class="Gtk.HBox" id="hbox1">
             <property name="MemberName" />
-            <property name="ShadowType">In</property>
+            <property name="Spacing">6</property>
             <child>
-              <widget class="Gtk.TreeView" id="datatree">
+              <widget class="Gtk.ScrolledWindow" id="GtkScrolledWindow">
                 <property name="MemberName" />
-                <property name="CanFocus">True</property>
-                <property name="ShowScrollbars">True</property>
+                <property name="ShadowType">In</property>
+                <child>
+                  <widget class="Gtk.TreeView" id="datatree">
+                    <property name="MemberName" />
+                    <property name="CanFocus">True</property>
+                    <property name="ShowScrollbars">True</property>
+                    <property name="Reorderable">True</property>
+                  </widget>
+                </child>
               </widget>
+              <packing>
+                <property name="Position">0</property>
+                <property name="AutoSize">True</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="Gtk.VBox" id="vbox1">
+                <property name="MemberName" />
+                <property name="Spacing">6</property>
+                <child>
+                  <widget class="Gtk.ScrolledWindow" id="GtkScrolledWindow1">
+                    <property name="MemberName" />
+                    <property name="ShadowType">In</property>
+                    <child>
+                      <widget class="Gtk.TreeView" id="alldatatree">
+                        <property name="MemberName" />
+                        <property name="CanFocus">True</property>
+                        <property name="ShowScrollbars">True</property>
+                      </widget>
+                    </child>
+                  </widget>
+                  <packing>
+                    <property name="Position">0</property>
+                    <property name="AutoSize">True</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="Gtk.ScrolledWindow" id="GtkScrolledWindow2">
+                    <property name="MemberName" />
+                    <property name="ShadowType">In</property>
+                    <child>
+                      <widget class="Gtk.TreeView" id="structuredatatree">
+                        <property name="MemberName" />
+                        <property name="CanFocus">True</property>
+                        <property name="ShowScrollbars">True</property>
+                      </widget>
+                    </child>
+                  </widget>
+                  <packing>
+                    <property name="Position">1</property>
+                    <property name="AutoSize">True</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="Gtk.ScrolledWindow" id="GtkScrolledWindow3">
+                    <property name="MemberName" />
+                    <property name="ShadowType">In</property>
+                    <child>
+                      <widget class="Gtk.TreeView" id="dustdatatree">
+                        <property name="MemberName" />
+                        <property name="CanFocus">True</property>
+                        <property name="ShowScrollbars">True</property>
+                      </widget>
+                    </child>
+                  </widget>
+                  <packing>
+                    <property name="Position">2</property>
+                    <property name="AutoSize">True</property>
+                  </packing>
+                </child>
+              </widget>
+              <packing>
+                <property name="Position">1</property>
+                <property name="AutoSize">True</property>
+              </packing>
             </child>
           </widget>
           <packing>
@@ -176,8 +164,99 @@
             <property name="AutoSize">True</property>
           </packing>
         </child>
+      </widget>
+    </child>
+  </widget>
+  <widget class="Gtk.Window" id="bitclean.UI.MainWindow" design-size="781 590">
+    <action-group name="Default">
+      <action id="FileAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">File</property>
+        <property name="ShortLabel" translatable="yes">File</property>
+      </action>
+      <action id="ImageAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Image</property>
+        <property name="ShortLabel" translatable="yes">Image</property>
+      </action>
+      <action id="DiagnosticsAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Diagnostics</property>
+        <property name="ShortLabel" translatable="yes">Diagnostics</property>
+      </action>
+      <action id="LoadImageAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Load Image</property>
+        <property name="ShortLabel" translatable="yes">Load Image</property>
+        <signal name="Activated" handler="LoadImage" />
+      </action>
+      <action id="SaveImageAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Save Image</property>
+        <property name="ShortLabel" translatable="yes">Save Image</property>
+        <signal name="Activated" handler="SaveImage" />
+      </action>
+      <action id="RunBitcleanAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Run bitclean</property>
+        <property name="ShortLabel" translatable="yes">Run bitclean</property>
+        <signal name="Activated" handler="RunBitclean" />
+      </action>
+      <action id="ExportToXMLAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Export to XML</property>
+        <property name="ShortLabel" translatable="yes">Export to XML</property>
+        <signal name="Activated" handler="ExportToXML" />
+      </action>
+      <action id="OpenDiagnosticsAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Open Diagnostics</property>
+        <property name="ShortLabel" translatable="yes">Open Diagnostics</property>
+        <signal name="Activated" handler="OpenDiagnostics" />
+      </action>
+    </action-group>
+    <property name="MemberName" />
+    <property name="Title" translatable="yes">MainWindow</property>
+    <property name="WindowPosition">CenterOnParent</property>
+    <signal name="DeleteEvent" handler="OnDeleteEvent" />
+    <child>
+      <widget class="Gtk.VBox" id="vbox2">
+        <property name="MemberName" />
+        <property name="Spacing">6</property>
         <child>
-          <placeholder />
+          <widget class="Gtk.MenuBar" id="menubar1">
+            <property name="MemberName" />
+            <node name="__gtksharp_90_Stetic_Editor_ActionMenuBar" type="Menubar">
+              <node type="Menu" action="FileAction">
+                <node type="Menuitem" action="LoadImageAction" />
+                <node type="Menuitem" action="SaveImageAction" />
+              </node>
+              <node type="Menu" action="ImageAction">
+                <node type="Menuitem" action="RunBitcleanAction" />
+              </node>
+              <node type="Menu" action="DiagnosticsAction">
+                <node type="Menuitem" action="ExportToXMLAction" />
+                <node type="Menuitem" action="OpenDiagnosticsAction" />
+              </node>
+            </node>
+          </widget>
+          <packing>
+            <property name="Position">0</property>
+            <property name="AutoSize">True</property>
+            <property name="Expand">False</property>
+            <property name="Fill">False</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="Gtk.Image" id="displayedImage">
+            <property name="MemberName" />
+          </widget>
+          <packing>
+            <property name="Position">1</property>
+            <property name="AutoSize">True</property>
+            <property name="Expand">False</property>
+            <property name="Fill">False</property>
+          </packing>
         </child>
       </widget>
     </child>

@@ -2,7 +2,7 @@
 using System.Drawing;
 
 /*
- * bitclean: /system/metatypes.cs
+ * bitclean: /system/systemtypes.cs
  * author: Austin Herman
  * 5/8/2019
  */
@@ -22,37 +22,7 @@ namespace bitclean
 											//  - this is helpful for average hue and average density functions
 		public const short INT_OBJ_TAG = 1300;
 		public const int BOUNDING_RECT_OFFSET = 300;    // offset for the bounding rectangle used to find neighbors
-
-		public const string MY_START_PATH = "C:\\Users\\";
-		public const string META_DATA_PATH = "\\meta\\";
-		public const string META_PATHS = "paths.xml";
-
-        public const double EPSILON = 0.000001f;
 	}
-
-	static class ToolStripMessages
-	{
-		public const string
-			DEFAULT_MESSAGE = "...",
-			IMAGE_LOADING = "image loading...",
-			IMAGE_LOADED = "image loaded",
-			IMAGE_LOAD_FAILED = "failed to load image",
-			IMAGE_SAVED = "image saved",
-			IMAGE_SAVE_FAILED = "failed to save image",
-			CLEANING_IMAGE = "cleaning image...",
-			CONFIDENCE_LOADING = "calculating confidences...",
-			IMAGE_CLEANED = "image cleaned",
-			XML_DATA_EXPORTED = "data exported to xml",
-			XML_EXPORT_FAILED = "failed to export data";
-	}
-
-	public struct PixelDiagnosticsProperties
-	{
-		public bool includeWhite;
-		public bool indexes;
-		public bool integerValues;
-		public bool RGBValues;
-	};
 
 	//the image file's basic data
 	public struct Data
@@ -137,37 +107,6 @@ namespace bitclean
 		public List<int> neighbors; // list of tags of other objects in the vicinity of this one
         public Confidence objconf;	// confidence property
     }
-
-	public class ChartObject
-	{
-		public string decision;
-		public double avghue;       // average integer color value of all pixels in selection
-		public double density;      // percentage of non-floor colored pixels occupying the selection
-		public int size;            // total size in pixels of selection
-		public double edgeratio;    // ratio of total size to calculated edges
-		public int tag;             // unique id associated with object
-		public List<int> neighbors; // list of tags of other objects in the vicinity of this one
-		public Confidence objconf;  // confidence property 
-	}
-
-	public class AttributeStatistics
-	{
-		public double max = -1.0, min = -1.0, avg = 0.0, mode = 0.0;
-
-        public void Clear()
-		{
-			max = -1.0;
-			min = -1.0;
-			avg = 0.0;
-			mode = 0.0;
-		}
-
-	}
-
-	public struct LogisticParameters
-	{
-		public double a, b, c;
-	}
 
 	public class Node
     {

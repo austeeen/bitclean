@@ -14,13 +14,35 @@ namespace bitclean
 
 		private global::Gtk.Action LoadDataAction1;
 
+		private global::Gtk.Action ChartsAction;
+
+		private global::Gtk.Action ConfigureAction;
+
+		private global::Gtk.Action GenerateChartAction;
+
 		private global::Gtk.VBox vbox3;
 
 		private global::Gtk.MenuBar menubar2;
 
+		private global::Gtk.HBox hbox1;
+
 		private global::Gtk.ScrolledWindow GtkScrolledWindow;
 
 		private global::Gtk.TreeView datatree;
+
+		private global::Gtk.VBox vbox1;
+
+		private global::Gtk.ScrolledWindow GtkScrolledWindow1;
+
+		private global::Gtk.TreeView alldatatree;
+
+		private global::Gtk.ScrolledWindow GtkScrolledWindow2;
+
+		private global::Gtk.TreeView structuredatatree;
+
+		private global::Gtk.ScrolledWindow GtkScrolledWindow3;
+
+		private global::Gtk.TreeView dustdatatree;
 
 		protected virtual void Build()
 		{
@@ -40,6 +62,15 @@ namespace bitclean
 			this.LoadDataAction1 = new global::Gtk.Action("LoadDataAction1", global::Mono.Unix.Catalog.GetString("Load Data"), null, null);
 			this.LoadDataAction1.ShortLabel = global::Mono.Unix.Catalog.GetString("Load XML");
 			w1.Add(this.LoadDataAction1, null);
+			this.ChartsAction = new global::Gtk.Action("ChartsAction", global::Mono.Unix.Catalog.GetString("Charts"), null, null);
+			this.ChartsAction.ShortLabel = global::Mono.Unix.Catalog.GetString("Charts");
+			w1.Add(this.ChartsAction, null);
+			this.ConfigureAction = new global::Gtk.Action("ConfigureAction", global::Mono.Unix.Catalog.GetString("Configure..."), null, null);
+			this.ConfigureAction.ShortLabel = global::Mono.Unix.Catalog.GetString("Configure...");
+			w1.Add(this.ConfigureAction, null);
+			this.GenerateChartAction = new global::Gtk.Action("GenerateChartAction", global::Mono.Unix.Catalog.GetString("Generate Chart"), null, null);
+			this.GenerateChartAction.ShortLabel = global::Mono.Unix.Catalog.GetString("Generate Chart");
+			w1.Add(this.GenerateChartAction, null);
 			this.UIManager.InsertActionGroup(w1, 0);
 			this.AddAccelGroup(this.UIManager.AccelGroup);
 			this.Name = "bitclean.Diagnostics";
@@ -50,8 +81,7 @@ namespace bitclean
 			this.vbox3.Name = "vbox3";
 			this.vbox3.Spacing = 6;
 			// Container child vbox3.Gtk.Box+BoxChild
-			this.UIManager.AddUiFromString("<ui><menubar name=\'menubar2\'><menu name=\'FileAction1\' action=\'FileAction1\'><menui" +
-					"tem name=\'LoadDataAction1\' action=\'LoadDataAction1\'/></menu></menubar></ui>");
+			this.UIManager.AddUiFromString(@"<ui><menubar name='menubar2'><menu name='FileAction1' action='FileAction1'><menuitem name='LoadDataAction1' action='LoadDataAction1'/></menu><menu name='ChartsAction' action='ChartsAction'><menuitem name='ConfigureAction' action='ConfigureAction'/><menuitem name='GenerateChartAction' action='GenerateChartAction'/></menu></menubar></ui>");
 			this.menubar2 = ((global::Gtk.MenuBar)(this.UIManager.GetWidget("/menubar2")));
 			this.menubar2.Name = "menubar2";
 			this.vbox3.Add(this.menubar2);
@@ -60,6 +90,10 @@ namespace bitclean
 			w2.Expand = false;
 			w2.Fill = false;
 			// Container child vbox3.Gtk.Box+BoxChild
+			this.hbox1 = new global::Gtk.HBox();
+			this.hbox1.Name = "hbox1";
+			this.hbox1.Spacing = 6;
+			// Container child hbox1.Gtk.Box+BoxChild
 			this.GtkScrolledWindow = new global::Gtk.ScrolledWindow();
 			this.GtkScrolledWindow.Name = "GtkScrolledWindow";
 			this.GtkScrolledWindow.ShadowType = ((global::Gtk.ShadowType)(1));
@@ -67,20 +101,69 @@ namespace bitclean
 			this.datatree = new global::Gtk.TreeView();
 			this.datatree.CanFocus = true;
 			this.datatree.Name = "datatree";
+			this.datatree.Reorderable = true;
 			this.GtkScrolledWindow.Add(this.datatree);
-			this.vbox3.Add(this.GtkScrolledWindow);
-			global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.vbox3[this.GtkScrolledWindow]));
-			w4.Position = 1;
+			this.hbox1.Add(this.GtkScrolledWindow);
+			global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.hbox1[this.GtkScrolledWindow]));
+			w4.Position = 0;
+			// Container child hbox1.Gtk.Box+BoxChild
+			this.vbox1 = new global::Gtk.VBox();
+			this.vbox1.Name = "vbox1";
+			this.vbox1.Spacing = 6;
+			// Container child vbox1.Gtk.Box+BoxChild
+			this.GtkScrolledWindow1 = new global::Gtk.ScrolledWindow();
+			this.GtkScrolledWindow1.Name = "GtkScrolledWindow1";
+			this.GtkScrolledWindow1.ShadowType = ((global::Gtk.ShadowType)(1));
+			// Container child GtkScrolledWindow1.Gtk.Container+ContainerChild
+			this.alldatatree = new global::Gtk.TreeView();
+			this.alldatatree.CanFocus = true;
+			this.alldatatree.Name = "alldatatree";
+			this.GtkScrolledWindow1.Add(this.alldatatree);
+			this.vbox1.Add(this.GtkScrolledWindow1);
+			global::Gtk.Box.BoxChild w6 = ((global::Gtk.Box.BoxChild)(this.vbox1[this.GtkScrolledWindow1]));
+			w6.Position = 0;
+			// Container child vbox1.Gtk.Box+BoxChild
+			this.GtkScrolledWindow2 = new global::Gtk.ScrolledWindow();
+			this.GtkScrolledWindow2.Name = "GtkScrolledWindow2";
+			this.GtkScrolledWindow2.ShadowType = ((global::Gtk.ShadowType)(1));
+			// Container child GtkScrolledWindow2.Gtk.Container+ContainerChild
+			this.structuredatatree = new global::Gtk.TreeView();
+			this.structuredatatree.CanFocus = true;
+			this.structuredatatree.Name = "structuredatatree";
+			this.GtkScrolledWindow2.Add(this.structuredatatree);
+			this.vbox1.Add(this.GtkScrolledWindow2);
+			global::Gtk.Box.BoxChild w8 = ((global::Gtk.Box.BoxChild)(this.vbox1[this.GtkScrolledWindow2]));
+			w8.Position = 1;
+			// Container child vbox1.Gtk.Box+BoxChild
+			this.GtkScrolledWindow3 = new global::Gtk.ScrolledWindow();
+			this.GtkScrolledWindow3.Name = "GtkScrolledWindow3";
+			this.GtkScrolledWindow3.ShadowType = ((global::Gtk.ShadowType)(1));
+			// Container child GtkScrolledWindow3.Gtk.Container+ContainerChild
+			this.dustdatatree = new global::Gtk.TreeView();
+			this.dustdatatree.CanFocus = true;
+			this.dustdatatree.Name = "dustdatatree";
+			this.GtkScrolledWindow3.Add(this.dustdatatree);
+			this.vbox1.Add(this.GtkScrolledWindow3);
+			global::Gtk.Box.BoxChild w10 = ((global::Gtk.Box.BoxChild)(this.vbox1[this.GtkScrolledWindow3]));
+			w10.Position = 2;
+			this.hbox1.Add(this.vbox1);
+			global::Gtk.Box.BoxChild w11 = ((global::Gtk.Box.BoxChild)(this.hbox1[this.vbox1]));
+			w11.Position = 1;
+			this.vbox3.Add(this.hbox1);
+			global::Gtk.Box.BoxChild w12 = ((global::Gtk.Box.BoxChild)(this.vbox3[this.hbox1]));
+			w12.Position = 1;
 			this.Add(this.vbox3);
 			if ((this.Child != null))
 			{
 				this.Child.ShowAll();
 			}
-			this.DefaultWidth = 548;
-			this.DefaultHeight = 356;
+			this.DefaultWidth = 1032;
+			this.DefaultHeight = 792;
 			this.Show();
 			this.LoadDataAction.Activated += new global::System.EventHandler(this.LoadXMLData);
 			this.LoadDataAction1.Activated += new global::System.EventHandler(this.LoadXMLData);
+			this.ConfigureAction.Activated += new global::System.EventHandler(this.ChartConfiguration);
+			this.GenerateChartAction.Activated += new global::System.EventHandler(this.GenerateChart);
 		}
 	}
 }
