@@ -4,23 +4,28 @@ using System.Xml.Linq;
 
 namespace bitclean
 {
+    /// <summary>
+    /// Diagnostics window.
+    /// </summary>
     public partial class Diagnostics : Gtk.Window
     {
-
-        Gtk.ListStore store = new Gtk.ListStore(
-        typeof(int), typeof(string), typeof(int), 
+        // tag, decision, size, avghue, density, edgeratio, neighbors.count
+        Gtk.ListStore store = new Gtk.ListStore
+        (typeof(int), typeof(string), typeof(int), 
         typeof(double), typeof(double), typeof(double), 
         typeof(int), typeof(double));
 
         List<ChartObject> objects;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:bitclean.Diagnostics"/> class.
+        /// </summary>
         public Diagnostics() : base(Gtk.WindowType.Toplevel)
         {
             Build();
 
             objects = new List<ChartObject>();
-
-            // tag, decision, size, avghue, density, edgeratio, neighbors.count
+            
             datatree.AppendColumn("Tag", new Gtk.CellRendererText(), "text", 0);
             datatree.AppendColumn("Decision", new Gtk.CellRendererText(), "text", 1);
             datatree.AppendColumn("Size", new Gtk.CellRendererText(), "text", 2);
@@ -35,14 +40,18 @@ namespace bitclean
             datatree.ShowAll();
         }
 
+        /// <summary>
+        /// Gets xml file name from user and calls functions to populate the tree view.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">E.</param>
         protected void LoadXMLData(object sender, EventArgs e)
         {
             // clear any data already in the tree store
-            if (store.Data.Count != 0) {
-                store.Data.Clear();
-                store.Clear();
-                datatree.Show();
-            }
+            Console.WriteLine("clearing...");
+            store.Data.Clear();
+            store.Clear();
+            datatree.ShowAll();
 
             // get file from user
             string result = null;
@@ -56,8 +65,8 @@ namespace bitclean
 
             openDialog.Destroy();
 
-            if (result != null)
-            {
+            // file dialog success, load xml data into memory and populate the treeview
+            if (result != null) {
                 try {
                     GetXMLData(result);
                 } catch(Exception excp) {
@@ -71,6 +80,10 @@ namespace bitclean
             datatree.ShowAll();
         }
 
+        /// <summary>
+        /// Loads the xml data into memory.
+        /// </summary>
+        /// <param name="path">Path.</param>
         private void GetXMLData(string path)
         {
             if (objects.Count != 0)
@@ -103,6 +116,9 @@ namespace bitclean
 
         }
 
+        /// <summary>
+        /// Fills tree view with data from objects list
+        /// </summary>
         private void PopulateTreeView()
         {
             // add chart objects to chart display and get statistics on each chart object

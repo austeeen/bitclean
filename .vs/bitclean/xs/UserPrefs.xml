@@ -2,8 +2,8 @@
   <MonoDevelop.Ide.Workbench ActiveDocument="bitclean/Diagnostics.cs">
     <Files>
       <File FileName="bitclean/MainWindow.cs" Line="7" Column="1" />
-      <File FileName="bitclean/Diagnostics.cs" Line="34" Column="13" />
       <File FileName="bitclean/systems/metatypes.cs" Line="141" Column="20" />
+      <File FileName="bitclean/Diagnostics.cs" Line="79" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
