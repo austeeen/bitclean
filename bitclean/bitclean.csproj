@@ -55,6 +55,12 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="NPlot">
+      <HintPath>bin\NPlot.dll</HintPath>
+    </Reference>
+    <Reference Include="NPlot.Gtk">
+      <HintPath>bin\NPlot.Gtk.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="gtk-gui\gui.stetic">
@@ -81,6 +87,10 @@
     <Compile Include="Systems\bitclean\tree.cs" />
     <Compile Include="UI\MainWindow.cs" />
     <Compile Include="gtk-gui\bitclean.UI.MainWindow.cs" />
+    <Compile Include="UI\Chart.cs" />
+    <Compile Include="gtk-gui\bitclean.UI.Chart.cs" />
+    <Compile Include="UI\ChartConfiguration.cs" />
+    <Compile Include="gtk-gui\bitclean.UI.ChartConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Systems\" />

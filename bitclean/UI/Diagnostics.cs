@@ -11,8 +11,8 @@ namespace bitclean
     {
         // tag, decision, size, avghue, density, edgeratio, neighbors.count
         Gtk.ListStore store = new Gtk.ListStore
-        (typeof(int), typeof(string), typeof(int), 
-        typeof(double), typeof(double), typeof(double), 
+        (typeof(int), typeof(string), typeof(int),
+        typeof(double), typeof(double), typeof(double),
         typeof(int), typeof(double));
 
         // attribute, max, min, avg
@@ -42,6 +42,8 @@ namespace bitclean
         AttributeStatistics structureNeighborsStats = new AttributeStatistics();
 
         int dustcount, structurecount;
+
+        ChartOptions configuration;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:bitclean.Diagnostics"/> class.
@@ -88,6 +90,15 @@ namespace bitclean
             dustdatatree.Model = duststatsStore;
             dustdatatree.ShowAll();
 
+            configuration = new ChartOptions
+            {
+                horizontalChoice = "Tag",
+                verticalChoice = "Tag",
+                function = new Linear(),
+                squared = false,
+                dust = true,
+                structures = true
+            };
         }
 
         /// <summary>
@@ -339,9 +350,10 @@ namespace bitclean
         /// </summary>
         /// <param name="sender">Sender.</param>
         /// <param name="e">E.</param>
-        protected void ChartConfiguration(object sender, EventArgs e)
+        protected void OpenChartConfiguration(object sender, EventArgs e)
         {
-
+            UI.ChartConfiguration configwindow = new UI.ChartConfiguration(ref configuration);
+            configwindow.Show();
         }
 
         /// <summary>
@@ -351,6 +363,16 @@ namespace bitclean
         /// <param name="e">E.</param>
         protected void GenerateChart(object sender, EventArgs e)
         {
+            Console.WriteLine("**************************************");
+            Console.WriteLine("hAxis:{0}", configuration.horizontalChoice);
+            Console.WriteLine("vAxis:{0}", configuration.verticalChoice);
+            Console.WriteLine("function:{0}", configuration.function);
+            Console.WriteLine("squared:{0}", configuration.squared);
+            Console.WriteLine("dust:{0}", configuration.dust);
+            Console.WriteLine("structures:{0}", configuration.structures);
+
+            UI.Chart chart = new UI.Chart(objects, configuration);
+            chart.Show();
 
         }
     }

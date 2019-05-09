@@ -32,13 +32,19 @@ namespace bitclean
 
 		private global::Gtk.VBox vbox1;
 
+		private global::Gtk.Label AllStatsLabel;
+
 		private global::Gtk.ScrolledWindow GtkScrolledWindow1;
 
 		private global::Gtk.TreeView alldatatree;
 
+		private global::Gtk.Label structureStatsLabel;
+
 		private global::Gtk.ScrolledWindow GtkScrolledWindow2;
 
 		private global::Gtk.TreeView structuredatatree;
+
+		private global::Gtk.Label dustStatsLabel;
 
 		private global::Gtk.ScrolledWindow GtkScrolledWindow3;
 
@@ -111,6 +117,17 @@ namespace bitclean
 			this.vbox1.Name = "vbox1";
 			this.vbox1.Spacing = 6;
 			// Container child vbox1.Gtk.Box+BoxChild
+			this.AllStatsLabel = new global::Gtk.Label();
+			this.AllStatsLabel.Name = "AllStatsLabel";
+			this.AllStatsLabel.Xpad = 142;
+			this.AllStatsLabel.LabelProp = global::Mono.Unix.Catalog.GetString("All Object Statistics");
+			this.AllStatsLabel.Justify = ((global::Gtk.Justification)(1));
+			this.vbox1.Add(this.AllStatsLabel);
+			global::Gtk.Box.BoxChild w5 = ((global::Gtk.Box.BoxChild)(this.vbox1[this.AllStatsLabel]));
+			w5.Position = 0;
+			w5.Expand = false;
+			w5.Fill = false;
+			// Container child vbox1.Gtk.Box+BoxChild
 			this.GtkScrolledWindow1 = new global::Gtk.ScrolledWindow();
 			this.GtkScrolledWindow1.Name = "GtkScrolledWindow1";
 			this.GtkScrolledWindow1.ShadowType = ((global::Gtk.ShadowType)(1));
@@ -120,8 +137,17 @@ namespace bitclean
 			this.alldatatree.Name = "alldatatree";
 			this.GtkScrolledWindow1.Add(this.alldatatree);
 			this.vbox1.Add(this.GtkScrolledWindow1);
-			global::Gtk.Box.BoxChild w6 = ((global::Gtk.Box.BoxChild)(this.vbox1[this.GtkScrolledWindow1]));
-			w6.Position = 0;
+			global::Gtk.Box.BoxChild w7 = ((global::Gtk.Box.BoxChild)(this.vbox1[this.GtkScrolledWindow1]));
+			w7.Position = 1;
+			// Container child vbox1.Gtk.Box+BoxChild
+			this.structureStatsLabel = new global::Gtk.Label();
+			this.structureStatsLabel.Name = "structureStatsLabel";
+			this.structureStatsLabel.LabelProp = global::Mono.Unix.Catalog.GetString("Structure Only Statistics");
+			this.vbox1.Add(this.structureStatsLabel);
+			global::Gtk.Box.BoxChild w8 = ((global::Gtk.Box.BoxChild)(this.vbox1[this.structureStatsLabel]));
+			w8.Position = 2;
+			w8.Expand = false;
+			w8.Fill = false;
 			// Container child vbox1.Gtk.Box+BoxChild
 			this.GtkScrolledWindow2 = new global::Gtk.ScrolledWindow();
 			this.GtkScrolledWindow2.Name = "GtkScrolledWindow2";
@@ -132,8 +158,17 @@ namespace bitclean
 			this.structuredatatree.Name = "structuredatatree";
 			this.GtkScrolledWindow2.Add(this.structuredatatree);
 			this.vbox1.Add(this.GtkScrolledWindow2);
-			global::Gtk.Box.BoxChild w8 = ((global::Gtk.Box.BoxChild)(this.vbox1[this.GtkScrolledWindow2]));
-			w8.Position = 1;
+			global::Gtk.Box.BoxChild w10 = ((global::Gtk.Box.BoxChild)(this.vbox1[this.GtkScrolledWindow2]));
+			w10.Position = 3;
+			// Container child vbox1.Gtk.Box+BoxChild
+			this.dustStatsLabel = new global::Gtk.Label();
+			this.dustStatsLabel.Name = "dustStatsLabel";
+			this.dustStatsLabel.LabelProp = global::Mono.Unix.Catalog.GetString("Dust Only Statistics");
+			this.vbox1.Add(this.dustStatsLabel);
+			global::Gtk.Box.BoxChild w11 = ((global::Gtk.Box.BoxChild)(this.vbox1[this.dustStatsLabel]));
+			w11.Position = 4;
+			w11.Expand = false;
+			w11.Fill = false;
 			// Container child vbox1.Gtk.Box+BoxChild
 			this.GtkScrolledWindow3 = new global::Gtk.ScrolledWindow();
 			this.GtkScrolledWindow3.Name = "GtkScrolledWindow3";
@@ -144,14 +179,16 @@ namespace bitclean
 			this.dustdatatree.Name = "dustdatatree";
 			this.GtkScrolledWindow3.Add(this.dustdatatree);
 			this.vbox1.Add(this.GtkScrolledWindow3);
-			global::Gtk.Box.BoxChild w10 = ((global::Gtk.Box.BoxChild)(this.vbox1[this.GtkScrolledWindow3]));
-			w10.Position = 2;
+			global::Gtk.Box.BoxChild w13 = ((global::Gtk.Box.BoxChild)(this.vbox1[this.GtkScrolledWindow3]));
+			w13.Position = 5;
 			this.hbox1.Add(this.vbox1);
-			global::Gtk.Box.BoxChild w11 = ((global::Gtk.Box.BoxChild)(this.hbox1[this.vbox1]));
-			w11.Position = 1;
+			global::Gtk.Box.BoxChild w14 = ((global::Gtk.Box.BoxChild)(this.hbox1[this.vbox1]));
+			w14.Position = 1;
+			w14.Expand = false;
+			w14.Fill = false;
 			this.vbox3.Add(this.hbox1);
-			global::Gtk.Box.BoxChild w12 = ((global::Gtk.Box.BoxChild)(this.vbox3[this.hbox1]));
-			w12.Position = 1;
+			global::Gtk.Box.BoxChild w15 = ((global::Gtk.Box.BoxChild)(this.vbox3[this.hbox1]));
+			w15.Position = 1;
 			this.Add(this.vbox3);
 			if ((this.Child != null))
 			{
@@ -162,7 +199,7 @@ namespace bitclean
 			this.Show();
 			this.LoadDataAction.Activated += new global::System.EventHandler(this.LoadXMLData);
 			this.LoadDataAction1.Activated += new global::System.EventHandler(this.LoadXMLData);
-			this.ConfigureAction.Activated += new global::System.EventHandler(this.ChartConfiguration);
+			this.ConfigureAction.Activated += new global::System.EventHandler(this.OpenChartConfiguration);
 			this.GenerateChartAction.Activated += new global::System.EventHandler(this.GenerateChart);
 		}
 	}

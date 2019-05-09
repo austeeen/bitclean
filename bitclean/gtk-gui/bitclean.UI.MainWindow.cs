@@ -26,6 +26,8 @@ namespace bitclean.UI
 
 		private global::Gtk.MenuBar menubar1;
 
+		private global::Gtk.ScrolledWindow GtkScrolledWindow;
+
 		private global::Gtk.Image displayedImage;
 
 		protected virtual void Build()
@@ -55,7 +57,7 @@ namespace bitclean.UI
 			this.ExportToXMLAction = new global::Gtk.Action("ExportToXMLAction", global::Mono.Unix.Catalog.GetString("Export to XML"), null, null);
 			this.ExportToXMLAction.ShortLabel = global::Mono.Unix.Catalog.GetString("Export to XML");
 			w1.Add(this.ExportToXMLAction, null);
-			this.OpenDiagnosticsAction = new global::Gtk.Action("OpenDiagnosticsAction", global::Mono.Unix.Catalog.GetString("Open Diagnostics"), null, null);
+			this.OpenDiagnosticsAction = new global::Gtk.Action("OpenDiagnosticsAction", global::Mono.Unix.Catalog.GetString("Open Diagnostics..."), null, null);
 			this.OpenDiagnosticsAction.ShortLabel = global::Mono.Unix.Catalog.GetString("Open Diagnostics");
 			w1.Add(this.OpenDiagnosticsAction, null);
 			this.UIManager.InsertActionGroup(w1, 0);
@@ -77,13 +79,20 @@ namespace bitclean.UI
 			w2.Expand = false;
 			w2.Fill = false;
 			// Container child vbox2.Gtk.Box+BoxChild
+			this.GtkScrolledWindow = new global::Gtk.ScrolledWindow();
+			this.GtkScrolledWindow.Name = "GtkScrolledWindow";
+			this.GtkScrolledWindow.ShadowType = ((global::Gtk.ShadowType)(1));
+			// Container child GtkScrolledWindow.Gtk.Container+ContainerChild
+			global::Gtk.Viewport w3 = new global::Gtk.Viewport();
+			w3.ShadowType = ((global::Gtk.ShadowType)(0));
+			// Container child GtkViewport.Gtk.Container+ContainerChild
 			this.displayedImage = new global::Gtk.Image();
 			this.displayedImage.Name = "displayedImage";
-			this.vbox2.Add(this.displayedImage);
-			global::Gtk.Box.BoxChild w3 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.displayedImage]));
-			w3.Position = 1;
-			w3.Expand = false;
-			w3.Fill = false;
+			w3.Add(this.displayedImage);
+			this.GtkScrolledWindow.Add(w3);
+			this.vbox2.Add(this.GtkScrolledWindow);
+			global::Gtk.Box.BoxChild w6 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.GtkScrolledWindow]));
+			w6.Position = 1;
 			this.Add(this.vbox2);
 			if ((this.Child != null))
 			{
