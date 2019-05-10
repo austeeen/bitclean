@@ -186,6 +186,9 @@ namespace bitclean
             foreach (ChartObject obj in objects)
             {
                 try {
+                    if (obj.decision == "object") // i screwed up my naming convention and don't feel like regenerating the data
+                        obj.decision = "structure";
+
                     store.AppendValues(obj.tag, obj.decision, obj.size, obj.avghue, obj.density, obj.edgeratio, obj.neighbors.Count, 0);
                     StatsTreeViews(obj);
                 } catch(Exception excp) {

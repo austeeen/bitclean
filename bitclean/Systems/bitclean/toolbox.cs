@@ -63,7 +63,7 @@ namespace bitclean
 
 					// ::FOR TESTING::
 					if (FindObjectTag()) {
-						c.decision = "object";
+						c.decision = "structure";
 						ColorBuffer(Color.Green);
 					}
 					else {
