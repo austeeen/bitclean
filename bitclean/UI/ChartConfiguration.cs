@@ -43,6 +43,8 @@ namespace bitclean.UI
                 functionsCombo.Active = 0;
             else if (configuration.function.ToString() == "bitclean.Logistic")
                 functionsCombo.Active = 1;
+            //TODO: create a way to adjust the linear function through an entry box
+            //TODO: create logistic parameters entry box and update those parameters
 
             // set the preprocessing and filter check boxes
             squaredCheck.Active = configuration.squared;

@@ -18,6 +18,12 @@ namespace bitclean.UI
         int xChoiceIndx, yChoiceIndx, decisionIndx, tagIndx;
         List<List<double>> dustdata, structdata;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:bitclean.UI.Chart"/> class.
+        /// </summary>
+        /// <param name="objects">Objects.</param>
+        /// <param name="configuration">Configuration.</param>
+        /// <param name="columns">Columns.</param>
         public Chart(List<object[]> objects, ChartOptions configuration, TreeViewColumn[] columns) : base(WindowType.Toplevel)
         {
             Build();
@@ -55,6 +61,9 @@ namespace bitclean.UI
             }
         }
 
+        /// <summary>
+        /// Sets up data such that the dust and structure x and y axis are properly configured.
+        /// </summary>
         private void SetUpData()
         {
             // relate radio button choice to tree view column
@@ -90,6 +99,11 @@ namespace bitclean.UI
 
         }
 
+        /// <summary>
+        /// Plots to the specified plotSurface the structure and dust data.
+        /// Also sets up the grid and plotSurface for viewability.
+        /// </summary>
+        /// <param name="plotSurface">Plot surface.</param>
         private void Plot(IPlotSurface2D plotSurface)
         {
             plotSurface.Clear();
@@ -122,6 +136,9 @@ namespace bitclean.UI
             plotSurface.Title = configuration.verticalChoice + " vs " + configuration.horizontalChoice;
         }
 
+        /// <summary>
+        /// Populates the dust and structure lists with the proper x and y axis data
+        /// </summary>
         private void PopulateData()
         {
             dustdata.Add(new List<double>()); // index 0 = xaxis
@@ -145,9 +162,12 @@ namespace bitclean.UI
             }
         }
 
+        /// <summary>
+        /// Preprocesses the data with the given preprocessing method.
+        /// </summary>
         private void PreprocessData()
         {
-            if (configuration.squared)
+            if (configuration.squared) // if squared option AND axis is not a tag, then square the data
             {
                 for (int i = 0; i < dustdata[0].Count; i++)
                 {
@@ -167,8 +187,12 @@ namespace bitclean.UI
             }
         }
 
+        /// <summary>
+        /// Postprocesses the data with the given activation function.
+        /// </summary>
         private void ProcessFunction()
         {
+            // currently no need to calculate a linear function - this will change
             if (configuration.function.ToString() != "bitclean.Linear")
             {
                 for (int i = 0; i < dustdata[0].Count; i++)

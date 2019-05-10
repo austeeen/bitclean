@@ -182,6 +182,9 @@ namespace bitclean
         /// </summary>
         private void PopulateTreeView()
         {
+            // reset stats
+            ResetStatisticsViews();
+
             // add chart objects to chart display and get statistics on each chart object
             foreach (ChartObject obj in objects)
             {
@@ -204,11 +207,6 @@ namespace bitclean
         /// <param name="obj">Object.</param>
         private void StatsTreeViews(ChartObject obj)
         {
-            // clear stats
-            totalSizeStats.Clear();
-            dustSizeStats.Clear();
-            structureSizeStats.Clear();
-
             // if obj size|density|edgeratio|neighbors is min, set it so
             if (obj.size < totalSizeStats.min || Math.Abs(totalSizeStats.min - -1.0) < UIConstants.EPSILON)
                 totalSizeStats.min = obj.size;
@@ -315,6 +313,14 @@ namespace bitclean
             structureEdgeratioStats.avg /= structurecount;
             structureNeighborsStats.avg /= structurecount;
 
+            // clear existing data
+            allstatsStore.Data.Clear();
+            allstatsStore.Clear();
+            structstatsStore.Data.Clear();
+            structstatsStore.Clear();
+            duststatsStore.Data.Clear();
+            duststatsStore.Clear();
+
             // create rows
             allstatsStore.AppendValues("size", totalSizeStats.max, totalSizeStats.min, totalSizeStats.avg);
             allstatsStore.AppendValues("density", totalDensityStats.max, totalDensityStats.min, totalDensityStats.avg);
@@ -348,6 +354,37 @@ namespace bitclean
             duststatsStore.Clear();
 
             datatree.ShowAll();
+            alldatatree.ShowAll();
+            structuredatatree.ShowAll();
+            dustdatatree.ShowAll();
+        }
+
+        private void ResetStatisticsViews()
+        {
+            // clear existing data
+            allstatsStore.Data.Clear();
+            allstatsStore.Clear();
+            structstatsStore.Data.Clear();
+            structstatsStore.Clear();
+            duststatsStore.Data.Clear();
+            duststatsStore.Clear();
+
+            // reset rows
+            allstatsStore.AppendValues("size", -1, -1, -1);
+            allstatsStore.AppendValues("density", -1, -1, -1);
+            allstatsStore.AppendValues("edge ratio", -1, -1, -1);
+            allstatsStore.AppendValues("neighbors", -1, -1, -1);
+
+            structstatsStore.AppendValues("size", -1, -1, -1);
+            structstatsStore.AppendValues("density", -1, -1, -1);
+            structstatsStore.AppendValues("edge ratio", -1, -1, -1);
+            structstatsStore.AppendValues("neighbors", -1, -1, -1);
+
+            duststatsStore.AppendValues("size", -1, -1, -1);
+            duststatsStore.AppendValues("density", -1, -1, -1);
+            duststatsStore.AppendValues("edge ratio", -1, -1, -1);
+            duststatsStore.AppendValues("neighbors", -1, -1, -1);
+
             alldatatree.ShowAll();
             structuredatatree.ShowAll();
             dustdatatree.ShowAll();
