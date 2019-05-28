@@ -713,4 +713,12 @@ Logistic</property>
       </widget>
     </child>
   </widget>
+  <widget class="Gtk.Window" id="bitclean.Systems.learning.learningtypes" design-size="400 300">
+    <property name="MemberName" />
+    <property name="Title" translatable="yes">learningtypes</property>
+    <property name="WindowPosition">CenterOnParent</property>
+    <child>
+      <placeholder />
+    </child>
+  </widget>
 </stetic-interface>
